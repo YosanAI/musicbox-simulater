@@ -43,7 +43,7 @@ files do not need to be listed there.
 
 ## Repertoire and references
 
-The supplied six-cylinder library starts with **Bonus Classics**: Für Elise,
+The supplied six-cylinder library starts with **Classics**: Für Elise,
 Canon in D and Twinkle, Twinkle, Little Star. The other cylinders contain Strauss,
 Bizet/Verdi, Mozart, Schumann/Schubert and Tchaikovsky arrangements. Each has three
 72-second turns. See [repertoire and sources](docs/REPERTOIRE.md) and the supplied

@@ -1,19 +1,20 @@
 # Repertoire and provenance
 
-The active library is the supplied **Six Music Box Cylinders** pack. **Bonus
-Classics** is selected first, followed by Strauss, Bizet/Verdi, Mozart,
+The active library is the supplied **Six Music Box Cylinders** pack. **Classics**
+is selected first, followed by Strauss, Bizet/Verdi, Mozart,
 Schumann/Schubert and Tchaikovsky. Each cylinder has three 72-second turns.
 
 | Cylinder | Successive airs |
 | --- | --- |
-| Bonus Classics · default | Für Elise; Canon in D; Twinkle, Twinkle, Little Star |
+| Classics · default | Für Elise; Canon in D; Twinkle, Twinkle, Little Star |
 | Strauss | The Blue Danube; Légendes de la forêt viennoise; La vie d’artiste |
 | Bizet / Verdi | Carmen (Toreador theme); Rigoletto (La donna è mobile); La Traviata (Brindisi / Libiamo) |
 | Mozart | The Magic Flute (Der Vogelfänger); Andante (Sonata in A major, K. 331); The Magic Flute (Glockenspiel) |
 | Schumann / Schubert | Von fremden Ländern und Menschen; La Truite (Die Forelle); Der Lindenbaum |
 | Tchaikovsky | La belle au bois dormant (Valse); March of the Toy Soldiers; Waltz of the Flowers |
 
-The supplied JSON and GLB assets are retained unchanged. Per-tune attribution and
+The supplied JSON and GLB assets retain their arrangements and geometry; the
+default cylinder's display title omits the original “Bonus” prefix. Per-tune attribution and
 arrangement changes are recorded in each JSON file; the accompanying
 [CREDITS.txt](../public/samples/CREDITS.txt) records source credits and the pack's
 CC BY-SA 4.0 arrangement license, including inherited source terms. These are

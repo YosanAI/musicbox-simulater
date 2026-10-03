@@ -98,14 +98,14 @@ test('aborting startup propagates cancellation instead of skipping every sample'
   }), { name: 'AbortError' });
 });
 
-test('the installed six-cylinder library loads with Bonus Classics as the default', async () => {
+test('the installed six-cylinder library loads the classics cylinder as the default', async () => {
   const directory = new URL('../../public/samples/', import.meta.url);
   const files = await listSampleFiles(fileURLToPath(directory));
   const result = await loadSampleLibrary(files, '/samples/', {
     fetchFile: async url => new Response(await readFile(new URL(url.slice('/samples/'.length), directory))),
   });
   assert.equal(result.entries.length, 6);
-  assert.match(result.entries[0].spec.title, /^Bonus/);
+  assert.equal(result.entries[0].spec.title, 'Für Elise, Canon in D, Twinkle Twinkle');
   assert.deepEqual(result.entries[0].spec.tunes.map(tune => tune.title), [
     'Für Elise', 'Canon in D', 'Twinkle, Twinkle, Little Star',
   ]);

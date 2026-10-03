@@ -27,7 +27,7 @@ widths, using both mouse clicks and keyboard focus/Space activation.
 
 The original one-turn GLBs and previous generated repertoire remain compatibility
 fixtures in `tests/fixtures/cylinders/`. The active library contains six supplied
-three-turn cylinders, with Bonus Classics first. Library tests cover the default,
+three-turn cylinders, with the classics cylinder first. Library tests cover the default,
 new/nested files, JSON/GLB pairing, GLB-only playback, invalid files, metadata,
 and adding/removing samples while the development server runs. Multi-turn round
 trips must preserve the turn index, tune labels and every pin's position; geometry

@@ -396,7 +396,7 @@
     gap: 5px;
   }
   .stage-bottom .scene-hint {
-    max-width: calc(100% - 145px);
+    max-width: calc(100% - 170px);
     overflow: hidden;
     white-space: nowrap;
     display: block;
@@ -408,7 +408,10 @@
   }
   .stage-bottom .explode-button {
     width: auto;
-    padding: 0 8px;
+    min-width: 92px;
+    height: 32px;
+    padding: 0 12px;
+    font-size: 11px;
   }
   .stage-bottom>div {
     gap: 5px;

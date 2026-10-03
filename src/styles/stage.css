@@ -33,13 +33,6 @@ main {
   max-height: none;
 }
 
-.round-button.explode-button {
-  width: auto;
-  padding: 0 12px;
-  border-radius: 5px;
-  font-size: 10px;
-}
-
 #sceneCanvas.dragging {
   cursor: grabbing;
 }
@@ -238,6 +231,34 @@ main {
 .round-button.active {
   border-color: var(--gold);
   color: var(--gold);
+}
+
+.round-button.explode-button {
+  width: auto;
+  min-width: 100px;
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 6px;
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 10px #0003;
+}
+
+.round-button.explode-button:hover {
+  background: #e5c991;
+  border-color: #e5c991;
+}
+
+.round-button.explode-button.active {
+  background: #30291e;
+  color: var(--gold);
+}
+
+.round-button.explode-button.active:hover {
+  background: #403525;
 }
 
 .round-button svg {

@@ -41,7 +41,7 @@ test('boots with real Three.js scene objects and no graphics or console errors',
   expect(result.teeth).toBe(72);
   expect(result.pins).toBeGreaterThan(100);
   expect(await page.evaluate(() => window.__CRESCENDO__.transport.spec.turns)).toBe(3);
-  expect(await page.evaluate(() => window.__CRESCENDO__.transport.spec.title)).toMatch(/^Bonus/);
+  expect(await page.evaluate(() => window.__CRESCENDO__.transport.spec.title)).toBe('Für Elise, Canon in D, Twinkle Twinkle');
   await expect(page.locator('.cylinder-card')).toHaveCount(6);
   await expect(page.locator('.cylinder-card').first()).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('#nowTitle')).toContainText('Für Elise');
