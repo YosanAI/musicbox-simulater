@@ -1,5 +1,10 @@
 # Crescendo music-box simulator
 
+[![Original Reuge music box with a brass pinned cylinder and steel comb](docs/images/music-box-inspiration.png)](https://www.youtube.com/watch?v=xbMqP3u7WWQ)
+
+**Inspired by:** [“Magic Flute / The Birdcatcher's Song / Glockenspiel
+– Mozart Music Box (REUGE)” by Wakey Lad93](https://www.youtube.com/watch?v=xbMqP3u7WWQ).
+
 A browser simulation of a 72-tooth cylinder music box, built with Three.js and
 Web Audio. Pins pluck individually animated comb teeth; successive turns shift
 the cylinder sideways to align the next air.
@@ -54,8 +59,6 @@ Bizet/Verdi, Mozart, Schumann/Schubert and Tchaikovsky arrangements. Each has th
 72-second turns. See [repertoire and sources](docs/REPERTOIRE.md) and the supplied
 [credits](public/samples/CREDITS.txt) for titles, arrangement details and licenses.
 
-The project was inspired by [“Magic Flute / The Birdcatcher's Song / Glockenspiel
-– Mozart Music Box (REUGE)” by Wakey Lad93](https://www.youtube.com/watch?v=xbMqP3u7WWQ).
 The [reference photograph](public/reference.jpg) shows the original brass cylinder
 and steel comb used as a visual reference. The photographic author and original
 publication are not established in the repository.
