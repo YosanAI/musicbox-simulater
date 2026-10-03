@@ -5,20 +5,24 @@ import { validateCylinder } from '../../src/cylinder/validation.js';
 
 function fixture(t) {
   const sound = {
-    context: { currentTime: 0 }, scheduled: [], silenceCount: 0,
+    context: { currentTime: 0 }, scheduled: [], clicks: [], cancelled: [], silenceCount: 0,
     async init() { return this.context; },
     prepareNotes() {},
     strike(note, when) { this.scheduled.push({ note, when }); },
+    indexClick(when) { this.clicks.push(when); },
+    cancelScheduled(after) { this.cancelled.push(after); },
     silence() { this.silenceCount++; },
   };
   const strikes = [];
   const endings = [];
-  const transport = new Transport(sound, (...args) => strikes.push(args), reason => endings.push(reason));
+  const shifts = [];
+  const transport = new Transport(sound, (...args) => strikes.push(args), reason => endings.push(reason),
+    (...args) => shifts.push(args));
   transport.setSpec(validateCylinder({
     duration: 8, notes: [{ tooth: 24, time: 0 }, { tooth: 28, time: 1 }],
   }));
   t.after(() => transport.dispose());
-  return { sound, transport, strikes, endings };
+  return { sound, transport, strikes, endings, shifts };
 }
 
 test('notes use the audio clock and visuals wait for their scheduled strike', async t => {
@@ -100,6 +104,7 @@ test('virtual reserve runs down in five revolutions at the current speed', async
   assert.equal(transport.virtualReserve, 0);
   assert.equal(transport.running, false);
   assert.deepEqual(endings, ['spring']);
+  assert.deepEqual(sound.cancelled, [40.055]);
 });
 
 test('end-of-turn stops the transport but does not cut off decaying notes', async t => {
@@ -111,6 +116,7 @@ test('end-of-turn stops the transport but does not cut off decaying notes', asyn
   assert.equal(transport.position(), 8);
   assert.equal(transport.running, false);
   assert.equal(sound.silenceCount, silenceCount);
+  assert.deepEqual(sound.cancelled, []);
   assert.deepEqual(endings, ['end']);
 });
 
@@ -136,4 +142,137 @@ test('a cylinder swap resets position and reserve', async t => {
   assert.equal(transport.position(), 0);
   assert.equal(transport.virtualReserve, 1);
   assert.equal(transport.timer, null);
+});
+
+function indexedFixture(t, notes = [{ tooth: 24, time: 0, turn: 0 }, { tooth: 28, time: 0, turn: 1 }, { tooth: 31, time: 0, turn: 2 }]) {
+  const result = fixture(t);
+  result.transport.setSpec(validateCylinder({ duration: 8, turns: 3, notes }));
+  return result;
+}
+
+test('indexed playback strikes only the active track and clicks once on each audio-clock shift', async t => {
+  const { sound, transport, endings } = indexedFixture(t);
+  await transport.play();
+  assert.deepEqual(sound.scheduled.map(strike => strike.note.turn), [0]);
+  sound.context.currentTime = 8;
+  transport.schedule();
+  transport.schedule();
+  assert.deepEqual(sound.clicks, [8.055]);
+  assert.deepEqual(sound.scheduled.map(strike => strike.note.turn), [0, 1]);
+  sound.context.currentTime = 16;
+  transport.schedule();
+  assert.deepEqual(sound.clicks, [8.055, 16.055]);
+  sound.context.currentTime = 24.06;
+  transport.update();
+  assert.equal(transport.position(), 24);
+  assert.deepEqual(endings, ['end']);
+  assert.equal(sound.clicks.length, 2);
+});
+
+test('a manual seek selects its indexed track silently and schedules the next shift at the changed speed', async t => {
+  const { sound, transport } = indexedFixture(t);
+  await transport.seek(8);
+  await transport.setSpeed(2);
+  await transport.play();
+  assert.equal(sound.scheduled[0].note.turn, 1);
+  assert.deepEqual(sound.clicks, []);
+  sound.context.currentTime = 4;
+  transport.schedule();
+  assert.deepEqual(sound.clicks, [4.055]);
+  sound.context.currentTime = 4.055;
+  await transport.setSpeed(0.5);
+  transport.schedule();
+  assert.equal(transport.position(), 16);
+  assert.equal(sound.clicks.length, 1);
+});
+
+test('pause after an indexed shift and resume do not repeat its click', async t => {
+  const { sound, transport } = indexedFixture(t);
+  await transport.play();
+  sound.context.currentTime = 8;
+  transport.schedule();
+  sound.context.currentTime = 8.055;
+  transport.pause();
+  await transport.play();
+  assert.equal(sound.clicks.length, 1);
+  sound.context.currentTime = 16.055;
+  transport.schedule();
+  assert.equal(sound.clicks.length, 2);
+  assert.equal(sound.clicks[1], 16.11);
+});
+
+test('repeat returns to the first indexed track with one click while single-turn repeats remain silent', async t => {
+  const { sound, transport } = indexedFixture(t);
+  transport.loop = true;
+  await transport.seek(23.9);
+  await transport.play();
+  sound.context.currentTime = 0.05;
+  transport.schedule();
+  assert.equal(sound.clicks.length, 1);
+  assert(Math.abs(sound.clicks[0] - 0.155) < 1e-9);
+  assert.equal(sound.scheduled[0].note.turn, 0);
+  const single = fixture(t);
+  single.transport.loop = true;
+  await single.transport.seek(7.9);
+  await single.transport.play();
+  single.sound.context.currentTime = 0.05;
+  single.transport.schedule();
+  assert.deepEqual(single.sound.clicks, []);
+});
+
+test('silent indexed cylinders still advance with a click and seeking clamps to the whole programme', async t => {
+  const { sound, transport } = indexedFixture(t, []);
+  await transport.seek(999);
+  assert.equal(transport.position(), 24);
+  await transport.play();
+  sound.context.currentTime = 8;
+  transport.schedule();
+  assert.deepEqual(sound.clicks, [8.055]);
+});
+
+test('index animation waits for its audio clock and reports the age of a delayed frame', async t => {
+  const { sound, transport, shifts } = indexedFixture(t);
+  await transport.play();
+  sound.context.currentTime = 8;
+  transport.schedule();
+  transport.update();
+  assert.deepEqual(shifts, []);
+  sound.context.currentTime = 8.08;
+  transport.update();
+  assert.equal(shifts.length, 1);
+  assert.equal(shifts[0][0], 1);
+  assert(Math.abs(shifts[0][1] - .025) < 1e-9);
+  transport.update();
+  assert.equal(shifts.length, 1);
+});
+
+test('pause and manual seeks cancel pending indexing animations', async t => {
+  const { sound, transport, shifts } = indexedFixture(t);
+  await transport.play();
+  sound.context.currentTime = 8;
+  transport.schedule();
+  assert.equal(transport.shiftQueue.length, 1);
+  transport.pause();
+  assert.equal(transport.shiftQueue.length, 0);
+  sound.context.currentTime = 8.1;
+  transport.update();
+  assert.deepEqual(shifts, []);
+  await transport.seek(16);
+  await transport.play();
+  sound.context.currentTime = 8.2;
+  transport.update();
+  assert.deepEqual(shifts, []);
+});
+
+test('the repeat indexing animation identifies the first tune', async t => {
+  const { sound, transport, shifts } = indexedFixture(t);
+  transport.loop = true;
+  await transport.seek(23.9);
+  await transport.play();
+  sound.context.currentTime = .05;
+  transport.schedule();
+  sound.context.currentTime = .16;
+  transport.update();
+  assert.equal(shifts.length, 1);
+  assert.equal(shifts[0][0], 0);
 });

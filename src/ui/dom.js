@@ -1,15 +1,15 @@
 /** Resolve the HTML contract once, rather than scattering unchecked selectors. */
 export function collectElements(documentRoot = document) {
   const ids = [
-    'sceneCanvas', 'toast', 'loading', 'library', 'libraryCount', 'nowTitle',
+    'sceneCanvas', 'sceneStage', 'toast', 'loading', 'library', 'libraryCount', 'nowTitle',
     'totalTime', 'currentTime', 'duration', 'pinCount', 'timeline', 'sourceBadge',
     'noteReadout', 'noteFrequency', 'ejectBtn', 'playBtn', 'playStatus', 'resetBtn',
     'windBtn', 'speed', 'speedOut', 'volume', 'resonance', 'resonanceOut', 'repeat',
-    'highlights', 'caseToggle', 'labelsBtn', 'labels', 'fullBtn', 'uploadBtn',
+    'highlights', 'showResonance', 'caseToggle', 'labelsBtn', 'labels', 'fullBtn', 'explodeBtn', 'uploadBtn',
     'fileInput', 'dropOverlay', 'guideBtn', 'guideDialog', 'exportBtn', 'jsonBtn',
     'wavBtn', 'workshopBtn', 'workshopDialog', 'editTitle', 'editDuration',
-    'editSteps', 'editorScroll', 'editorCanvas', 'editPinCount', 'clearEditor',
-    'applyEditor', 'rpm', 'reserveOut', 'reserveBar', 'settingsPanel',
+    'editSteps', 'editTurn', 'editorScroll', 'editorCanvas', 'editPinCount', 'clearEditor',
+    'applyEditor', 'rpm', 'turnOut', 'indexCue', 'indexMessage', 'reserveOut', 'reserveBar', 'settingsPanel',
   ];
   const elements = {};
   for (const id of ids) {

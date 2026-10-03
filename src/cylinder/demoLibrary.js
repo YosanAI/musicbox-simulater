@@ -1,119 +1,121 @@
 import { validateCylinder } from './validation.js';
-/** The exact three original miniature arrangements; no prerecorded audio. */
-export function createDemoCylinders() {
-  const make = (title, composer, duration, notes) => validateCylinder({
-    title,
-    composer,
-    duration,
-    notes
+
+// Documented Reuge repertoire, independently arranged from public-domain themes.
+// These abridged scores are not factory pin transcriptions: see docs/REPERTOIRE.md.
+const PITCH = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+const DURATION = 36;
+function pitch(name) {
+  const [, letter, accidental, octave] = /^([A-G])([#b]?)(\d)$/.exec(name);
+  return (+octave + 1) * 12 + PITCH[letter] + (accidental === '#' ? 1 : accidental === 'b' ? -1 : 0);
+}
+function air(title, composer, melody, chords, meter = 3, beat = .48) {
+  return { title, composer, melody, chords, meter, beat };
+}
+function arrangeAir(tune, turn) {
+  const notes = [];
+  const phrase = tune.melody.trim().split(/\s+/).map(token => {
+    const [name, length = '1'] = token.split(':');
+    return { midi: name === 'R' ? null : pitch(name), length: +length };
   });
-  let notes = [];
-  let beatSeconds = .54;
-  let bassRoots = [50, 45, 47, 42, 43, 50, 43, 45];
-  let chords = [
-    [62, 66, 69],
-    [61, 64, 69],
-    [59, 62, 66],
-    [57, 61, 66],
-    [59, 62, 67],
-    [57, 62, 66],
-    [59, 62, 67],
-    [61, 64, 69]
-  ];
-  const add = (midi, t, velocity = .7) => notes.push({ midi: midi, time: t, velocity: velocity });
-  for (let c = 0; c < 24; c++) {
-    let t = c * 4 * beatSeconds;
-    let k = c % 8;
-    add(bassRoots[k], t, .68);
-    add(bassRoots[k] + 12, t + 2 * beatSeconds, .46);
-    let chord = chords[k];
-    for (let j = 0; j < 4; j++) {
-      add(chord[[0, 1, 2, 1][j]], t + j * beatSeconds, .36);
+  const phraseSeconds = phrase.reduce((sum, note) => sum + note.length, 0) * tune.beat;
+  // The leading clearance lets the comb align after the cylinder changes position.
+  for (let start = .3; start + phraseSeconds <= DURATION - 1; start += phraseSeconds) {
+    let time = start;
+    phrase.forEach((note, i) => {
+      if (note.midi !== null) notes.push({ midi: note.midi, time, velocity: i % 4 ? .72 : .82, turn });
+      time += note.length * tune.beat;
+    });
+  }
+  const barSeconds = tune.meter * tune.beat;
+  for (let bar = 0; .3 + (bar + 1) * barSeconds < DURATION - 1; bar++) {
+    const chord = tune.chords[bar % tune.chords.length].split(' ').map(pitch);
+    const time = .3 + bar * barSeconds;
+    notes.push({ midi: chord[0], time, velocity: .43, turn });
+    for (let step = 1; step < tune.meter * 2; step++) {
+      notes.push({ midi: chord[1 + (step - 1) % (chord.length - 1)], time: time + step * tune.beat / 2, velocity: step % 2 ? .31 : .36, turn });
     }
   }
-  let firstMelody = [78, 76, 74, 73, 71, 69, 71, 73];
-  let secondMelody = [74, 73, 71, 69, 67, 66, 67, 64];
-  let variationMelody = [
-    [66, 69, 74, 73, 71, 69, 71, 73],
-    [74, 73, 71, 69, 67, 66, 67, 64],
-    [62, 64, 66, 67, 69, 66, 69, 67],
-    [66, 64, 66, 62, 64, 66, 67, 69],
-    [71, 74, 73, 71, 69, 67, 66, 64],
-    [66, 69, 74, 69, 66, 64, 62, 64],
-    [67, 66, 64, 62, 59, 62, 67, 71],
-    [69, 67, 66, 64, 61, 64, 69, 73]
-  ];
-  for (let k = 0; k < 8; k++) {
-    add(firstMelody[k], (8 + k) * 4 * beatSeconds, .85);
-    add(secondMelody[k], (8 + k) * 4 * beatSeconds + 2 * beatSeconds, .76);
-    for (let j = 0; j < 8; j++) {
-      add(variationMelody[k][j], (16 + k) * 4 * beatSeconds + j * beatSeconds / 2, .66 + (j % 4 === 0 ? .12 : 0));
-    }
-  }
-  const canon = make('Canon in D', 'J. Pachelbel · miniature arrangement', 24 * 4 * beatSeconds + 2, notes);
-  notes = [];
-  let t = 0;
-  const phrase = [
-    [76, 1],
-    [75, 1],
-    [76, 1],
-    [75, 1],
-    [76, 1],
-    [71, 1],
-    [74, 1],
-    [72, 1],
-    [69, 3],
-    [60, 1],
-    [64, 1],
-    [69, 1],
-    [71, 3],
-    [64, 1],
-    [68, 1],
-    [71, 1],
-    [72, 3],
-    [64, 1],
-    [76, 1],
-    [75, 1],
-    [76, 1],
-    [75, 1],
-    [76, 1],
-    [71, 1],
-    [74, 1],
-    [72, 1],
-    [69, 3],
-    [60, 1],
-    [64, 1],
-    [69, 1],
-    [71, 3],
-    [64, 1],
-    [72, 1],
-    [71, 1],
-    [69, 5]
-  ];
-  for (let r = 0; r < 2; r++) {
-    for (let [midi, d] of phrase) {
-      notes.push({ midi: midi, time: t, velocity: .78 });
-      if (d >= 3) {
-        let bass = midi === 71 ? 40 : 45;
-        notes.push({ midi: bass, time: t, velocity: .5 });
-        notes.push({ midi: bass + 12, time: t + .26, velocity: .38 });
-      }
-      t += d * .26;
-    }
-  }
-  const elise = make('Für Elise', 'L. van Beethoven · opening theme', t + 1, notes);
-  notes = [];
-  let chordProgression = [[60, 64, 67, 72], [57, 60, 64, 69], [53, 57, 60, 65], [55, 59, 62, 67]];
-  for (let i = 0; i < 16; i++) {
-    let chord = chordProgression[i % 4];
-    notes.push({ midi: chord[0] - 12, time: i * 2, velocity: .58 });
-    for (let j = 0; j < 8; j++) {
-      notes.push({ midi: chord[[0, 2, 1, 3, 2, 1, 3, 2][j]], time: i * 2 + j * .25, velocity: .52 });
-      if (i > 7 && j % 2 === 0) {
-        notes.push({ midi: chord[3] + 12, time: i * 2 + j * .25, velocity: .42 });
-      }
-    }
-  }
-  const garden = make('Clockwork garden', 'An original miniature · C major', 34, notes);
-  return [canon, elise, garden];
+  return notes;
+}
+function cylinder(title, composer, catalogue, tunes) {
+  return validateCylinder({
+    title, composer: `${composer} · simulator arrangement`,
+    source: `${catalogue} repertoire · independent abridged arrangement`,
+    duration: DURATION, turns: tunes.length,
+    tunes: tunes.map(({ title: tuneTitle, composer: tuneComposer }) => ({ title: tuneTitle, composer: tuneComposer })),
+    notes: tunes.flatMap(arrangeAir),
+  });
+}
+
+export function createDemoCylinders() {
+  const beethoven = 'L. van Beethoven';
+  const strauss = 'J. Strauss II';
+  const mozart = 'W. A. Mozart';
+  const tchaikovsky = 'P. I. Tchaikovsky';
+  const eliseChords = ['A2 E3 A3 C4', 'E2 E3 G#3 B3', 'A2 E3 A3 C4', 'C3 G3 C4 E4'];
+  const elise = cylinder('Für Elise · three parts', beethoven, 'Reuge CH 3.72 / 37220', [
+    air('Für Elise · part I', beethoven,
+      'E5:.5 D#5:.5 E5:.5 D#5:.5 E5:.5 B4:.5 D5:.5 C5:.5 A4:1 R:.5 C4:.5 E4:.5 A4:.5 B4:1 R:.5 E4:.5 G#4:.5 B4:.5 C5:1 R:.5 E4:.5 E5:.5 D#5:.5 E5:.5 D#5:.5 E5:.5 B4:.5 D5:.5 C5:.5 A4:1 R:.5 C4:.5 E4:.5 A4:.5 B4:1 R:.5 E4:.5 C5:.5 B4:.5 A4:2', eliseChords, 3, .5),
+    air('Für Elise · part II', beethoven,
+      'B4:.5 C5:.5 D5:.5 E5:1.5 G4:.5 F5:.5 E5:.5 D5:1.5 F4:.5 E5:.5 D5:.5 C5:1.5 E4:.5 D5:.5 C5:.5 B4:1 E4:.5 E5:.5 R:1 E5:.5 E6:.5 R:1 D#5:.5 E5:1 R:.5 D#5:.5 E5:.5 D#5:.5 E5:.5 D#5:.5 E5:.5 B4:.5 D5:.5 C5:.5 A4:2', eliseChords, 3, .5),
+    air('Für Elise · part III', beethoven,
+      'C5:2 F5:.75 E5:.25 E5:1 D5:1 Bb5:.75 A5:.25 A5:.5 G5:.5 F5:.5 E5:.5 D5:.5 C5:.5 Bb4:1 A4:1 G4:.25 A4:.25 Bb4:.25 C5:2 D5:.5 D#5:.5 E5:1.5 E5:.5 F5:.5 A4:.5 C5:2 D5:.75 B4:.25 C5:3 E5:.5 D#5:.5 E5:.5 B4:.5 D5:.5 C5:.5 A4:2',
+      ['F2 C3 F3 A3', 'Bb2 F3 Bb3 D4', 'F2 C3 F3 A3', 'G2 D3 G3 B3', ...eliseChords], 3, .5),
+  ]);
+  const vienna = cylinder('Strauss · Viennese waltzes', strauss, 'Reuge INTER CH 15.72 / 1001-1', [
+    air('The Blue Danube', strauss,
+      'D4:1 D4:1 F#4:1 A4:1 A4:2 F#5:1 F#5:2 D5:1 D5:2 D4:1 D4:1 F#4:1 A4:1 A4:2 G5:1 G5:2 C#5:1 C#5:2 C#4:1 C#4:1 E4:1 B4:1 B4:2 G5:1 G5:2 C#5:1 C#5:2 C#4:1 C#4:1 E4:1 B4:1 B4:2 F#5:1 F#5:2 D5:1 D5:2',
+      ['D2 A3 D4 F#4', 'D2 A3 D4 F#4', 'A2 A3 C#4 E4', 'A2 A3 C#4 E4']),
+    air('Tales from the Vienna Woods', strauss,
+      'C6:2.5 C6:.25 B5:.25 C6:2.5 C6:.25 B5:.25 C6:1 R:1 E6:1 E6:2.5 E6:.25 D6:.25 D6:2.5 D6:.25 C6:.25 C6:2.5 C6:.25 B5:.25',
+      ['F2 C4 F4 A4', 'F2 C4 F4 A4', 'Bb2 D4 F4 Bb4', 'C3 E4 G4 Bb4'], 3, .34),
+    air("The Artist's Life", strauss,
+      'C6:1 R:1 C6:1 C6:2 C6:.5 B5:.5 B5:2 A5:1 D5:1 R:1 A5:.5 R:.5 A5:1 R:1 A5:1 A5:2 A5:.5 G5:.5 G5:2 F5:1 D5:1 R:1 D5:.5 E5:.5',
+      ['C3 G3 C4 E4', 'C3 G3 C4 E4', 'G2 G3 B3 D4', 'G2 G3 B3 D4'], 3, .38),
+  ]);
+  const opera = cylinder('Bizet & Verdi · opera airs', 'G. Bizet / G. Verdi', 'Reuge INTER CH 15.72 / 1001-2', [
+    air('Carmen · Toréador', 'G. Bizet',
+      'C5:1 D5:.75 C5:.25 A4:1 A4:1 A4:.75 G4:.25 A4:.75 Bb4:.25 A4:1.5 R:.5 Bb4:1 G4:.75 C5:.25 A4:1.5 R:.5 F4:1 D4:.75 G4:.25 C4:1.5 R:.5 G4:2 G4:.5 D5:.5 C5:.5 Bb4:.5 A4:.5 G4:.5 A4:.5 Bb4:.5 A4:1.5 R:.5 E4:1 A4:1 A4:1 G#4:.75 B4:.25 E5:4 E5:.5 D5:.5 C5:.5 D5:.5 G4:.5 A4:.5 Bb4:1',
+      ['F2 C3 F3 A3', 'F2 C3 F3 A3', 'C3 E3 G3 C4', 'C3 E3 G3 C4'], 4, .46),
+    air('Rigoletto · La donna è mobile', 'G. Verdi',
+      'F#5:1 F#5:.5 G#5:.5 A#5:.5 R:.5 A#5:1 G#5:.5 E5:.5 C#5:1 E5:1 D#5:.5 R:.5 D#5:1 C#5:.5 E5:.5 G#5:.5 R:.5 F#5:1 R:1 F#5:1 F#5:.5 G#5:.5 A#5:.5 R:.5 A#5:1 G#5:.5 E5:.5 C#5:1 E5:1 D#5:.5 R:.5 D#5:1 C#5:.5 E5:.5 G#5:.5 R:.5 F#5:2',
+      ['B2 F#3 B3 D#4', 'F#2 F#3 A#3 C#4', 'F#2 F#3 A#3 C#4', 'B2 F#3 B3 D#4']),
+    air('La Traviata · Prelude', 'G. Verdi',
+      'E5:2 D#5:1 C#5:1 B4:1.5 A4:.5 F#4:1 R:1 E5:2 D#5:1 C#5:1 B4:1.5 A4:.5 F#4:1 R:1 G#5:2 A5:1.5 G#5:.5 F#5:.75 E5:.25 F#5:.75 E5:.25 D#5:.75 C#5:.25 D#5:.75 C#5:.25 C#5:1 B4:.5 R:.5 G#5:1.5 F#5:.5 E#5:3',
+      ['E2 B3 E4 G#4', 'B2 B3 D#4 F#4', 'E2 B3 E4 G#4', 'C#3 G#3 C#4 E4'], 4, .5),
+  ]);
+  const mozartCylinder = cylinder('Mozart · The Magic Flute & Andante', mozart, 'Reuge INTER CH 15.72 / 1001-3', [
+    air('The Magic Flute · The Birdcatcher', mozart,
+      'B4:.25 A4:.25 G4:.5 G4:.5 A4:.25 G4:.25 F#4:.25 G4:.25 A4:.5 B4:.5 A4:.5 A4:.25 G4:.25 D4:.75 D4:.25 D5:.75 D5:.25 B4:.5 A4:.5 G4:.5 G4:.25 B4:.25 A4:.25 G4:.25 F#4:.25 G4:.25 A4:.25 G4:.25 F#4:.25 G4:.25 A4:.5 B4:.5 A4:.5 A4:.5 D5:.75 D5:.25 A4:.75 A4:.25 G4:.5 F#4:.5 E4:.5 E4:.25 G4:.25',
+      ['G2 D3 G3 B3', 'D3 A3 D4 F#4', 'D3 A3 D4 F#4', 'G2 D3 G3 B3'], 2, .48),
+    air('Andante · Sonata in A major, K. 331', mozart,
+      'C#5:.75 D5:.25 C#5:.5 E5:1 E5:.5 B4:.75 C#5:.25 B4:.5 D5:1 D5:.5 A4:1 A4:.5 B4:1 B4:.5 C#5:1 E5:.25 D5:.25 C#5:1 B4:.5 C#5:.75 D5:.25 C#5:.5 E5:1 E5:.5 B4:.75 C#5:.25 B4:.5 D5:1 D5:.5 A4:1 B4:.5 C#5:1 D5:.5 C#5:1 B4:.5 A4:1 R:.5',
+      ['A2 E3 A3 C#4', 'E3 G#3 B3 E4', 'F#2 C#3 F#3 A3', 'A2 E3 A3 C#4'], 3, .6),
+    air('The Magic Flute · Glockenspiel', mozart,
+      'G5:.5 F5:.5 E5:1 E5:1 R:1 E5:1 F5:1 F5:1 R:1 F5:.5 E5:.5 D5:1 D5:1 R:1 D5:1 E5:2 R:1 E5:.5 F5:.5 G5:2 G5:1 G5:1 A5:1.5 B5:.5 C6:1 F5:1 E5:2 D5:1 D5:1 C5:2 R:1 G5:1 G5:2 A5:1 B5:1 C6:2 R:1 G5:1 G5:2 F5:1 D5:1 C5:2 R:2',
+      ['C3 G3 C4 E4', 'G2 G3 B3 D4', 'C3 G3 C4 E4', 'F2 A3 C4 F4'], 4, .44),
+  ]);
+  const romantic = cylinder('Schumann & Schubert · romantic airs', 'R. Schumann / F. Schubert', 'Reuge INTER CH 15.72 / 1001-4', [
+    air('Of Foreign Lands and Peoples', 'R. Schumann',
+      'B4:1 G5:1 F#5:.75 E5:.25 D5:1 B4:1 G5:1 F#5:.75 E5:.25 D5:1 B4:1 G5:1 E5:.75 D5:.25 C5:1 A4:1 D5:1 B4:2 B4:1 C5:1 A4:1 B4:1 G4:1 A4:1 F#4:1 G4:1 E4:1 F#4:1 G4:.75 A4:.25 B4:.75 C5:.25 D5:1',
+      ['G2 D3 G3 B3', 'D3 A3 D4 F#4', 'G2 D3 G3 B3', 'C3 E3 G3 C4'], 2, .56),
+    air('The Trout', 'F. Schubert',
+      'Ab4:.5 Db5:.5 Db5:.5 F5:.5 F5:.5 Db5:1 Ab4:.5 Ab4:.5 Ab4:.75 Ab4:.25 Eb5:.25 Db5:.25 C5:.25 Bb4:.25 Ab4:1 R:.5 Ab4:.5 Db5:.5 Db5:.5 F5:.5 F5:.5 Db5:1 Ab4:.5 Db5:.5 C5:.5 Bb4:.25 C5:.25 Db5:.5 G4:.5 Ab4:1 R:.5 Ab4:.5 C5:.5 C5:.5 Db5:.25 C5:.25 Bb4:.25 C5:.25 Db5:1 Ab4:.5 Db5:.5 C5:.5 C5:.5 C5:.25 Gb5:.25 Eb5:.25 C5:.25 Db5:1.5',
+      ['Db3 Ab3 Db4 F4', 'Ab2 Eb3 Ab3 C4', 'Db3 Ab3 Db4 F4', 'Gb2 Db3 Gb3 Bb3'], 2, .48),
+    air('Der Lindenbaum', 'F. Schubert',
+      'B4:.5 B4:1.5 G#4:.5 G#4:.5 G#4:.5 G#4:1 E4:1 R:.5 E4:.5 F#4:1.5 G#4:.5 A4:.333 G#4:.333 F#4:.334 E4:2 R:.5 B4:.5 B4:1.5 G#4:.5 G#4:.5 G#4:.5 G#4:1 E4:1 R:.5 E4:.5 F#4:1.5 G#4:.5 A4:.333 G#4:.333 F#4:.334 E4:2 R:.5 E4:.5 F#4:1.5 F#4:.5 F#4:.5 F#4:.5 G#4:.75 A4:.25 B4:1.5 B4:.5 C#5:1.5 B4:.5 G#4:.5 E4:.5 F#4:2',
+      ['E2 B3 E4 G#4', 'E2 B3 E4 G#4', 'B2 F#3 B3 D#4', 'E2 B3 E4 G#4'], 3, .5),
+  ]);
+  const ballet = cylinder('Tchaikovsky · ballet airs', tchaikovsky, 'Reuge INTER CH 15.72 / 1001-5', [
+    air('Sleeping Beauty · Waltz', tchaikovsky,
+      'Eb5:3 D5:3 Eb5:2 C5:1 D5:1 Eb5:1 C5:1 D5:2 F5:1 G5:2 E5:1 F5:6',
+      ['Eb3 Bb3 Eb4 G4', 'Bb2 F3 Bb3 D4', 'Ab2 Eb3 Ab3 C4', 'Bb2 F3 Bb3 D4'], 3, .46),
+    air('March of the Toy Soldiers', tchaikovsky,
+      'D5:.5 R:.5 D5:.333 D5:.333 D5:.334 E5:.5 R:.5 E5:.5 R:.5 F#5:.5 R:.5 D5:.5 R:.5 E5:2 D5:.5 R:.5 D5:.333 D5:.333 D5:.334 E5:.5 R:.5 E5:.5 R:.5 F#5:.5 R:.5 D5:.5 R:.5 E5:2 C5:.75 R:.25 D5:.25 C5:.75 R:.25 B4:.25 A4:.75 R:.25 G4:.25 F#4:.75 R:.25 D4:.25',
+      ['G2 D3 G3 B3', 'D3 A3 D4 F#4', 'G2 D3 G3 B3', 'C3 G3 C4 E4'], 4, .43),
+    air('Waltz of the Flowers', tchaikovsky,
+      'A4:1 C#5:1 E5:1 F#5:2 E5:1 E5:3 C#5:1 E5:1 C#5:1 A4:1 C#5:1 E5:1 A5:2 G5:1 G5:3 E5:1 G5:1 E5:1 C#5:1 E5:1 G5:1 B5:2 F#5:1 A5:2 G5:1 G5:2 D#5:1 F#5:2 E5:1 E5:2 B4:1 D5:1 C#5:1 B4:1 A4:3',
+      ['A2 E3 A3 C#4', 'D3 A3 D4 F#4', 'E3 B3 E4 G#4', 'A2 E3 A3 C#4'], 3, .43),
+  ]);
+  return [elise, vienna, opera, mozartCylinder, romantic, ballet];
 }

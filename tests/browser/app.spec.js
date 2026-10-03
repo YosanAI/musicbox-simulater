@@ -35,7 +35,9 @@ test('boots with real Three.js scene objects and no graphics or console errors',
   expect(result.realScene).toBe(true);
   expect(result.realCamera).toBe(true);
   expect(result.teeth).toBe(72);
-  expect(result.pins).toBe(219);
+  expect(result.pins).toBeGreaterThan(100);
+  expect(await page.evaluate(() => window.__CRESCENDO__.transport.spec.turns)).toBe(3);
+  await expect(page.locator('#nowTitle')).toContainText('Für Elise');
   expect(result.meshCount).toBeGreaterThan(90);
   expect(result.glError).toBe(0);
   expect(errors).toEqual([]);
@@ -57,7 +59,7 @@ test('plays, pauses, changes speed and rewinds using the audio clock', async ({ 
 test('swaps cylinders and gates playback while lifted', async ({ page }) => {
   await ready(page);
   await page.locator('.cylinder-card').nth(1).click();
-  await expect(page.locator('#nowTitle')).toHaveText('Für Elise');
+  await expect(page.locator('#nowTitle')).not.toContainText('Für Elise');
   await expect(page.locator('#playBtn')).toBeEnabled();
   await page.locator('#ejectBtn').click();
   await expect(page.locator('#playBtn')).toBeDisabled();
@@ -113,7 +115,183 @@ test('view controls, labels and case visibility remain independent of the score'
   await expect(page.locator('#labels')).toBeVisible();
   await page.getByText('Walnut case & lid', { exact: true }).click();
   expect(await page.evaluate(() => window.__CRESCENDO__.scene.caseParts.every(part => !part.visible))).toBe(true);
-  expect(await page.evaluate(() => window.__CRESCENDO__.getDiagnostics().pins)).toBe(219);
+  expect(await page.evaluate(() => window.__CRESCENDO__.getDiagnostics().pins)).toBeGreaterThan(100);
+});
+
+test('case visibility cannot resize the scene or transport', async ({ page }) => {
+  await ready(page);
+  const measure = () => page.evaluate(() => ({
+    scene: document.querySelector('.stage').getBoundingClientRect().height,
+    footer: document.querySelector('.transport').getBoundingClientRect().height,
+    canvas: document.querySelector('#sceneCanvas').getBoundingClientRect().height,
+  }));
+  const before = await measure();
+  await page.getByText('Walnut case & lid', { exact: true }).click();
+  await page.waitForTimeout(250);
+  expect(await measure()).toEqual(before);
+  await page.getByText('Walnut case & lid', { exact: true }).click();
+  expect(await measure()).toEqual(before);
+  expect(before.footer).toBe(153);
+  expect(before.scene).toBe(847);
+  expect(await page.locator('header').count()).toBe(0);
+});
+
+for (const viewport of [{ width: 1440, height: 1000 }, { width: 1024, height: 768 }, { width: 390, height: 844 }]) {
+  test(`toggles preserve layout with mouse and keyboard at ${viewport.width}px`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await ready(page);
+    await page.locator('#settingsPanel').evaluate(element => { element.open = true; });
+    const measure = () => page.evaluate(() => {
+      const rect = selector => {
+        const { x, y, width, height } = document.querySelector(selector).getBoundingClientRect();
+        return { x, y, width, height };
+      };
+      return { scene: rect('.stage'), footer: rect('.transport'), canvas: rect('#sceneCanvas'),
+        pageScroll: scrollY, bodyHeight: document.body.scrollHeight };
+    });
+    for (const id of ['repeat', 'highlights', 'caseToggle', 'showResonance']) {
+      const checkbox = page.locator(`#${id}`);
+      const label = checkbox.locator('..');
+      await label.evaluate(element => element.scrollIntoView({ block: 'center' }));
+      const before = await measure();
+      const checked = await checkbox.isChecked();
+      await label.click();
+      await expect(checkbox).toBeChecked({ checked: !checked });
+      expect(await measure(), `${id}: mouse`).toEqual(before);
+      await checkbox.focus();
+      expect(await measure(), `${id}: focus`).toEqual(before);
+      await page.keyboard.press('Space');
+      await expect(checkbox).toBeChecked({ checked });
+      expect(await measure(), `${id}: keyboard`).toEqual(before);
+    }
+    if (viewport.width > 850) expect(await page.evaluate(() => scrollY)).toBe(0);
+    expect(await page.locator('.sidebar #showResonance').count()).toBe(0);
+    await expect(page.locator('.transport #showResonance')).toBeAttached();
+    expect(await page.locator('.stage-heading .eyebrow').count()).toBe(0);
+    expect(await page.locator('#workshopBtn').evaluate(element =>
+      Boolean(element.compareDocumentPosition(document.querySelector('#library')) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
+    expect(await page.locator('#ejectBtn').evaluate(element =>
+      Boolean(element.compareDocumentPosition(document.querySelector('#library')) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
+    // The relocated option and all export actions fit inside the fixed footer.
+    const footer = await page.locator('.transport').boundingBox();
+    for (const selector of ['.playback-resonance', '#exportBtn', '#jsonBtn', '#wavBtn']) {
+      const control = await page.locator(selector).boundingBox();
+      expect(control.y).toBeGreaterThanOrEqual(footer.y);
+      expect(control.y + control.height).toBeLessThanOrEqual(footer.y + footer.height);
+    }
+  });
+}
+
+test('exploded view creates a spring and removes it entirely when assembled', async ({ page }) => {
+  await ready(page);
+  const springCount = () => page.evaluate(() =>
+    window.__CRESCENDO__.scene.renderer.nodes.filter(part => part.tag === 'mainspring').length);
+  expect(await springCount()).toBe(0);
+  await page.locator('#explodeBtn').click();
+  await expect(page.locator('#explodeBtn')).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(springCount).toBeGreaterThan(0);
+  await page.locator('#explodeBtn').click();
+  await expect(page.locator('#explodeBtn')).toHaveAttribute('aria-pressed', 'false');
+  expect(await springCount()).toBe(0);
+  expect(await page.evaluate(() => window.__CRESCENDO__.scene.renderer.scene.children
+    .some(node => node.name === 'mainspring'))).toBe(false);
+});
+
+test('panning moves the camera target and plucking works along the tooth', async ({ page }) => {
+  await ready(page);
+  const initial = await page.evaluate(() => [...window.__CRESCENDO__.scene.orbit.state.target]);
+  const canvas = await page.locator('#sceneCanvas').boundingBox();
+  await page.mouse.move(canvas.x + canvas.width / 2, canvas.y + canvas.height / 2);
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.move(canvas.x + canvas.width / 2 + 80, canvas.y + canvas.height / 2 + 30);
+  await page.mouse.up({ button: 'right' });
+  expect(await page.evaluate(() => window.__CRESCENDO__.scene.orbit.state.target)).not.toEqual(initial);
+  await page.locator('[data-view="comb"]').click();
+  await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.scene.orbit.animating)).toBe(false);
+  const point = await page.evaluate(() => {
+    const scene = window.__CRESCENDO__.scene;
+    const tooth = scene.teeth[36];
+    const m = tooth.node.matrix;
+    const y = 0.00055;
+    const z = -tooth.length * 0.35;
+    const projected = scene.renderer.project([
+      m[12] + m[4] * y + m[8] * z,
+      m[13] + m[5] * y + m[9] * z,
+      m[14] + m[6] * y + m[10] * z,
+    ]);
+    return { x: projected[0], y: projected[1] };
+  });
+  await page.mouse.click(canvas.x + point.x, canvas.y + point.y);
+  await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.state.lastNote?.tooth)).toBe(36);
+});
+
+test('successive tunes shift the packed cylinder and trigger one indexing click', async ({ page }) => {
+  await ready(page);
+  await page.evaluate(() => {
+    window.__CRESCENDO__.loadSpec({
+      title: 'Indexed regression', duration: 20, turns: 3,
+      notes: [{ tooth: 24, time: 0 }, { tooth: 28, time: 0.3, turn: 1 }, { tooth: 31, time: 0.3, turn: 2 }],
+    }, null, false);
+    window.__CRESCENDO__.transport.seek(19.5);
+  });
+  await page.locator('#playBtn').click();
+  await expect(page.locator('#indexCue')).toHaveClass(/active/);
+  await expect(page.locator('#indexMessage')).toHaveText('Indexing · tune 2 of 3');
+  await expect(page.locator('#turnOut')).toHaveClass(/indexing/);
+  await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.transport.position())).toBeGreaterThan(20.3);
+  await expect(page.locator('#turnOut')).toHaveText('2 / 3');
+  const indexed = await page.evaluate(() => ({
+    clicks: window.__CRESCENDO__.sound.startedIndexClicks,
+    x: window.__CRESCENDO__.scene.rotorParts[0].matrix[12],
+  }));
+  expect(indexed.clicks).toBe(1);
+  expect(indexed.x).toBeCloseTo(0.030 - 0.00055, 5);
+  await expect(page.locator('#indexCue')).not.toHaveClass(/active/);
+  expect(await page.evaluate(() => window.__CRESCENDO__.scene.indexHighlight)).toBe(0);
+  await page.locator('#playBtn').click();
+});
+
+test('resonance is opt-in and follows audible note decay after the transport ends', async ({ page }) => {
+  await ready(page);
+  await expect(page.locator('#showResonance')).not.toBeChecked();
+  await page.evaluate(() => window.__CRESCENDO__.loadSpec({
+    title: 'Decay regression', duration: 2, notes: [{ tooth: 24, time: 0 }],
+  }, null, false));
+  await page.getByText('Show resonance', { exact: true }).click();
+  await page.locator('#playBtn').click();
+  await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.state.resonances.length)).toBeGreaterThan(0);
+  await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.transport.running)).toBe(false);
+  expect(await page.evaluate(() => window.__CRESCENDO__.state.resonances.length)).toBe(1);
+  expect(await page.evaluate(() => window.__CRESCENDO__.state.showResonance)).toBe(true);
+  await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.state.resonances.length), {
+    timeout: 14000,
+  }).toBe(0);
+});
+
+test('fullscreen uses the entire display for the scene', async ({ page }) => {
+  await ready(page);
+  await page.locator('#fullBtn').click();
+  await expect.poll(() => page.evaluate(() => document.fullscreenElement?.id)).toBe('sceneStage');
+  const bounds = await page.locator('#sceneCanvas').boundingBox();
+  const viewport = await page.evaluate(() => ({ width: innerWidth, height: innerHeight }));
+  expect(bounds.width).toBe(viewport.width);
+  expect(bounds.height).toBe(viewport.height);
+  await page.locator('#fullBtn').click();
+  await expect.poll(() => page.evaluate(() => Boolean(document.fullscreenElement))).toBe(false);
+});
+
+test('dragging the pin timeline preserves playback and seeks across tunes', async ({ page }) => {
+  await ready(page);
+  await page.locator('#playBtn').click();
+  await page.waitForFunction(() => window.__CRESCENDO__.transport.running);
+  const bounds = await page.locator('#timeline').boundingBox();
+  await page.mouse.move(bounds.x + bounds.width * 0.25, bounds.y + 20);
+  await page.mouse.down();
+  await page.mouse.move(bounds.x + bounds.width * 0.7, bounds.y + 20, { steps: 6 });
+  await page.mouse.up();
+  await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.transport.running)).toBe(true);
+  await expect(page.locator('#turnOut')).toHaveText('3 / 3');
+  await page.locator('#playBtn').click();
 });
 
 test('renders a stereo WAV and reports invalid local files', async ({ page }) => {

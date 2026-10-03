@@ -14,11 +14,27 @@ export function bindViewControls(app) {
     elements.labels.hidden = !state.labelsOn;
     elements.labelsBtn.classList.toggle('active', state.labelsOn);
   });
+  on(elements.explodeBtn, 'click', () => {
+    scene.setExploded(!scene.exploded);
+    elements.explodeBtn.classList.toggle('active', scene.exploded);
+    elements.explodeBtn.setAttribute('aria-pressed', String(scene.exploded));
+    elements.explodeBtn.textContent = scene.exploded ? 'Assemble' : 'Explode';
+    elements.explodeBtn.setAttribute('aria-label', scene.exploded
+      ? 'Assemble the mechanism' : 'Explode the mechanism');
+    for (const button of views) {
+      button.classList.toggle('active', !scene.exploded && button.dataset.view === 'perspective');
+    }
+  });
   on(elements.fullBtn, 'click', async () => {
     if (document.fullscreenElement) await document.exitFullscreen();
-    else if (document.documentElement.requestFullscreen) {
-      await document.documentElement.requestFullscreen();
+    else if (elements.sceneStage.requestFullscreen) {
+      await elements.sceneStage.requestFullscreen();
     } else notifications.show('Fullscreen is not supported by this browser.');
+  });
+  on(document, 'fullscreenchange', () => {
+    const fullscreen = document.fullscreenElement === elements.sceneStage;
+    elements.fullBtn.classList.toggle('active', fullscreen);
+    elements.fullBtn.setAttribute('aria-label', fullscreen ? 'Exit fullscreen' : 'Toggle fullscreen');
   });
   on(elements.guideBtn, 'click', () => elements.guideDialog.showModal());
   for (const button of document.querySelectorAll('.close-dialog')) {

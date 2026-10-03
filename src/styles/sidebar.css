@@ -1,12 +1,32 @@
 /* Original sidebar styles; declarations and cascade order preserved. */
 
 .sidebar {
+  min-height: 0;
   background: var(--panel);
   border-left: 1px solid var(--border);
   padding: 27px 22px 18px;
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: #46453d transparent;
+}
+
+.library-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 22px;
+}
+
+.load-cylinder {
+  width: 100%;
+  padding: 14px 18px;
+  box-shadow: 0 3px 22px #d5b57720;
+  font-size: 13px;
+}
+
+.library-actions .quiet {
+  padding: 9px;
+  font-size: 10px;
 }
 
 .section-title {
@@ -97,7 +117,7 @@
 .side-actions {
   display: flex;
   gap: 5px;
-  margin: 15px 0 24px;
+  margin: 0 0 14px;
 }
 
 .side-actions .outline {
@@ -117,6 +137,7 @@
 }
 
 .settings {
+  margin-top: 24px;
   border-top: 1px solid var(--border);
   padding-top: 18px;
 }
@@ -259,6 +280,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 .switch-row {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -269,12 +291,22 @@ input[type=range]::-moz-range-thumb {
 }
 
 .switch-row input {
+  /* Keep the native focus target inside its visible label. An unanchored
+     absolute checkbox makes the browser scroll the entire page on focus. */
   position: absolute;
+  right: 0;
+  top: 50%;
+  width: 28px;
+  height: 16px;
+  margin: 0;
+  transform: translateY(-50%);
   opacity: 0;
-  pointer-events: none;
+  cursor: pointer;
+  z-index: 1;
 }
 
 .switch-row i {
+  flex-shrink: 0;
   width: 28px;
   height: 16px;
   border-radius: 12px;

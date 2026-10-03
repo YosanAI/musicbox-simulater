@@ -31,7 +31,8 @@ export class LibraryView {
       title.className = 'cylinder-title';
       title.textContent = spec.title;
       subtitle.className = 'cylinder-sub';
-      subtitle.textContent = `${spec.notes.length} pins · ${formatTime(spec.duration)} per turn`;
+      const turns = spec.turns || 1;
+      subtitle.textContent = `${spec.notes.length} pins · ${turns} tune${turns > 1 ? 's' : ''} · ${formatTime(spec.duration)}/turn`;
       number.className = 'cylinder-index';
       number.textContent = String(index + 1).padStart(2, '0');
       text.append(title, subtitle);

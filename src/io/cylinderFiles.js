@@ -15,14 +15,14 @@ export async function readCylinderFile(file) {
 
   if (extension === 'json') {
     spec = validateCylinder(JSON.parse(await file.text()));
-    detail = `Built ${spec.notes.length} 3D pins from your note definition.`;
+    detail = `Built ${spec.notes.length} 3D pins from the note definition.`;
   } else if (extension === 'glb' || extension === 'gltf') {
     const decoded = extension === 'glb'
       ? decodeGLB(await file.arrayBuffer())
       : decodeGLTF(await file.text());
     const result = interpretCylinderGLTF(decoded, file.name);
     ({ spec, meshes, mode } = result);
-    detail = `${spec.notes.length} pins read from your 3D model.`;
+    detail = `${spec.notes.length} pins read from the 3D model.`;
     if (result.assumedDuration) {
       detail += ' Assumed 30 s/turn; adjust One revolution for the intended tempo.';
     }
@@ -42,10 +42,13 @@ export function serializeCylinder(spec) {
     title: spec.title,
     composer: spec.composer,
     duration: spec.duration,
+    ...((spec.turns ?? 1) > 1 ? { turns: spec.turns } : {}),
+    ...(spec.tunes ? { tunes: spec.tunes } : {}),
     tuning: spec.tuning,
     notes: spec.notes.map(note => ({
       time: +note.time.toFixed(6),
       tooth: note.tooth,
+      ...((spec.turns ?? 1) > 1 ? { turn: note.turn ?? 0 } : {}),
       velocity: note.velocity,
     })),
   }, null, 2);

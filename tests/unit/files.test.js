@@ -29,6 +29,20 @@ test('the interchange JSON contains neither generated geometry nor recorded audi
   assert.deepEqual(value.notes[0], { time: 1, tooth: 24, velocity: 0.75 });
 });
 
+test('indexed JSON and GLB imports preserve tune labels and separate same-angle tracks', async () => {
+  const indexed = validateCylinder({ duration: 8, turns: 3,
+    tunes: [{ title: 'First air', composer: 'One' }, { title: 'Second air', composer: 'Two' }, { title: 'Third air', composer: 'Three' }],
+    notes: [{ midi: 60, time: 1, turn: 0 }, { midi: 60, time: 1, turn: 1 }, { midi: 64, time: 1, turn: 2 }],
+  });
+  const json = await readCylinderFile(new File([serializeCylinder(indexed)], 'indexed.json'));
+  assert.deepEqual(json.spec.notes, indexed.notes);
+  assert.deepEqual(json.spec.tunes, indexed.tunes);
+  const glb = await readCylinderFile(new File([exportCylinderGLB(indexed)], 'indexed.glb'));
+  assert.equal(glb.spec.turns, 3);
+  assert.deepEqual(glb.spec.tunes, indexed.tunes);
+  assert.deepEqual(glb.spec.notes.map(note => [note.tooth, note.turn]), indexed.notes.map(note => [note.tooth, note.turn]));
+});
+
 test('download filenames and elapsed-time labels retain the original format', () => {
   assert.equal(safeFilename('Canon in D'), 'Canon-in-D');
   assert.equal(safeFilename('///'), 'cylinder');

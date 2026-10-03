@@ -17,6 +17,10 @@ export class WorkshopController {
       this.editor.steps = Number(elements.editSteps.value);
       this.draw();
     });
+    events.on(elements.editTurn, 'change', () => {
+      this.editor.turn = Number(elements.editTurn.value);
+      this.draw();
+    });
     events.on(elements.editDuration, 'change', guard(() => this.changeDuration()));
     events.on(elements.clearEditor, 'click', () => {
       this.editor.notes = [];
@@ -33,6 +37,8 @@ export class WorkshopController {
       notes: spec.notes.map(note => ({ ...note })),
       tuning: [...spec.tuning],
       duration: spec.duration,
+      turns: spec.turns || 1,
+      turn: 0,
       steps: 128,
       title: `${spec.title} · edit`,
     };
@@ -40,6 +46,12 @@ export class WorkshopController {
     elements.editTitle.value = this.editor.title;
     elements.editDuration.value = this.editor.duration;
     elements.editSteps.value = '128';
+    elements.editTurn.replaceChildren(...Array.from({ length: this.editor.turns }, (_, turn) => {
+      const option = document.createElement('option');
+      option.value = String(turn);
+      option.textContent = String(turn + 1);
+      return option;
+    }));
     elements.workshopDialog.showModal();
     this.draw();
     const maxTooth = Math.max(36, ...this.editor.notes.map(note => note.tooth));
@@ -48,7 +60,8 @@ export class WorkshopController {
 
   draw() {
     drawEditor(this.elements.editorCanvas, this.editor);
-    this.elements.editPinCount.textContent = `${this.editor.notes.length} pins`;
+    const count = this.editor.notes.filter(note => (note.turn || 0) === this.editor.turn).length;
+    this.elements.editPinCount.textContent = `${count} pins`;
   }
 
   changeDuration() {
@@ -79,11 +92,11 @@ export class WorkshopController {
     const time = column / this.editor.steps * this.editor.duration;
     const tolerance = this.editor.duration / this.editor.steps * 0.52;
     const existing = this.editor.notes.findIndex(note =>
-      note.tooth === tooth && Math.abs(note.time - time) < tolerance);
+      (note.turn || 0) === this.editor.turn && note.tooth === tooth && Math.abs(note.time - time) < tolerance);
     if (existing >= 0) {
       this.editor.notes.splice(existing, 1);
     } else {
-      this.editor.notes.push({ tooth, midi: this.editor.tuning[tooth], time, velocity: 0.75 });
+      this.editor.notes.push({ tooth, midi: this.editor.tuning[tooth], time, turn: this.editor.turn, velocity: 0.75 });
       await this.audition(tooth);
     }
     this.draw();
@@ -92,8 +105,9 @@ export class WorkshopController {
   commit() {
     const spec = validateCylinder({
       title: this.elements.editTitle.value || 'Untitled cylinder',
-      composer: 'Your custom arrangement',
+      composer: 'Custom arrangement',
       duration: this.editor.duration,
+      turns: this.editor.turns,
       tuning: this.editor.tuning,
       notes: this.editor.notes,
     });

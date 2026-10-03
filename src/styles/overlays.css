@@ -98,6 +98,12 @@
   color: #a7b09b;
 }
 
+#labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 .annotation {
   position: absolute;
   white-space: nowrap;

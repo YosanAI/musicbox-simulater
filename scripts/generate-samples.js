@@ -5,7 +5,7 @@ const directory = new URL('../public/samples/', import.meta.url);
 await mkdir(directory, { recursive: true });
 const examples = createDemoCylinders().map(spec => ({
   spec,
-  name: spec.title.normalize('NFKD').replace(/[^a-zA-Z0-9]+/g, '-').replace(/-$/, ''),
+  name: spec.title.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/-$/, ''),
 }));
 examples.push({
   name: 'Four-note-test',
@@ -17,5 +17,13 @@ examples.push({
 for (const { name, spec } of examples) {
   await writeFile(new URL(`${name}.glb`, directory), exportCylinderGLB(spec));
   await writeFile(new URL(`${name}.json`, directory), JSON.stringify(spec, null, 2));
-  console.log(`${name}: ${spec.notes.length} pins, ${spec.duration.toFixed(2)} seconds.`);
+  console.log(`${name}: ${spec.notes.length} pins, ${spec.turns} indexed turn(s), ${spec.duration.toFixed(2)} seconds per revolution.`);
 }
+await writeFile(new URL('collection.json', directory), JSON.stringify(examples.map(({ name, spec }) => ({
+  title: spec.title,
+  json: `${name}.json`,
+  glb: `${name}.glb`,
+  turns: spec.turns,
+  secondsPerTurn: spec.duration,
+  source: spec.source,
+})), null, 2));

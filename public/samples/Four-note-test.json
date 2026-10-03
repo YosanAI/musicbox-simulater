@@ -4,6 +4,7 @@
   "title": "Four-note test cylinder",
   "composer": "Custom arrangement",
   "duration": 8,
+  "turns": 1,
   "tuning": [
     36,
     37,
@@ -83,24 +84,28 @@
       "tooth": 24,
       "midi": 60,
       "time": 0,
+      "turn": 0,
       "velocity": 0.75
     },
     {
       "tooth": 28,
       "midi": 64,
       "time": 0.5,
+      "turn": 0,
       "velocity": 0.75
     },
     {
       "tooth": 31,
       "midi": 67,
       "time": 1,
+      "turn": 0,
       "velocity": 0.75
     },
     {
       "tooth": 36,
       "midi": 72,
       "time": 2,
+      "turn": 0,
       "velocity": 0.75
     }
   ],

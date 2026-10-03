@@ -1,6 +1,6 @@
 import { mat4 } from '../../math/matrices.js';
 import { geometryBuilders } from '../../geometry/primitives.js';
-import { CYLINDER_SHAPE } from '../constants.js';
+import { CYLINDER_SHAPE, CYLINDER_INDEXING } from '../constants.js';
 import { validateCylinder } from '../validation.js';
 import { getPinPosition } from '../pinGeometry.js';
 /**
@@ -85,6 +85,7 @@ export function exportCylinderGLB(spec) {
           title: spec.title,
           composer: spec.composer,
           secondsPerTurn: spec.duration,
+          ...(spec.turns > 1 ? { turns: spec.turns, indexStep: CYLINDER_INDEXING.step, ...(spec.tunes ? { tunes: spec.tunes } : {}) } : {}),
           tuning: spec.tuning,
           axis: 'X',
           units: 'metres',

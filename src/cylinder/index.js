@@ -1,4 +1,5 @@
-export { CYLINDER_SHAPE, DEFAULT_TUNING, TOOTH_COUNT, CYLINDER_LIMITS } from './constants.js';
+export { CYLINDER_SHAPE, CYLINDER_INDEXING, DEFAULT_TUNING, TOOTH_COUNT, CYLINDER_LIMITS } from './constants.js';
+export { getCylinderDuration, getCylinderTurn, getNoteTime } from './timing.js';
 export { validateCylinder } from './validation.js';
 export { noteName, midiToFrequency } from './noteNames.js';
 export { getPinPosition, createCylinderGeometry } from './pinGeometry.js';

@@ -1,5 +1,7 @@
 import { clamp } from '../math/scalars.js';
 import { synthesizeTine } from './tineSynthesis.js';
+import { INDEX_CLICK_GAIN, synthesizeIndexClick } from './indexingSynthesis.js';
+import { getCylinderDuration, getNoteTime } from '../cylinder/timing.js';
 
 /** Encode an AudioBuffer as stereo, 16-bit little-endian PCM WAV. */
 export function encodeStereoWav(buffer) {
@@ -35,14 +37,14 @@ export function encodeStereoWav(buffer) {
 }
 
 /**
- * Render one turn plus its decay tail. Matches the original dry export:
+ * Render the complete indexed programme plus its decay tail. Dry export:
  * live volume and room resonance are deliberately not part of this render.
  */
 export async function renderCylinderWav(spec, speed = 1) {
   const sampleRate = 32000;
-  const duration = spec.duration / speed + 6;
+  const duration = getCylinderDuration(spec) / speed + 6;
   if (duration > 180) {
-    throw new Error('Audio export is limited to three minutes. Shorten the cylinder or increase speed.');
+    throw new Error('Audio export is limited to three minutes. Shorten the cylinder or increase revolution speed.');
   }
   const context = new OfflineAudioContext(2, Math.ceil(duration * sampleRate), sampleRate);
   const output = context.createGain();
@@ -67,7 +69,22 @@ export async function renderCylinderWav(spec, speed = 1) {
     gain.gain.value = note.velocity * 0.68;
     pan.pan.value = (note.tooth / 71 - 0.5) * 1.25;
     source.connect(gain).connect(pan).connect(output);
-    source.start(note.time / speed);
+    source.start(getNoteTime(note, spec) / speed);
+  }
+  if ((spec.turns ?? 1) > 1) {
+    const samples = synthesizeIndexClick(sampleRate);
+    const buffer = context.createBuffer(1, samples.length, sampleRate);
+    buffer.copyToChannel(samples, 0);
+    for (let turn = 1; turn < spec.turns; turn++) {
+      const source = context.createBufferSource();
+      const gain = context.createGain();
+      const pan = context.createStereoPanner();
+      source.buffer = buffer;
+      gain.gain.value = INDEX_CLICK_GAIN;
+      pan.pan.value = 0.25;
+      source.connect(gain).connect(pan).connect(output);
+      source.start(turn * spec.duration / speed);
+    }
   }
   return encodeStereoWav(await context.startRendering());
 }

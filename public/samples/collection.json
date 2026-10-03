@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Für Elise · three parts",
+    "json": "Fur-Elise-three-parts.json",
+    "glb": "Fur-Elise-three-parts.glb",
+    "turns": 3,
+    "secondsPerTurn": 36,
+    "source": "Reuge CH 3.72 / 37220 repertoire · independent abridged arrangement"
+  },
+  {
+    "title": "Strauss · Viennese waltzes",
+    "json": "Strauss-Viennese-waltzes.json",
+    "glb": "Strauss-Viennese-waltzes.glb",
+    "turns": 3,
+    "secondsPerTurn": 36,
+    "source": "Reuge INTER CH 15.72 / 1001-1 repertoire · independent abridged arrangement"
+  },
+  {
+    "title": "Bizet & Verdi · opera airs",
+    "json": "Bizet-Verdi-opera-airs.json",
+    "glb": "Bizet-Verdi-opera-airs.glb",
+    "turns": 3,
+    "secondsPerTurn": 36,
+    "source": "Reuge INTER CH 15.72 / 1001-2 repertoire · independent abridged arrangement"
+  },
+  {
+    "title": "Mozart · The Magic Flute & Andante",
+    "json": "Mozart-The-Magic-Flute-Andante.json",
+    "glb": "Mozart-The-Magic-Flute-Andante.glb",
+    "turns": 3,
+    "secondsPerTurn": 36,
+    "source": "Reuge INTER CH 15.72 / 1001-3 repertoire · independent abridged arrangement"
+  },
+  {
+    "title": "Schumann & Schubert · romantic airs",
+    "json": "Schumann-Schubert-romantic-airs.json",
+    "glb": "Schumann-Schubert-romantic-airs.glb",
+    "turns": 3,
+    "secondsPerTurn": 36,
+    "source": "Reuge INTER CH 15.72 / 1001-4 repertoire · independent abridged arrangement"
+  },
+  {
+    "title": "Tchaikovsky · ballet airs",
+    "json": "Tchaikovsky-ballet-airs.json",
+    "glb": "Tchaikovsky-ballet-airs.glb",
+    "turns": 3,
+    "secondsPerTurn": 36,
+    "source": "Reuge INTER CH 15.72 / 1001-5 repertoire · independent abridged arrangement"
+  },
+  {
+    "title": "Four-note test cylinder",
+    "json": "Four-note-test.json",
+    "glb": "Four-note-test.glb",
+    "turns": 1,
+    "secondsPerTurn": 8,
+    "source": "Generated pins"
+  }
+]

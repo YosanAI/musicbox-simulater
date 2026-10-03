@@ -100,6 +100,7 @@
   }
   main {
     display: block;
+    flex: none;
   }
   .stage {
     height: 56svh;
@@ -172,7 +173,7 @@
     max-width: 150px;
   }
   .side-actions {
-    margin: 12px 0 18px;
+    margin: 0 0 12px;
     justify-content: flex-start;
   }
   .side-actions .outline {
@@ -182,6 +183,7 @@
     margin-left: 5px;
   }
   .settings {
+    margin-top: 18px;
     padding-top: 16px;
   }
   .settings[open] {
@@ -196,6 +198,8 @@
     left: 0;
     right: 0;
     height: 154px;
+    min-height: 154px;
+    max-height: 154px;
     display: block;
     background: #181e19fa;
     backdrop-filter: blur(12px);
@@ -236,11 +240,11 @@
     gap: 5px;
   }
   .timeline-wrap {
-    height: 45px;
+    height: 55px;
     margin-top: 5px;
   }
   #timeline {
-    height: 43px;
+    height: 36px;
   }
   .timeline-caption {
     display: none;
@@ -391,9 +395,20 @@
     font-size: 7px;
     gap: 5px;
   }
+  .stage-bottom .scene-hint {
+    max-width: calc(100% - 145px);
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    text-overflow: ellipsis;
+  }
   .stage-bottom .round-button {
     width: 25px;
     height: 25px;
+  }
+  .stage-bottom .explode-button {
+    width: auto;
+    padding: 0 8px;
   }
   .stage-bottom>div {
     gap: 5px;
@@ -450,7 +465,7 @@
     scroll-behavior: auto !important;
     transition: none !important;
   }
-  .loader {
+  .loader,.index-cue.active .index-arrow {
     animation: none;
   }
 }

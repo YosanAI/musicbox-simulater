@@ -1,4 +1,5 @@
 import { synthesizeTine } from './tineSynthesis.js';
+import { INDEX_CLICK_GAIN, synthesizeIndexClick } from './indexingSynthesis.js';
 import { renderCylinderWav } from './wavExport.js';
 
 /** Web Audio voice pool and the original dry/wet room-resonance graph. */
@@ -11,6 +12,8 @@ export class SoundEngine {
     this.resonance = 0.30;
     this.lidOpen = true;
     this.startedNotes = 0;
+    this.startedIndexClicks = 0;
+    this.indexBuffer = null;
     this.disposed = false;
   }
 
@@ -110,6 +113,49 @@ export class SoundEngine {
     return voice;
   }
 
+  /** Schedule mechanical indexing on the same audio clock as the music pins. */
+  indexClick(when = this.context?.currentTime) {
+    if (!this.context || this.disposed) return;
+    const context = this.context;
+    if (!this.indexBuffer) {
+      const samples = synthesizeIndexClick(context.sampleRate);
+      this.indexBuffer = context.createBuffer(1, samples.length, context.sampleRate);
+      this.indexBuffer.copyToChannel(samples, 0);
+    }
+    const source = context.createBufferSource();
+    const gain = context.createGain();
+    const pan = context.createStereoPanner();
+    source.buffer = this.indexBuffer;
+    gain.gain.value = INDEX_CLICK_GAIN;
+    pan.pan.value = 0.25;
+    source.connect(gain).connect(pan).connect(this.input);
+    const voice = { source, gain, pan, when };
+    this.active.add(voice);
+    source.onended = () => {
+      source.disconnect();
+      gain.disconnect();
+      pan.disconnect();
+      this.active.delete(voice);
+    };
+    source.start(Math.max(when, context.currentTime));
+    this.startedIndexClicks++;
+    return voice;
+  }
+
+  /** Remove look-ahead events without interrupting voices that are already ringing. */
+  cancelScheduled(after = this.context?.currentTime) {
+    if (!this.context) return;
+    for (const voice of this.active) {
+      if (voice.when <= after) continue;
+      try { voice.source.stop(after); } catch { /* A source may already have ended. */ }
+      voice.source.onended = null;
+      voice.source.disconnect();
+      voice.gain.disconnect();
+      voice.pan.disconnect();
+      this.active.delete(voice);
+    }
+  }
+
   /** Fade voices quickly rather than introducing a click at pause or seek. */
   silence() {
     if (!this.context) return;
@@ -156,6 +202,7 @@ export class SoundEngine {
     }
     this.active.clear();
     this.cache.clear();
+    this.indexBuffer = null;
     if (this.context && this.context.state !== 'closed') await this.context.close();
   }
 }

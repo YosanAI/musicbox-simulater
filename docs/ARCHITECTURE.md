@@ -37,6 +37,8 @@ cylinder bearings, comb, controls, gears and winding key. Static pieces with the
 material/tag are merged to retain the original draw grouping. Teeth remain individual
 meshes so they can vibrate and highlight independently. The removable rotor is owned
 by `MusicBoxScene`; changing cylinders releases its old GPU buffers/materials.
+Exploded view creates a coiled mainspring and separates mechanism groups. Closing
+that view removes the spring geometry and restores the assembled transforms.
 
 The materials deliberately use `RawShaderMaterial`, not `MeshStandardMaterial`.
 The old look includes custom studio reflections, scratches, direct lighting, a filmic
@@ -63,10 +65,16 @@ the frame loop releases a tooth highlight/vibration when its audio event is due.
 
 A generation token invalidates an asynchronous audio unlock when pause, seek or a
 cylinder swap intervenes. Pause fades voices and clears scheduled visual events.
-End-of-turn stops the scheduler without chopping off naturally decaying notes.
+The end of the complete cylinder sequence stops the scheduler without chopping
+off naturally decaying notes. Tune boundaries schedule a mechanical indexing click
+and queue a matching visual event. When the audio clock reaches that event, the
+cylinder briefly glows and the indexing indicator appears. Pause, seek and cylinder
+changes clear pending indexing events. Live playback and WAV export share the click
+synthesis and gain.
 
 `MusicBoxScene.update()` observes the transport position to rotate the cylinder and
-gears. It animates the lift, winding key and comb teeth, then asks the renderer to
+gears and interpolate the short axial indexing movement. It animates the lift,
+winding key and comb teeth, then asks the renderer to
 render. It does not independently advance musical time or synthesize sound.
 
 `SoundEngine` owns live audio nodes, sample caching, voice lifetime, panning, filtering,
@@ -78,8 +86,10 @@ volume/resonance settings.
 
 `validateCylinder()` produces the single normalized score shape used everywhere.
 The JSDoc `CylinderSpec` and `CylinderNote` definitions are in `src/cylinder/types.js`.
-Times are seconds into one revolution. Tuning is a 72-element MIDI table; `tooth`
-is a lane index, not a pitch.
+Times are seconds into one revolution. `turn` selects an indexed track;
+`duration * turns` is the full sequence length. Tuning is a 72-element MIDI table;
+`tooth` is a lane index, not a pitch. Missing turn fields retain the original
+single-turn interpretation. Optional `tunes` metadata provides each air's title.
 
 GLB import has three steps:
 
@@ -91,8 +101,8 @@ GLB import has three steps:
 
 Metadata provides the coordinate convention, tuning and seconds per turn; it does
 not contain a hidden note-time array. Moving a mesh really changes the inferred score.
-The standalone exporter deliberately keeps its canonical output bytes unchanged,
-so existing cylinders and external-editor workflows remain compatible.
+The standalone exporter keeps the legacy single-turn geometry convention and
+records multi-turn indexing metadata for cylinders with successive tracks.
 
 Changing revolution duration scales all event times proportionally. The ratio
 `time / duration`, and therefore every pin's angle, stays unchanged. Changing the
@@ -110,9 +120,9 @@ The three `bind*Controls` modules group player, view and file interactions.
 one abort signal for owned listeners. `Downloads` owns object URLs and their cleanup.
 User-provided titles are inserted as text, not HTML.
 
-The CSS is split by contiguous sections of the original stylesheet. Its original
-184 top-level rules remain in the same order. Responsive overrides must stay last.
-Do not alphabetize these imports or selectors as a cleanup step.
+The CSS is split by responsibility. The stage uses bounded grid/flex tracks so
+changing model visibility cannot enlarge the player or steal scene height.
+Fullscreen is requested on the stage itself. Responsive overrides stay last.
 
 ## Lifecycle
 
@@ -131,6 +141,6 @@ an intended change, but do not update a golden hash merely to make a test green.
 Compare the old and new outputs first. The fixture README describes their provenance.
 
 After installing dependencies, run `npm run build` and `npm run test:browser`, then
-visually compare perspective, top and comb views against the original demo. Those
-rendering/build checks were not possible during this archive's creation, so the
-code/data baselines must not be treated as proof of pixel-identical rendering.
+review perspective, top and comb views, indexing, fullscreen and exploded view.
+The source/data baselines do not establish visual fidelity to the physical box.
+See `TESTING.md` for commands and `REPERTOIRE.md` for musical provenance.

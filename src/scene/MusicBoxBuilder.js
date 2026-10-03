@@ -4,7 +4,7 @@ import { TAU } from '../math/scalars.js';
 import { CYLINDER_SHAPE } from '../cylinder/constants.js';
 import { toLinearColor } from '../rendering/color.js';
 /**
- * Procedural model assembly, in metres, copied from the supplied working demo.
+ * Procedural model assembly, in metres, of a cylinder music-box movement.
  * Static pieces are grouped by material; comb teeth and gears remain separate
  * so they can animate. Change a component here without touching playback/UI.
  */
@@ -16,13 +16,22 @@ export class MusicBoxBuilder {
     this.teeth = [];
     this.caseParts = [];
     this.gears = [];
+    this.staticNodes = [];
+    this.assemblies = new Map();
+    this.assembly = 'base';
   }
   build() {
+    this.assembly = 'base';
     this.buildBase();
+    this.assembly = 'lid';
     this.buildLid();
+    this.assembly = 'spring-barrel';
     this.buildSpringBarrel();
+    this.assembly = 'bearings';
     this.buildCylinderBearings();
+    this.assembly = 'comb';
     this.buildComb();
+    this.assembly = 'controls';
     this.buildControls();
     this.flushStaticParts();
     this.buildGears();
@@ -30,6 +39,8 @@ export class MusicBoxBuilder {
     return {
       teeth: this.teeth,
       caseParts: this.caseParts,
+      staticParts: this.staticNodes,
+      createExplodedParts: () => this.createExplodedParts(),
       gears: this.gears,
       windBase: this.windBase,
       windNode: this.windNode
@@ -41,6 +52,11 @@ export class MusicBoxBuilder {
       this.staticParts.set(key, { items: [], mat: material, tag });
     }
     this.staticParts.get(key).items.push({ geometry: meshGeometry, transform: transform });
+    const assemblyKey = this.assembly + '_' + key;
+    if (!this.assemblies.has(assemblyKey)) {
+      this.assemblies.set(assemblyKey, { items: [], material, tag, assembly: this.assembly });
+    }
+    this.assemblies.get(assemblyKey).items.push({ geometry: meshGeometry, transform });
   }
   box(width, height, depth, position, material, bevel = 0, tag = 'fixed', rotation = 0) {
     this.part(geometryBuilders.box(width, height, depth, bevel), material, mat4.multiply(mat4.translation(...position), mat4.rotationY(rotation)), tag);
@@ -109,6 +125,7 @@ export class MusicBoxBuilder {
     for (let y of [.038, .041, .068, .071]) {
       this.part(geometryBuilders.torus(.028, .0009, 72, 8), materials.brass, mat4.translation(bx, y, bz));
     }
+    this.assembly = 'spring-cap';
     this.part(geometryBuilders.cylinder(.0277, .0013, 72), materials.brass, mat4.translation(bx, .072, bz));
     this.part(geometryBuilders.cylinder(.0257, .00025, 72), materials.barrelLabel, mat4.translation(bx, .0729, bz));
     this.screw([bx, .074, bz], .0042, 'fixed', .65);
@@ -117,6 +134,7 @@ export class MusicBoxBuilder {
     const materials = this.materials;
     const renderer = this.renderer; // Clamp arms for the removable cylinder, pivot nuts and axle bearings.
     for (let x of [-.080, .142]) {
+      this.assembly = x < 0 ? 'bearing-left' : 'bearing-right';
       this.box(.010, .019, .015, [x, .043, -.034], materials.gold, .0018);
       this.box(.007, .020, .007, [x, .052, -.053], materials.brass, .001);
       this.part(geometryBuilders.cylinder(.006, .010, 32), materials.gold, mat4.multiply(mat4.translation(x, .064, -.034), mat4.rotationZ(Math.PI / 2)));
@@ -186,8 +204,28 @@ export class MusicBoxBuilder {
       if (p.tag === 'case') {
         this.caseParts.push(node);
       }
+      this.staticNodes.push(node);
     }
     this.staticParts.clear();
+  }
+  /** Built only on demand; the assembled model keeps its original material batches. */
+  createExplodedParts() {
+    const offsets = {
+      base: [0, 0, 0],
+      lid: [0, .025, -.025],
+      'spring-barrel': [-.055, .035, -.01],
+      'spring-cap': [-.055, .14, -.01],
+      'bearing-left': [-.025, .04, -.03],
+      'bearing-right': [.025, .04, -.03],
+      comb: [0, .06, .055],
+      controls: [-.025, .03, .03],
+    };
+    return [...this.assemblies.values()].map(assembly => ({
+      node: this.renderer.add(geometryBuilders.merge(assembly.items), assembly.material,
+        mat4.identity(), `exploded-${assembly.assembly}`),
+      casePart: assembly.tag === 'case',
+      offset: offsets[assembly.assembly] || [0, 0, 0],
+    }));
   }
   buildGears() {
     const materials = this.materials;

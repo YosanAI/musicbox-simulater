@@ -47,6 +47,7 @@ export function drawEditor(canvas, editor) {
     }
   }
   for (let note of editor.notes) {
+    if ((note.turn || 0) !== editor.turn) continue;
     let pinX = left + note.time / editor.duration * (width - left - 1);
     let pinY = top + (71 - note.tooth) * row + 3;
     context.fillStyle = '#d5b577';

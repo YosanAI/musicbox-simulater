@@ -3,7 +3,7 @@ import { vec3 } from '../../math/vectors.js';
 import { geometryBuilders } from '../../geometry/primitives.js';
 import { TAU, modulo } from '../../math/scalars.js';
 import { getGeometryBounds } from '../../geometry/bounds.js';
-import { CYLINDER_SHAPE, DEFAULT_TUNING, CYLINDER_LIMITS } from '../constants.js';
+import { CYLINDER_SHAPE, CYLINDER_INDEXING, DEFAULT_TUNING, CYLINDER_LIMITS } from '../constants.js';
 import { validateCylinder } from '../validation.js';
 import { parseGLTFGeometry } from './parseGeometry.js';
 /**
@@ -41,12 +41,21 @@ export function interpretCylinderGLTF(decoded, name = 'Imported cylinder') {
   let xMin = hasMeta ? Number(meta.minX) : (-length / 2 + length * .0374);
   let xMax = hasMeta ? Number(meta.maxX) : (length / 2 - length * .0374);
   let duration = Number(meta?.secondsPerTurn || 30);
+  let turns = Number(meta?.turns ?? 1);
+  if (!Number.isInteger(turns) || turns < 1 || turns > CYLINDER_LIMITS.maxTurns) {
+    throw Error('A cylinder programme must contain between 1 and 5 indexed revolutions.');
+  }
   let tuning = meta?.tuning || DEFAULT_TUNING;
   let contact = Number(meta?.contactAngle ?? CYLINDER_SHAPE.contactAngle);
   if (!Number.isFinite(xMin) || !Number.isFinite(xMax) || xMax <= xMin || !Number.isFinite(contact)) {
     throw Error('Invalid cylinder dimensions in musicBox metadata.');
   }
   let xScale = (CYLINDER_SHAPE.maxX - CYLINDER_SHAPE.minX) / (xMax - xMin);
+  const indexStep = Number(meta?.indexStep ?? CYLINDER_INDEXING.step / xScale);
+  // The canonical fitting transform must also preserve the relative track spacing.
+  if (turns > 1 && (!Number.isFinite(indexStep) || Math.abs(indexStep * xScale - CYLINDER_INDEXING.step) > 1e-6)) {
+    throw Error('Indexed pin tracks must use the supplied axial spacing.');
+  }
   let radialScale = CYLINDER_SHAPE.radius / radius;
   let fit = mat4.multiply(mat4.rotationX(CYLINDER_SHAPE.contactAngle - contact), mat4.multiply(mat4.scale(xScale, radialScale, radialScale), mat4.multiply(mat4.translation(-(xMax + xMin) / 2, 0, 0), orientation)));
   const candidates = [];
@@ -102,7 +111,7 @@ export function interpretCylinderGLTF(decoded, name = 'Imported cylinder') {
         let y = all.positions[i * 3 + 1];
         let z = all.positions[i * 3 + 2];
         let r = Math.hypot(y, z);
-        if (r <= radius * 1.012 || r > radius * 1.25 || x < xMin - .001 || x > xMax + .001) {
+        if (r <= radius * 1.012 || r > radius * 1.25 || x < xMin - .001 || x > xMax + (turns - 1) * indexStep + .001) {
           continue;
         }
         parent[i] = i;
@@ -161,7 +170,25 @@ export function interpretCylinderGLTF(decoded, name = 'Imported cylinder') {
     let [x, y, z] = pin.center;
     let toothCoordinate = (x - xMin) / (xMax - xMin) * 71;
     let tooth = Math.round(toothCoordinate);
-    if (tooth < 0 || tooth > 71 || Math.abs(toothCoordinate - tooth) > .38) {
+    let pinTurn = 0;
+    let aligned = tooth >= 0 && tooth <= 71 && Math.abs(toothCoordinate - tooth) <= .38;
+    if (turns > 1) {
+      // Recover both coordinates from physical X, without a hidden per-pin score.
+      // Track offsets may cross a tooth midpoint, so search each track separately.
+      let bestError = Infinity;
+      for (let track = 0; track < turns; track++) {
+        const laneCoordinate = (x - xMin - track * indexStep) / (xMax - xMin) * 71;
+        const lane = Math.round(laneCoordinate);
+        const error = Math.abs(x - (xMin + lane * (xMax - xMin) / 71 + track * indexStep));
+        if (lane >= 0 && lane < 72 && error < bestError) {
+          tooth = lane;
+          pinTurn = track;
+          bestError = error;
+        }
+      }
+      aligned = bestError <= indexStep * .35;
+    }
+    if (!aligned) {
       invalidPinCount++;
       continue;
     }
@@ -170,7 +197,7 @@ export function interpretCylinderGLTF(decoded, name = 'Imported cylinder') {
     if (phase > 1 - 1e-6) {
       phase = 0;
     }
-    notes.push({ tooth, time: phase * duration, velocity: Number(pin.velocity) });
+    notes.push({ tooth, turn: pinTurn, time: phase * duration, velocity: Number(pin.velocity) });
   }
   if (invalidPinCount) {
     throw Error(`${invalidPinCount} pin${invalidPinCount > 1 ? 's are' : ' is'} between comb teeth or outside the 72-note span. Align the pin X positions to the supplied template.`);
@@ -179,6 +206,8 @@ export function interpretCylinderGLTF(decoded, name = 'Imported cylinder') {
     title: meta?.title || name.replace(/\.[^.]+$/, ''),
     composer: meta?.composer || 'Imported 3D cylinder',
     duration,
+    turns,
+    ...(meta?.tunes ? { tunes: meta.tunes } : {}),
     tuning,
     notes,
     source: 'Read from 3D pin geometry'

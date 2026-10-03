@@ -1,7 +1,7 @@
 import { SoundEngine } from '../audio/SoundEngine.js';
 import { Transport } from '../audio/Transport.js';
 import {
-  createDemoCylinders, validateCylinder, exportCylinderGLB, decodeGLB, interpretCylinderGLTF,
+  createDemoCylinders, validateCylinder, exportCylinderGLB, decodeGLB, interpretCylinderGLTF, getNoteTime,
 } from '../cylinder/index.js';
 import { readCylinderFile } from '../io/cylinderFiles.js';
 import { Downloads } from '../io/download.js';
@@ -24,7 +24,10 @@ export class MusicBoxApp {
     this.events = new EventScope();
     this.notifications = new Notifications(this.elements.toast);
     this.downloads = new Downloads();
-    this.state = { ready: false, busy: false, lastNote: null, importMode: null, labelsOn: false };
+    this.state = {
+      ready: false, busy: false, lastNote: null, importMode: null, labelsOn: false,
+      showResonance: false, resonances: [], indexStarted: -100,
+    };
     this.library = createDemoCylinders().map(spec => ({ spec, meshes: null }));
     this.activeIndex = 0;
     this.frame = 0;
@@ -43,6 +46,9 @@ export class MusicBoxApp {
       if (reason === 'spring') {
         this.notifications.show('The virtual spring has run down. Wind it to continue.');
       }
+    }, (turn, age) => {
+      this.scene.index(age);
+      this.playerView.showIndex(turn, age);
     });
     this.playerView = new PlayerView(this.elements, this.transport, this.scene, this.state);
     this.libraryView = new LibraryView(
@@ -87,6 +93,8 @@ export class MusicBoxApp {
     this.transport.setSpec(normalized);
     this.scene.setCylinder(normalized, meshes, animate);
     this.state.lastNote = null;
+    this.state.resonances = [];
+    this.playerView.clearIndex();
     this.playerView.refreshCylinder();
     return normalized;
   }
@@ -115,11 +123,15 @@ export class MusicBoxApp {
 
   pause() {
     this.transport.pause();
+    this.state.resonances = [];
+    this.playerView.clearIndex();
     this.playerView.sync();
   }
 
   reset() {
     this.transport.reset();
+    this.state.resonances = [];
+    this.playerView.clearIndex();
     this.scene.renderer.shadowDirty = true;
     this.playerView.sync();
   }
@@ -159,6 +171,13 @@ export class MusicBoxApp {
   onStrike(note, age = 0) {
     this.scene.strike(note, age);
     this.state.lastNote = note;
+    const buffer = this.sound.getNoteBuffer(note.midi);
+    this.state.resonances.push({
+      note, position: note.turn === undefined ? this.transport.position()
+        : getNoteTime(note, this.transport.spec),
+      started: performance.now() / 1000 - age,
+      duration: buffer.duration + (this.sound.resonance > 0 ? 1.8 : 0),
+    });
     this.playerView.showStrike(note);
   }
 
@@ -191,7 +210,7 @@ export class MusicBoxApp {
   async importFile(file) {
     if (!file || this.disposed) return;
     if (this.state.busy) throw new Error('Wait for the current action to finish before loading a cylinder.');
-    this.transport.pause();
+    this.pause();
     this.state.busy = true;
     this.playerView.sync();
     this.notifications.show('Reading cylinder geometry…', false, 12000);
@@ -215,6 +234,9 @@ export class MusicBoxApp {
       const delta = Math.min(0.08, (now - this.lastFrameTime) / 1000);
       this.lastFrameTime = now;
       this.transport.update();
+      const seconds = performance.now() / 1000;
+      this.state.resonances = this.state.resonances.filter(strike =>
+        seconds - strike.started < strike.duration);
       this.scene.update(delta, this.transport.position(), this.transport.running);
       this.frame++;
       if (this.frame % 2 === 0) {
@@ -228,8 +250,8 @@ export class MusicBoxApp {
   }
 
   updateLabels() {
-    for (const element of this.elements.labels.children) {
-      const point = element.dataset.point.split(',').map(Number);
+    for (const [index, element] of Array.from(this.elements.labels.children).entries()) {
+      const point = this.scene.getLabelPoint(index);
       const [x, y] = this.scene.renderer.project(point);
       element.style.left = `${x}px`;
       element.style.top = `${y}px`;

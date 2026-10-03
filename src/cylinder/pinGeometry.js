@@ -1,7 +1,7 @@
 import { mat4 } from '../math/matrices.js';
 import { TAU } from '../math/scalars.js';
 import { geometryBuilders } from '../geometry/primitives.js';
-import { CYLINDER_SHAPE } from './constants.js';
+import { CYLINDER_SHAPE, CYLINDER_INDEXING } from './constants.js';
 /**
  * A pin's X coordinate selects a comb tooth. Its angle selects event time.
  * Keep this convention identical in the editor, exporter and geometry reader.
@@ -10,7 +10,7 @@ export function getPinPosition(note, duration) {
   let angle = CYLINDER_SHAPE.contactAngle - TAU * note.time / duration;
   let radialCenter = CYLINDER_SHAPE.radius + CYLINDER_SHAPE.pinLength / 2;
   return {
-    x: CYLINDER_SHAPE.minX + (CYLINDER_SHAPE.maxX - CYLINDER_SHAPE.minX) * note.tooth / 71,
+    x: CYLINDER_SHAPE.minX + (CYLINDER_SHAPE.maxX - CYLINDER_SHAPE.minX) * note.tooth / 71 + (note.turn ?? 0) * CYLINDER_INDEXING.step,
     angle: angle,
     y: radialCenter * Math.cos(angle),
     z: radialCenter * Math.sin(angle)

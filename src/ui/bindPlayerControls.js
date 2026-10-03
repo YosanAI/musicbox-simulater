@@ -1,4 +1,5 @@
 import { clamp } from '../math/scalars.js';
+import { getCylinderDuration } from '../cylinder/index.js';
 
 /** Inputs only call the application/transport; they do not own playback state. */
 export function bindPlayerControls(app) {
@@ -12,6 +13,7 @@ export function bindPlayerControls(app) {
   on(elements.speed, 'input', async event => {
     const speed = Number(event.target.value);
     elements.speedOut.textContent = `${speed.toFixed(2)}×`;
+    app.state.resonances = [];
     await transport.setSpeed(speed);
     app.playerView.sync();
   });
@@ -24,12 +26,13 @@ export function bindPlayerControls(app) {
   });
   on(elements.repeat, 'change', async event => {
     const wasPlaying = transport.running;
-    transport.pause();
+    app.pause();
     transport.loop = event.target.checked;
     if (wasPlaying) await transport.play();
     app.playerView.sync();
   });
   on(elements.highlights, 'change', event => { scene.highlights = event.target.checked; });
+  on(elements.showResonance, 'change', event => { app.state.showResonance = event.target.checked; });
   on(elements.caseToggle, 'change', event => scene.setCase(event.target.checked));
   on(elements.ejectBtn, 'click', () => {
     app.pause();
@@ -42,26 +45,38 @@ export function bindPlayerControls(app) {
   });
 
   let scrubbing = false;
+  let resumeAfterScrub = false;
   const seek = async event => {
     const bounds = elements.timeline.getBoundingClientRect();
     const fraction = clamp((event.clientX - bounds.left) / bounds.width, 0, 1);
-    await transport.seek(fraction * transport.spec.duration);
+    app.state.resonances = [];
+    await transport.seek(fraction * getCylinderDuration(transport.spec));
     scene.renderer.shadowDirty = true;
     app.playerView.sync();
   };
   on(elements.timeline, 'pointerdown', async event => {
     scrubbing = true;
+    resumeAfterScrub = transport.running;
+    app.pause();
     elements.timeline.setPointerCapture(event.pointerId);
     await seek(event);
   });
   on(elements.timeline, 'pointermove', async event => {
     if (scrubbing) await seek(event);
   });
-  on(elements.timeline, 'pointerup', () => { scrubbing = false; });
-  on(elements.timeline, 'pointercancel', () => { scrubbing = false; });
+  const finishScrub = async () => {
+    if (!scrubbing) return;
+    scrubbing = false;
+    const resume = resumeAfterScrub;
+    resumeAfterScrub = false;
+    if (resume && !transport.running) await app.togglePlay();
+  };
+  on(elements.timeline, 'pointerup', finishScrub);
+  on(elements.timeline, 'pointercancel', finishScrub);
   on(elements.timeline, 'keydown', async event => {
     if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
     event.preventDefault();
+    app.state.resonances = [];
     await transport.seek(transport.position() + (event.key === 'ArrowRight' ? 1 : -1));
     scene.renderer.shadowDirty = true;
   });
