@@ -26,7 +26,8 @@ and footer positions, sizes and page scroll offsets at desktop, tablet and mobil
 widths, using both mouse clicks and keyboard focus/Space activation.
 
 The original one-turn GLB files remain compatibility fixtures. The current library
-contains six three-turn cylinders, with Für Elise first. Multi-turn round trips
+contains six generated three-turn cylinders and the supplied Three classics JSON,
+with Für Elise first. Multi-turn round trips
 must preserve the turn index, tune labels and every pin's position; geometry edits
 must change the recovered notes rather than merely reading a hidden score.
 

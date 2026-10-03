@@ -4,8 +4,12 @@ import { MusicBoxScene } from './scene/MusicBoxScene.js';
 
 let app;
 try {
+  const response = await fetch(`${import.meta.env.BASE_URL}samples/Three-classics-indexed.json`);
+  if (!response.ok) throw new Error(`Could not load Three classics (${response.status}).`);
+  const threeClassics = await response.json();
   app = new MusicBoxApp({
     createScene: (canvas, onTooth, onWind) => new MusicBoxScene(canvas, onTooth, onWind),
+    additionalCylinders: [threeClassics],
   });
   app.start();
 } catch (error) {

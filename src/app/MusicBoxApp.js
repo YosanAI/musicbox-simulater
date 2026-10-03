@@ -19,7 +19,7 @@ import { bindFileControls } from '../ui/bindFileControls.js';
  * A scene factory keeps this boundary injectable for integration tests.
  */
 export class MusicBoxApp {
-  constructor({ createScene }) {
+  constructor({ createScene, additionalCylinders = [] }) {
     this.elements = collectElements();
     this.events = new EventScope();
     this.notifications = new Notifications(this.elements.toast);
@@ -28,7 +28,10 @@ export class MusicBoxApp {
       ready: false, busy: false, lastNote: null, importMode: null, labelsOn: false,
       showResonance: false, resonances: [], indexStarted: -100,
     };
-    this.library = createDemoCylinders().map(spec => ({ spec, meshes: null }));
+    this.library = [
+      ...createDemoCylinders(),
+      ...additionalCylinders.map(validateCylinder),
+    ].map(spec => ({ spec, meshes: null }));
     this.activeIndex = 0;
     this.frame = 0;
     this.animationFrame = null;

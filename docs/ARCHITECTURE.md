@@ -25,6 +25,11 @@ of services, and user-level actions. Views display state; they do not invent the
 own playback clock. The app receives a scene factory so controller/audio behavior
 can be exercised without pretending a rendering test double is a real Three.js render.
 
+The menu combines `createDemoCylinders()` with additional JSON cylinders loaded by
+`main.js`, including `public/samples/Three-classics-indexed.json`. Files added to
+`public/samples/` do not appear in the menu automatically; register them in `main.js`
+and pass their definitions through `additionalCylinders`.
+
 ## Rendering and the model
 
 `ThreeRenderer` creates the real Three.js scene, cameras and GPU resources. Each
