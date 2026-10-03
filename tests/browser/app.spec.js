@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { validateCylinder, exportCylinderGLB } from '../../src/cylinder/index.js';
 
 const sample = name => fileURLToPath(new URL(`../../public/samples/${name}`, import.meta.url));
+const fixture = name => fileURLToPath(new URL(`../fixtures/cylinders/${name}`, import.meta.url));
 
 async function ready(page) {
   await page.goto('/');
@@ -40,6 +41,9 @@ test('boots with real Three.js scene objects and no graphics or console errors',
   expect(result.teeth).toBe(72);
   expect(result.pins).toBeGreaterThan(100);
   expect(await page.evaluate(() => window.__CRESCENDO__.transport.spec.turns)).toBe(3);
+  expect(await page.evaluate(() => window.__CRESCENDO__.transport.spec.title)).toMatch(/^Bonus/);
+  await expect(page.locator('.cylinder-card')).toHaveCount(6);
+  await expect(page.locator('.cylinder-card').first()).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('#nowTitle')).toContainText('Für Elise');
   expect(result.meshCount).toBeGreaterThan(90);
   expect(result.glError).toBe(0);
@@ -73,11 +77,11 @@ test('swaps cylinders and gates playback while lifted', async ({ page }) => {
 
 test('imports the original GLB and JSON samples', async ({ page }) => {
   await ready(page);
-  await page.locator('#fileInput').setInputFiles(sample('Four-note-test.glb'));
+  await page.locator('#fileInput').setInputFiles(fixture('Four-note-test.glb'));
   await expect(page.locator('#nowTitle')).toHaveText('Four-note test cylinder');
   await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.getDiagnostics().pins)).toBe(4);
   await expect(page.locator('#sourceBadge')).toHaveText('READ FROM 3D PIN GEOMETRY');
-  await page.locator('#fileInput').setInputFiles(sample('Canon-in-D.json'));
+  await page.locator('#fileInput').setInputFiles(fixture('Canon-in-D.json'));
   await expect(page.locator('#nowTitle')).toHaveText('Canon in D');
   await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.getDiagnostics().pins)).toBe(219);
 });
@@ -89,7 +93,8 @@ test('new sample files appear automatically, deduplicate pairs and play GLB-only
   const pair = validateCylinder({ title: 'Discovered JSON pair', duration: 8,
     notes: [{ midi: 60, time: 0.3 }, { midi: 64, time: 1 }] });
   const glb = validateCylinder({ title: 'Discovered GLB only', duration: 8,
-    notes: [{ midi: 67, time: 0.3 }] });
+    // Schedule the test pluck immediately so software WebGL timing cannot miss it.
+    notes: [{ midi: 67, time: 0 }] });
   try {
     await Promise.all([
       writeFile(join(directory, 'pair.json'), JSON.stringify(pair)),
@@ -334,7 +339,7 @@ test('dragging the pin timeline preserves playback and seeks across tunes', asyn
 
 test('renders a stereo WAV and reports invalid local files', async ({ page }) => {
   await ready(page);
-  await page.locator('#fileInput').setInputFiles(sample('Four-note-test.json'));
+  await page.locator('#fileInput').setInputFiles(fixture('Four-note-test.json'));
   await expect(page.locator('#nowTitle')).toHaveText('Four-note test cylinder');
   const downloadPromise = page.waitForEvent('download');
   await page.locator('#wavBtn').click();

@@ -98,14 +98,17 @@ test('aborting startup propagates cancellation instead of skipping every sample'
   }), { name: 'AbortError' });
 });
 
-test('the repository sample folder loads the catalogue and all additional playable cylinders', async () => {
+test('the installed six-cylinder library loads with Bonus Classics as the default', async () => {
   const directory = new URL('../../public/samples/', import.meta.url);
   const files = await listSampleFiles(fileURLToPath(directory));
   const result = await loadSampleLibrary(files, '/samples/', {
     fetchFile: async url => new Response(await readFile(new URL(url.slice('/samples/'.length), directory))),
   });
-  assert.match(result.entries[0].spec.title, /^Für Elise/);
-  assert(result.entries.some(entry => entry.spec.title.startsWith('Three classics')));
-  assert(result.entries.some(entry => entry.spec.title === 'Clockwork garden'));
+  assert.equal(result.entries.length, 6);
+  assert.match(result.entries[0].spec.title, /^Bonus/);
+  assert.deepEqual(result.entries[0].spec.tunes.map(tune => tune.title), [
+    'Für Elise', 'Canon in D', 'Twinkle, Twinkle, Little Star',
+  ]);
+  assert(result.entries.every(entry => entry.spec.duration === 72 && entry.spec.turns === 3));
   assert.deepEqual(result.errors, []);
 });

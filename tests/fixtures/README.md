@@ -12,11 +12,15 @@ are recorded separately. The recorder does not need a renderer or WebGL context.
 buffers. The comparison used the actual original synthesis function, not a new
 function to generate its own expected result.
 
-The original demo `.glb` files in `public/samples/` are also byte-for-byte golden
+The original demo `.glb` files in `tests/fixtures/cylinders/` are also byte-for-byte golden
 fixtures. `legacyCylinders.js` retains their original one-revolution score generators,
 independently of the current repertoire library. Tests regenerate those scores with
 the exporter and compare the original files. Pin-move/rotation tests prove that imports decode physical
 geometry rather than relying on a filename or hidden note array.
+
+The previous six generated three-air GLBs and the small browser import examples
+also live in that directory. They were moved unchanged when the active sample
+library was replaced with the supplied six-cylinder pack. They are not menu entries.
 
 These are source/data baselines, not screenshots or proof of Three.js visual parity.
 Do not overwrite them casually after a failed test; document an intentional behavior

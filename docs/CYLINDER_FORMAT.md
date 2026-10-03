@@ -122,7 +122,7 @@ This helper loads the same validator and exporter as the app; it has no npm depe
 Generate a GLB without starting a browser:
 
 ```bash
-npm run cylinder -- public/samples/Four-note-test.json my-cylinder.glb
+npm run cylinder -- public/samples/Cylinder-5-Bonus-Classics.json my-cylinder.glb
 ```
 
 The JavaScript `getPinPosition()` helper returns `{ x, y, z, angle }` and includes a pin's axial track offset. `getCylinderDuration(spec)` returns the full programme duration; `getCylinderTurn(spec, position)` selects its indexed track, retaining the final track at the end; `getNoteTime(note, spec)` returns a pin's absolute programme time. These helpers keep transport, scene, editor and exports on the same timing convention.

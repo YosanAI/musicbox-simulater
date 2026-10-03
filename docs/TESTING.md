@@ -8,7 +8,7 @@ Use Node.js 22.12 or newer and install dependencies with `npm install`.
 | `npm run check` | Source syntax and import-boundary checks |
 | `npm run build` | Production Vite bundle |
 | `npm run test:browser` | Browser interactions, canvas rendering, file handling and resource lifecycle |
-| `npm run samples` | Regenerate the researched repertoire's JSON/GLB examples |
+| `npm run samples` | Regenerate the legacy repertoire fixtures outside the active library |
 
 The development and preview servers use port **3000**. The browser suite starts
 its own Vite server at `http://127.0.0.1:3000` unless one is already running.
@@ -25,17 +25,17 @@ at the browser's normal display resolution. Toggle regression checks compare sce
 and footer positions, sizes and page scroll offsets at desktop, tablet and mobile
 widths, using both mouse clicks and keyboard focus/Space activation.
 
-The original one-turn GLB files remain compatibility fixtures and appear in the
-automatically discovered sample library alongside the generated repertoire and
-Three classics. The optional collection order keeps Für Elise first. Library tests
-cover new/nested files, JSON/GLB pairing, GLB-only playback, invalid files, metadata,
+The original one-turn GLBs and previous generated repertoire remain compatibility
+fixtures in `tests/fixtures/cylinders/`. The active library contains six supplied
+three-turn cylinders, with Bonus Classics first. Library tests cover the default,
+new/nested files, JSON/GLB pairing, GLB-only playback, invalid files, metadata,
 and adding/removing samples while the development server runs. Multi-turn round
 trips must preserve the turn index, tune labels and every pin's position; geometry
 edits must change the recovered notes rather than merely reading a hidden score.
 
 For manual review, check all three cameras, close zoom, panning, fullscreen, case
 and lid toggles, and plucking the middle of a tooth. With playback running, seek
-near 36 seconds and 72 seconds to observe the cylinder highlight and animated
+near 72 seconds and 144 seconds to observe the cylinder highlight and animated
 indexing indicator, and hear the two-part click. Show resonance in the playback
 bar should start disabled and draw decaying trails when enabled. The coiled
 spring should be created only in exploded view and removed when that view closes.

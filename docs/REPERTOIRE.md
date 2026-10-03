@@ -1,7 +1,28 @@
 # Repertoire and provenance
 
-The generated repertoire follows documented Reuge selections, with **Für Elise** selected first.
-Each of these six scores is an independent, abridged simulator arrangement. Melody
+The active library is the supplied **Six Music Box Cylinders** pack. **Bonus
+Classics** is selected first, followed by Strauss, Bizet/Verdi, Mozart,
+Schumann/Schubert and Tchaikovsky. Each cylinder has three 72-second turns.
+
+| Cylinder | Successive airs |
+| --- | --- |
+| Bonus Classics · default | Für Elise; Canon in D; Twinkle, Twinkle, Little Star |
+| Strauss | The Blue Danube; Légendes de la forêt viennoise; La vie d’artiste |
+| Bizet / Verdi | Carmen (Toreador theme); Rigoletto (La donna è mobile); La Traviata (Brindisi / Libiamo) |
+| Mozart | The Magic Flute (Der Vogelfänger); Andante (Sonata in A major, K. 331); The Magic Flute (Glockenspiel) |
+| Schumann / Schubert | Von fremden Ländern und Menschen; La Truite (Die Forelle); Der Lindenbaum |
+| Tchaikovsky | La belle au bois dormant (Valse); March of the Toy Soldiers; Waltz of the Flowers |
+
+The supplied JSON and GLB assets are retained unchanged. Per-tune attribution and
+arrangement changes are recorded in each JSON file; the accompanying
+[CREDITS.txt](../public/samples/CREDITS.txt) records source credits and the pack's
+CC BY-SA 4.0 arrangement license, including inherited source terms. These are
+independent music-box arrangements, rather than authenticated factory pin maps.
+
+## Legacy generated repertoire
+
+The previous generated repertoire followed documented Reuge selections. Its six
+scores remain regression fixtures outside the active sample library. Melody
 excerpts, accompaniment, repetitions, dynamics and the division into turns are
 implemented in `src/cylinder/demoLibrary.js`; no factory pin map, commercial audio
 recording or modern MIDI performance is bundled.
@@ -25,11 +46,11 @@ cylinder 4 to Schubert is corrected to Schumann, as in the factory catalogue.
 The catalogue's page-55 listing is used instead of the conflicting Tchaikovsky
 entries in its later Lounge table.
 
-The additional default cylinder is **Für Elise (three parts)**, documented as
+The additional legacy cylinder is **Für Elise (three parts)**, documented as
 CH 3.72 tune **37220** in the [Reuge movement repertoire listing](https://www.musichouseshop.com/store/Movement72note.html).
 It is an additional selection, not a claimed sixth cylinder in collection 1001.
 
-## Arrangement choices
+## Legacy arrangement choices
 
 The catalogue establishes titles and tune order; it does not publish pin layouts
 or musical transcriptions. The simulator therefore uses short public-domain
@@ -80,7 +101,7 @@ page 11, describe a 72-tooth comb, three successive melodies, over 1,200 pins, a
 36-second cycle for that movement. These support the general mechanism and the
 chosen timing convention; they are not measurements of the pictured Crescendo.
 
-The supplied simulator cylinders use three 36-second turns, a 0.3-second lead-in
+The legacy generated cylinders use three 36-second turns, a 0.3-second lead-in
 for indexing, and illustrative axial spacing. They have fewer pins than the
 specified factory movement because their arrangements are abridged. The default
 72-pitch chromatic tuning remains a simulator convention; Reuge tunes individual

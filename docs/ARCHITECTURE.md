@@ -36,8 +36,9 @@ file changes on the next build.
 files through the existing file importer. Matching basenames appear once, preferring
 JSON and falling back to GLB or embedded glTF. Metadata JSON is skipped; a broken
 sample is reported without preventing other cylinders from loading. The resulting
-score/mesh entries are injected into `MusicBoxApp`. `createDemoCylinders()` remains
-the score generator for `npm run samples`, rather than a separate menu definition.
+score/mesh entries are injected into `MusicBoxApp`. The first collection entry is
+the default, currently Bonus Classics. `createDemoCylinders()` remains the legacy
+score generator for `npm run samples`, which writes to `tests/fixtures/cylinders/`.
 
 ## Rendering and the model
 

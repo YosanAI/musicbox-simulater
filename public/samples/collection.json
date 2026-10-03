@@ -1,58 +1,50 @@
 [
   {
-    "title": "Für Elise · three parts",
-    "json": "Fur-Elise-three-parts.json",
-    "glb": "Fur-Elise-three-parts.glb",
+    "title": "Bonus — Für Elise, Canon in D, Twinkle Twinkle",
+    "json": "Cylinder-5-Bonus-Classics.json",
+    "glb": "Cylinder-5-Bonus-Classics.glb",
     "turns": 3,
-    "secondsPerTurn": 36,
-    "source": "Reuge CH 3.72 / 37220 repertoire · independent abridged arrangement"
+    "secondsPerTurn": 72,
+    "source": "Supplied Six Music Box Cylinders pack · see CREDITS.txt"
   },
   {
-    "title": "Strauss · Viennese waltzes",
-    "json": "Strauss-Viennese-waltzes.json",
-    "glb": "Strauss-Viennese-waltzes.glb",
+    "title": "Strauss Waltzes",
+    "json": "Cylinder-1-Strauss.json",
+    "glb": "Cylinder-1-Strauss.glb",
     "turns": 3,
-    "secondsPerTurn": 36,
-    "source": "Reuge INTER CH 15.72 / 1001-1 repertoire · independent abridged arrangement"
+    "secondsPerTurn": 72,
+    "source": "Supplied Six Music Box Cylinders pack · see CREDITS.txt"
   },
   {
-    "title": "Bizet & Verdi · opera airs",
-    "json": "Bizet-Verdi-opera-airs.json",
-    "glb": "Bizet-Verdi-opera-airs.glb",
+    "title": "Bizet and Verdi — Opera Melodies",
+    "json": "Cylinder-2-Bizet-Verdi.json",
+    "glb": "Cylinder-2-Bizet-Verdi.glb",
     "turns": 3,
-    "secondsPerTurn": 36,
-    "source": "Reuge INTER CH 15.72 / 1001-2 repertoire · independent abridged arrangement"
+    "secondsPerTurn": 72,
+    "source": "Supplied Six Music Box Cylinders pack · see CREDITS.txt"
   },
   {
-    "title": "Mozart · The Magic Flute & Andante",
-    "json": "Mozart-The-Magic-Flute-Andante.json",
-    "glb": "Mozart-The-Magic-Flute-Andante.glb",
+    "title": "Mozart — The Magic Flute and Andante",
+    "json": "Cylinder-3-Mozart.json",
+    "glb": "Cylinder-3-Mozart.glb",
     "turns": 3,
-    "secondsPerTurn": 36,
-    "source": "Reuge INTER CH 15.72 / 1001-3 repertoire · independent abridged arrangement"
+    "secondsPerTurn": 72,
+    "source": "Supplied Six Music Box Cylinders pack · see CREDITS.txt"
   },
   {
-    "title": "Schumann & Schubert · romantic airs",
-    "json": "Schumann-Schubert-romantic-airs.json",
-    "glb": "Schumann-Schubert-romantic-airs.glb",
+    "title": "Schumann and Schubert",
+    "json": "Cylinder-4-Schumann-Schubert.json",
+    "glb": "Cylinder-4-Schumann-Schubert.glb",
     "turns": 3,
-    "secondsPerTurn": 36,
-    "source": "Reuge INTER CH 15.72 / 1001-4 repertoire · independent abridged arrangement"
+    "secondsPerTurn": 72,
+    "source": "Supplied Six Music Box Cylinders pack · see CREDITS.txt"
   },
   {
-    "title": "Tchaikovsky · ballet airs",
-    "json": "Tchaikovsky-ballet-airs.json",
-    "glb": "Tchaikovsky-ballet-airs.glb",
+    "title": "Tchaikovsky — Ballet Melodies",
+    "json": "Cylinder-6-Tchaikovsky.json",
+    "glb": "Cylinder-6-Tchaikovsky.glb",
     "turns": 3,
-    "secondsPerTurn": 36,
-    "source": "Reuge INTER CH 15.72 / 1001-5 repertoire · independent abridged arrangement"
-  },
-  {
-    "title": "Four-note test cylinder",
-    "json": "Four-note-test.json",
-    "glb": "Four-note-test.glb",
-    "turns": 1,
-    "secondsPerTurn": 8,
-    "source": "Generated pins"
+    "secondsPerTurn": 72,
+    "source": "Supplied Six Music Box Cylinders pack · see CREDITS.txt"
   }
 ]

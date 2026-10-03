@@ -1,0 +1,179 @@
+SOURCE CREDITS AND ARRANGEMENT LICENSE
+=====================================
+
+All underlying requested compositions are historical public-domain works.
+Sources below identify consulted editions/encodings and their stated terms.
+These assets contain newly made reductions/voicings, revised tempos,
+mechanical pin spacing, and geometry representations.
+
+The new arrangement contributions in this package are released under
+Creative Commons Attribution-ShareAlike 4.0:
+https://creativecommons.org/licenses/by-sa/4.0/
+
+The Blue Danube reduction incorporates the credited CC BY-SA 4.0 edition.
+The Carmen adaptation incorporates the credited CC BY-SA 2.5 edition and
+is shared here under CC BY-SA 4.0. Preserve the source credits and indicate
+changes when redistributing adapted arrangements. The inherited Canon in D
+attribution is preserved, including its CC BY 4.0 transcription credit.
+
+The flutetunes.com references were consulted for the historical melody.
+Their score artwork, recorded audio, downloaded MIDI files, and modern
+piano accompaniment tracks are not included. These tunes use independently
+authored accompaniment and timing.
+
+The Python tools in tools/ are dedicated to the public domain under CC0 1.0:
+https://creativecommons.org/publicdomain/zero/1.0/
+
+INDIVIDUAL CREDITS
+-----------------
+
+Cylinder 1, tune 1: The Blue Danube
+Composer: Johann Strauss II
+Arrangement: Complete 32-bar main-theme piano reduction, including its two-beat pickup; gentle music-box tempo.
+Source: The Blue Danube Waltz (main theme), Op.314
+Credit: Nikos Kouremenos; source Christian Mondrup / WIMA; Mutopia-2014/03/24-519
+URL: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=519
+Status: Creative Commons Attribution-ShareAlike 4.0
+
+Cylinder 1, tune 2: Légendes de la forêt viennoise
+Composer: Johann Strauss II
+Arrangement: Opening 16-bar phrase of Waltz 1, stated twice, with a new F-major closing chord; introductory zither cadenza omitted and grace notes simplified.
+Source: G’schichten aus dem Wienerwald, Op.325
+Credit: Wienbibliothek im Rathaus, Mc-4508; Spina plate 21600, historical piano score
+URL: https://www.digital.wienbibliothek.at/urn/urn:nbn:at:AT-WBR-680121
+Status: Public Domain Mark 1.0
+
+Cylinder 1, tune 3: La vie d’artiste
+Composer: Johann Strauss II
+Arrangement: Opening 32-bar Waltz 1 theme; grace notes omitted, the outgoing pickup replaced by a C-major close, and new bass/chord voicing.
+Source: Künstler-Leben, Op.316
+Credit: Historical Cranz piano score, plate 23811, printed page 5
+URL: https://archive.org/details/imslp-op316-strauss-jr-johann
+Status: Public domain score
+
+Cylinder 2, tune 1: Carmen — Toreador theme
+Composer: Georges Bizet
+Arrangement: Toreador-theme passage from the Prelude, stated twice; piano accompaniment reduced, short grace attacks removed, new F-major cadence.
+Source: Carmen — Prelude
+Credit: Alex O’S; Schirmer 1895; Mutopia-2005/11/22-635
+URL: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=635
+Status: Creative Commons Attribution-ShareAlike 2.5
+
+Cylinder 2, tune 2: Rigoletto — La donna è mobile
+Composer: Giuseppe Verdi
+Arrangement: One complete vocal statement and cadential reprise, with new waltz accompaniment; orchestral introduction omitted.
+Source: La donna è mobile, from Rigoletto
+Credit: flutetunes.com (reference for the original melody only; newly voiced accompaniment)
+URL: https://www.flutetunes.com/tunes.php?id=542
+Status: Public domain composition
+Only the underlying historical melody is used. No downloaded score artwork, audio recording, or source MIDI is redistributed. Tempo, accompaniment and cylinder representation are new.
+
+Cylinder 2, tune 3: La Traviata — Brindisi (Libiamo)
+Composer: Giuseppe Verdi
+Arrangement: Alfredo’s main drinking-song stanza and its closing chorus passage (historical piano reduction); introduction omitted; upper tune lifted where needed.
+Source: La Traviata — N2 Brindisi
+Credit: N. Toledo, historical piano transcription; Alberto Corella; Mutopia-2008/01/13-1215
+URL: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=1215
+Status: Public Domain
+
+Cylinder 3, tune 1: The Magic Flute — Der Vogelfänger
+Composer: Wolfgang Amadeus Mozart
+Arrangement: Opening 26-bar melodic statement through its G-major cadence; new lightly alternating bass/chord accompaniment.
+Source: Der Vogelfänger bin ich ja, K.620
+Credit: flutetunes.com (reference for the original melody only; newly voiced accompaniment)
+URL: https://www.flutetunes.com/tunes.php?id=233
+Status: Public domain composition
+Only the underlying historical melody is used. No downloaded score artwork, audio recording, or source MIDI is redistributed. Tempo, accompaniment and cylinder representation are new.
+
+Cylinder 3, tune 2: Andante — Sonata in A major, K.331
+Composer: Wolfgang Amadeus Mozart
+Arrangement: Complete 18-bar Andante grazioso theme, with written repeats omitted; original piano voices reduced to plucks.
+Source: Sonate KV331 — Tema
+Credit: Stelios Samelis; Breitkopf & Härtel; Mutopia-2005/10/29-614
+URL: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=614
+Status: Public Domain
+
+Cylinder 3, tune 3: The Magic Flute — Glockenspiel
+Composer: Wolfgang Amadeus Mozart
+Arrangement: Das klinget so herrlich, including its closing phrase; new broken-chord music-box accompaniment.
+Source: Das klinget so herrlich, K.620
+Credit: flutetunes.com (reference for the original melody only; newly voiced accompaniment)
+URL: https://www.flutetunes.com/tunes.php?id=209
+Status: Public domain composition
+Only the underlying historical melody is used. No downloaded score artwork, audio recording, or source MIDI is redistributed. Tempo, accompaniment and cylinder representation are new.
+
+Cylinder 4, tune 1: Von fremden Ländern und Menschen
+Composer: Robert Schumann
+Arrangement: Complete Kinderszenen Op.15 No.1 with both section repeats. The user’s Schubert attribution is corrected to Schumann.
+Source: Kinderscenen — Von fremden Ländern und Menschen
+Credit: Ying-Chun Liu; Leichte Stücke 1900; Mutopia-2006/01/01-354
+URL: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=354
+Status: Public Domain
+
+Cylinder 4, tune 2: La Truite — Die Forelle
+Composer: Franz Schubert
+Arrangement: Complete opening song stanza, repeated once, with the original rippling piano figure reduced and the vocal melody an octave higher.
+Source: Die Forelle, D.550
+Credit: Maurizio Tomasi; C.F. Peters; Mutopia-2013/02/21-502
+URL: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=502
+Status: Public Domain
+
+Cylinder 4, tune 3: Der Lindenbaum
+Composer: Franz Schubert
+Arrangement: Opening 16-bar major-key vocal period (pickup in measure 8 through measure 24), repeated; voice raised one octave; tied notes held as single plucks and short subdivisions quantized.
+Source: Der Lindenbaum, D.911 No.5
+Credit: Luke Poeppel, 2017 MusicXML encoding in the music21 corpus; original Schubert composition
+URL: https://www.music21.org/music21docs/about/referenceCorpus.html
+Status: Public domain composition; music21 corpus transcription
+
+Cylinder 5, tune 1: Für Elise
+Composer: Ludwig van Beethoven
+Arrangement: Complete familiar opening form A A B-A B-A: the two written repeats are observed. The final alternative closes on A minor instead of leading into the next piano episode.
+Source: Für Elise, WoO 59
+Credit: Stelios Samelis, Mutopia-2015/08/18-931
+URL: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=931
+Status: Public Domain
+
+Cylinder 5, tune 2: Canon in D
+Composer: Johann Pachelbel
+Arrangement: First 16 bars of the original violin melody (original full-score bars 3–18), spanning eight complete ground-bass cycles: descending theme, eighth-note development, sixteenth-note development, and broader final variation; followed by an added D-major cadence.
+Source: Canon per 3 Violini e Basso
+Credit: Michael Fischer v. Mollard, Mutopia-2015/09/02-2047 (2015)
+URL: https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=2047
+Status: Creative Commons Attribution 4.0 for the consulted transcription
+https://creativecommons.org/licenses/by/4.0/
+
+Cylinder 5, tune 3: Twinkle, Twinkle, Little Star
+Composer: Traditional French melody
+Arrangement: Complete familiar tune twice, second statement one octave higher, with new broken-chord accompaniment and C-major close.
+Source: Ah! vous dirai-je, maman / Twinkle, Twinkle, Little Star
+Credit: Traditional French tune; independently entered melody and new music-box harmonization
+URL: https://www.mutopiaproject.org/piece-list.html
+Status: Public domain melody
+
+Cylinder 6, tune 1: La belle au bois dormant — Valse
+Composer: Pyotr Ilyich Tchaikovsky
+Arrangement: Garland Waltz: opening 32-bar melody, with a new F-major close and new waltz accompaniment.
+Source: Garland Waltz, The Sleeping Beauty, Op.66
+Credit: flutetunes.com (reference for the original melody only; newly voiced accompaniment)
+URL: https://www.flutetunes.com/tunes.php?id=71
+Status: Public domain composition
+Only the underlying historical melody is used. No downloaded score artwork, audio recording, or source MIDI is redistributed. Tempo, accompaniment and cylinder representation are new.
+
+Cylinder 6, tune 2: March of the Toy Soldiers — The Nutcracker
+Composer: Pyotr Ilyich Tchaikovsky
+Arrangement: Nutcracker March, Op.71 No.2: first 24 bars, with new G-major cadence; short ornamental runs simplified and new march accompaniment.
+Source: March, The Nutcracker Suite, Op.71a
+Credit: flutetunes.com (reference for the original melody only; newly voiced accompaniment)
+URL: https://www.flutetunes.com/tunes.php?id=241
+Status: Public domain composition
+Only the underlying historical melody is used. No downloaded score artwork, audio recording, or source MIDI is redistributed. Tempo, accompaniment and cylinder representation are new.
+
+Cylinder 6, tune 3: Waltz of the Flowers
+Composer: Pyotr Ilyich Tchaikovsky
+Arrangement: Condensed 64-bar waltz-theme sequence, with a new D-major close, new bass/chord accompaniment, and simplified rapid ornaments.
+Source: Waltz of the Flowers, The Nutcracker Suite, Op.71a
+Credit: flutetunes.com (reference for the original melody only; newly voiced accompaniment)
+URL: https://www.flutetunes.com/tunes.php?id=490
+Status: Public domain composition
+Only the underlying historical melody is used. No downloaded score artwork, audio recording, or source MIDI is redistributed. Tempo, accompaniment and cylinder representation are new.

@@ -43,12 +43,11 @@ files do not need to be listed there.
 
 ## Repertoire and references
 
-Für Elise is selected at startup. The library also includes the five three-air
-cylinders of Reuge's documented classical collection 1001. The scores are
-independent, abridged simulator arrangements of public-domain themes; they do not
-reproduce authenticated factory pin maps or factory tuning. See
-[repertoire and sources](docs/REPERTOIRE.md) for the exact collection order and
-arrangement provenance.
+The supplied six-cylinder library starts with **Bonus Classics**: Für Elise,
+Canon in D and Twinkle, Twinkle, Little Star. The other cylinders contain Strauss,
+Bizet/Verdi, Mozart, Schumann/Schubert and Tchaikovsky arrangements. Each has three
+72-second turns. See [repertoire and sources](docs/REPERTOIRE.md) and the supplied
+[credits](public/samples/CREDITS.txt) for titles, arrangement details and licenses.
 
 The project was inspired by [“Magic Flute / The Birdcatcher's Song / Glockenspiel
 – Mozart Music Box (REUGE)” by Wakey Lad93](https://www.youtube.com/watch?v=xbMqP3u7WWQ).
@@ -71,9 +70,10 @@ npm run test:browser
 
 See [testing](docs/TESTING.md), [architecture](docs/ARCHITECTURE.md) and the
 [cylinder format](docs/CYLINDER_FORMAT.md). `npm run samples` regenerates the
-current repertoire samples in `public/samples`; the previous one-air samples remain
-as compatibility fixtures. `npm run cylinder -- definition.json output.glb` builds
+legacy arrangements in `tests/fixtures/cylinders/`; it leaves the installed sample
+library unchanged. `npm run cylinder -- definition.json output.glb` builds
 a standalone cylinder from a JSON definition.
 
-Code is licensed under [MIT](LICENSE). Third-party trademarks and the reference
-photograph are excluded from that license.
+Code is licensed under [MIT](LICENSE). The supplied cylinder arrangements have
+their own licenses in [CREDITS.txt](public/samples/CREDITS.txt). Third-party trademarks
+and the reference photograph are excluded from the code license.

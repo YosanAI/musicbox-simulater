@@ -1,7 +1,8 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createDemoCylinders, validateCylinder, exportCylinderGLB } from '../src/cylinder/index.js';
 
-const directory = new URL('../public/samples/', import.meta.url);
+// Legacy arrangements are regression fixtures; never overwrite the installed library.
+const directory = new URL('../tests/fixtures/cylinders/', import.meta.url);
 await mkdir(directory, { recursive: true });
 const examples = createDemoCylinders().map(spec => ({
   spec,

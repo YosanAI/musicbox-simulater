@@ -118,7 +118,7 @@ test('merged indexed geometry retains turn identity without per-pin metadata', (
 for (const [index, filename] of ['Canon-in-D', 'Fu-r-Elise', 'Clockwork-garden'].entries()) {
   test(`${filename}: demo GLB bytes remain identical to the original supplied sample`, async () => {
     const spec = createLegacyCylinders()[index];
-    const original = await readFile(new URL(`../../public/samples/${filename}.glb`, import.meta.url));
+    const original = await readFile(new URL(`../fixtures/cylinders/${filename}.glb`, import.meta.url));
     assert.deepEqual(Buffer.from(exportCylinderGLB(spec)), original);
   });
   test(`${filename}: geometry round trip recovers every note`, () => {

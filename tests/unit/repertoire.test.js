@@ -8,7 +8,7 @@ const samples = ['Fur-Elise-three-parts', 'Strauss-Viennese-waltzes',
   'Bizet-Verdi-opera-airs', 'Mozart-The-Magic-Flute-Andante',
   'Schumann-Schubert-romantic-airs', 'Tchaikovsky-ballet-airs'];
 
-test('researched repertoire defaults to Für Elise and fills three aligned tracks per cylinder', () => {
+test('legacy generated repertoire fills three aligned tracks per cylinder', () => {
   assert.equal(library.length, 6);
   assert.match(library[0].title, /^Für Elise/);
   for (const spec of library) {
@@ -26,8 +26,8 @@ test('researched repertoire defaults to Für Elise and fills three aligned track
 for (const [index, filename] of samples.entries()) {
   test(`${filename}: supplied geometry preserves every indexed pin and tune label`, async () => {
     const spec = library[index];
-    const bytes = await readFile(new URL(`../../public/samples/${filename}.glb`, import.meta.url));
-    assert.deepEqual(bytes, Buffer.from(exportCylinderGLB(spec)), 'Regenerate samples after changing an arrangement');
+    const bytes = await readFile(new URL(`../fixtures/cylinders/${filename}.glb`, import.meta.url));
+    assert.deepEqual(bytes, Buffer.from(exportCylinderGLB(spec)), 'Review legacy fixture changes after changing an arrangement');
     const recovered = interpretCylinderGLTF(decodeGLB(
       bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
     )).spec;
