@@ -81,7 +81,7 @@
       <aside class="sidebar">
         <div class="library-actions">
           <button class="button gold load-cylinder" id="uploadBtn"><svg><use href="#i-upload"></use></svg><span>Load cylinder</span></button>
-          <button class="button quiet" id="guideBtn"><svg><use href="#i-info"></use></svg><span>Cylinder guide</span></button>
+          <button class="button quiet" id="guideBtn"><svg><use href="#i-info"></use></svg><span>Cylinder guide &amp; AI prompt</span></button>
         </div>
         <div class="section-title">
           <h2>THE CYLINDERS</h2>
@@ -199,6 +199,44 @@
       </div>
       <div class="dialog-content guide-content">
         <p class="lead">Load a pinned 3D cylinder and hear the music encoded in its geometry. No prerecorded melody is attached to the model.</p>
+        <section aria-labelledby="aiPromptHeading" class="ai-prompt-card">
+          <div class="prompt-heading">
+            <h3 id="aiPromptHeading">Make a cylinder with AI</h3>
+            <button class="button gold" id="copyPromptBtn" type="button">Copy prompt</button>
+          </div>
+          <p>Paste this prompt into your AI chat and replace <code>[MELODY NAME]</code> with your favorite melody, or up to five titles separated by semicolons.</p>
+          <p><strong>Model testing:</strong> Cylinder generation with this prompt has only been tested with higher-tier reasoning models. It has not been tested with free, non-reasoning models.</p>
+          <textarea aria-label="AI cylinder generation prompt" class="cylinder-prompt" id="cylinderPrompt" readonly="" spellcheck="false">Create a playable music-box cylinder JSON file for the Crescendo simulator.
+
+Melodies: [MELODY NAME]
+
+Treat semicolon-separated titles as separate melodies, with one indexed turn per melody (maximum 5). Arrange each into a recognizable 30–90 second music-box passage, preserving its main melody and rhythm with gentle, sparse accompaniment. If you do not know a melody accurately, ask me for a MIDI file or note sequence.
+
+Create a downloadable file named my-cylinder.json if possible. Otherwise return only the complete JSON object, without Markdown fences, comments, ellipses, or explanatory text.
+
+Use this structure, replacing the example labels and notes with the requested arrangement:
+{
+  "format": "crescendo-cylinder",
+  "version": 1,
+  "title": "Name of the requested melody or collection",
+  "composer": "Original composer or songwriter",
+  "duration": 60,
+  "turns": 1,
+  "tunes": [{"title": "Melody title", "composer": "Original composer or songwriter"}],
+  "notes": [{"time": 0, "midi": 60, "velocity": 0.75, "turn": 0}]
+}
+
+Requirements:
+- duration is seconds PER TURN, not the whole programme. Choose one common duration long enough for every arrangement, between 2 and 600 seconds.
+- turns is an integer from 1 to 5, equal to the number of melodies. tunes contains exactly one title/composer object per turn, in the requested order.
+- Each note is one pluck: time in seconds, integer midi from 36 to 107 (C2–B7; middle C is 60), velocity greater than 0 and at most 1, and zero-based integer turn less than turns.
+- Every turn starts its own times at 0. Every time must satisfy 0 &lt;= time &lt; duration. Do not add the previous turn's duration to note times.
+- Chords use multiple notes with the same time and turn. There is no note-length field; the tooth decays after each pluck.
+- Include all notes of the arrangement, sorted by turn, time, then midi. Use at most 6,000 notes total, with no duplicate midi/time/turn events. Omit tuning to use the standard 72-tooth comb.
+- Check all numbers and JSON syntax before returning the file.</textarea>
+          <p aria-live="polite" class="prompt-copy-status" id="promptCopyStatus" role="status"></p>
+          <p>Save the AI’s result as <strong>my-cylinder.json</strong>, then choose <strong>Load cylinder</strong> to play it here. Use <strong>Export playable .GLB</strong> to save its 3D cylinder.</p>
+        </section>
         <div class="guide-callout"><strong>Start with “Export playable .GLB”.</strong> It gives you a ready-to-play cylinder that opens in Blender and Three.js. Keep the body and edit, move, add or delete the separate pin objects. Load it back here to play the result.</div>
         <h3>How the 3D pins become music</h3>
         <p>The cylinder’s axis is <strong>X</strong>, with 72 equally spaced tooth positions along its length. The pin’s X coordinate selects the tooth. Its angle around the cylinder selects the moment in one revolution. Multiple pins at the same angle play a chord. Speed changes timing, not pitch.</p>

@@ -37,6 +37,16 @@ export function bindViewControls(app) {
     elements.fullBtn.setAttribute('aria-label', fullscreen ? 'Exit fullscreen' : 'Toggle fullscreen');
   });
   on(elements.guideBtn, 'click', () => elements.guideDialog.showModal());
+  on(elements.copyPromptBtn, 'click', async () => {
+    try {
+      await navigator.clipboard.writeText(elements.cylinderPrompt.value);
+      elements.promptCopyStatus.textContent = 'Prompt copied. Replace [MELODY NAME] in your AI chat.';
+    } catch {
+      elements.cylinderPrompt.focus();
+      elements.cylinderPrompt.select();
+      elements.promptCopyStatus.textContent = 'Prompt selected. Use your device’s Copy command to copy it.';
+    }
+  });
   for (const button of document.querySelectorAll('.close-dialog')) {
     on(button, 'click', () => button.closest('dialog').close());
   }

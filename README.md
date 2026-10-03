@@ -30,6 +30,11 @@ Open <http://localhost:3000>. Production output is generated with `npm run build
   click, a cylinder highlight and an animated indexing indicator.
 - **Load cylinder** imports JSON, GLB or embedded glTF. The workshop creates custom
   pins; export saves JSON, GLB or a synthesized WAV.
+- **Cylinder guide & AI prompt** includes a copyable prompt. Replace
+  `[MELODY NAME]` in your AI chat, save its output as `my-cylinder.json`, then load
+  it to generate a playable 3D cylinder. Up to five melodies can share a cylinder.
+  Generation with this prompt has only been tested with higher-tier reasoning
+  models; it has not been tested with free, non-reasoning models.
 
 Space plays or pauses, R rewinds, and 1 / 2 / 3 select the cameras. Playback pauses
 when the browser tab is hidden. Rendering, parsing and sound synthesis run locally.

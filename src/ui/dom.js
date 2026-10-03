@@ -6,7 +6,7 @@ export function collectElements(documentRoot = document) {
     'noteReadout', 'noteFrequency', 'ejectBtn', 'playBtn', 'playStatus', 'resetBtn',
     'windBtn', 'speed', 'speedOut', 'volume', 'resonance', 'resonanceOut', 'repeat',
     'highlights', 'showResonance', 'caseToggle', 'labelsBtn', 'labels', 'fullBtn', 'explodeBtn', 'uploadBtn',
-    'fileInput', 'dropOverlay', 'guideBtn', 'guideDialog', 'exportBtn', 'jsonBtn',
+    'fileInput', 'dropOverlay', 'guideBtn', 'guideDialog', 'copyPromptBtn', 'cylinderPrompt', 'promptCopyStatus', 'exportBtn', 'jsonBtn',
     'wavBtn', 'workshopBtn', 'workshopDialog', 'editTitle', 'editDuration',
     'editSteps', 'editTurn', 'editorScroll', 'editorCanvas', 'editPinCount', 'clearEditor',
     'applyEditor', 'rpm', 'turnOut', 'indexCue', 'indexMessage', 'reserveOut', 'reserveBar', 'settingsPanel',
