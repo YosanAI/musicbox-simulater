@@ -1,0 +1,28 @@
+{
+  "name": "crescendo-threejs",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A maintainable Three.js music-box studio with geometry-driven interchangeable cylinders",
+  "license": "MIT",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/unit/*.test.js",
+    "test:browser": "playwright test",
+    "test:all": "npm test && npm run test:browser",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "node scripts/check-source.js",
+    "samples": "node scripts/generate-samples.js",
+    "cylinder": "node scripts/make-cylinder.js"
+  },
+  "dependencies": { "three": "0.180.0" },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "prettier": "3.6.2",
+    "vite": "7.1.12"
+  }
+}

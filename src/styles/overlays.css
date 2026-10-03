@@ -1,0 +1,371 @@
+/* Original overlays styles; declarations and cascade order preserved. */
+
+.loading {
+  position: absolute;
+  inset: 0;
+  background: #17181a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #c9b991;
+  font-size: 12px;
+  z-index: 15;
+  transition: opacity .5s;
+}
+
+.loading.done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader {
+  border: 1px solid #d5b57733;
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.toast {
+  position: absolute;
+  bottom: 61px;
+  left: 50%;
+  transform: translate(-50%,10px);
+  opacity: 0;
+  pointer-events: none;
+  background: #2e3029ee;
+  border: 1px solid #89734d88;
+  padding: 11px 17px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 1.6;
+  max-width: 80%;
+  min-width: 200px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+  transition: .2s;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%,0);
+}
+
+.toast.error {
+  border-color: #b77860;
+  color: #f1c2ac;
+}
+
+.drop-overlay {
+  position: absolute;
+  inset: 15px;
+  z-index: 25;
+  display: none;
+  background: #202119ee;
+  border: 1px dashed var(--gold);
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.drop-overlay.show {
+  display: flex;
+}
+
+.drop-overlay svg {
+  width: 36px;
+  height: 36px;
+  color: var(--gold);
+}
+
+.drop-overlay h2 {
+  font: 30px var(--serif);
+  font-weight: 400;
+}
+
+.drop-overlay p {
+  color: #a7b09b;
+}
+
+.annotation {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 9px;
+  letter-spacing: .2px;
+  background: #171c18d9;
+  border: 1px solid #b7a06955;
+  padding: 8px 10px;
+  border-radius: 4px;
+  pointer-events: none;
+  transform: translate(-50%,-140%);
+  color: #d3d3bb;
+}
+
+.annotation:after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 18px;
+  background: #b7a06977;
+  left: 50%;
+  top: 100%;
+}
+
+.annotation b {
+  color: var(--gold);
+  font: 8px monospace;
+  margin-right: 7px;
+}
+
+.dialog {
+  color: var(--ink);
+  background: #202321;
+  border: 1px solid #72674b66;
+  border-radius: 12px;
+  box-shadow: 0 30px 110px #0009;
+  padding: 0;
+  width: min(820px,92vw);
+  max-height: 87svh;
+}
+
+.dialog::backdrop {
+  background: #080b0cd4;
+  backdrop-filter: blur(7px);
+}
+
+.dialog-header {
+  position: sticky;
+  top: 0;
+  background: #202321f5;
+  z-index: 2;
+  border-bottom: 1px solid #ffffff12;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.dialog-header h2 {
+  font: 29px var(--serif);
+  font-weight: 400;
+  margin: 7px 0 0;
+}
+
+.dialog-content {
+  padding: 25px 28px 30px;
+}
+
+.guide-content {
+  font-size: 12px;
+  color: #b9c0b0;
+  line-height: 1.85;
+}
+
+.guide-content .lead {
+  font: 18px/1.6 var(--serif);
+  color: #dddac9;
+  margin-top: 0;
+}
+
+.guide-content h3 {
+  font-size: 13px;
+  color: #dfd7bd;
+  margin: 25px 0 8px;
+}
+
+.guide-content p {
+  margin: 8px 0 12px;
+}
+
+.guide-content strong {
+  color: #dedccb;
+  font-weight: 500;
+}
+
+.guide-callout {
+  background: #b3996010;
+  border: 1px solid #b9a36b33;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.guide-callout strong {
+  display: block;
+}
+
+.guide-content code {
+  background: #080c0966;
+  padding: 3px 5px;
+  color: #d8c89a;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
+.guide-content pre {
+  font: 11px/1.7 monospace;
+  padding: 17px;
+  border: 1px solid #ffffff10;
+  background: #131916;
+  border-radius: 6px;
+  overflow: auto;
+  color: #c8caa5;
+  white-space: pre;
+}
+
+.coordinate-diagram {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  padding: 23px 0;
+  background: #151c1755;
+  border-radius: 5px;
+  border: 1px solid #ffffff08;
+  margin: 18px 0;
+}
+
+.coordinate-diagram>span {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #8b987f;
+}
+
+.coordinate-diagram>div {
+  border: 1px solid #aa925155;
+  border-radius: 50px;
+  background: linear-gradient(#ccaa5822,#efd29055,#594c2c22);
+  font-size: 12px;
+  color: #d2c49d;
+  padding: 14px 35px;
+  text-align: center;
+}
+
+.coordinate-diagram small {
+  font-size: 9px;
+  display: block;
+  margin-top: 5px;
+  color: #acb396;
+}
+
+.reference {
+  max-width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ffffff12;
+  margin-top: 12px;
+}
+
+.guide-content .image-caption {
+  font-size: 9px;
+  color: #778b72;
+}
+
+.workshop-dialog {
+  width: min(1060px,94vw);
+}
+
+.workshop-controls {
+  padding: 20px 25px;
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  border-bottom: 1px solid #ffffff10;
+}
+
+.workshop-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 10px;
+  color: #a4b197;
+}
+
+.workshop-controls label:first-child {
+  flex: 1;
+}
+
+.workshop-controls input,.workshop-controls select {
+  background: #111b16;
+  color: #e0d9c3;
+  border: 1px solid #ffffff15;
+  border-radius: 4px;
+  padding: 9px;
+  font-size: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.workshop-controls input[type=number] {
+  width: 110px;
+}
+
+.workshop-controls select {
+  width: 116px;
+}
+
+.workshop-controls .button {
+  padding: 8px 13px;
+}
+
+.editor-hint {
+  padding: 12px 25px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #899d7e;
+  font-size: 10px;
+}
+
+.editor-hint>span:last-child {
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.editor-scroll {
+  height: 390px;
+  max-height: 44svh;
+  overflow: auto;
+  margin: 0 25px;
+  border: 1px solid #53604766;
+  border-radius: 5px;
+  background: #141c17;
+  scrollbar-width: thin;
+  scrollbar-color: #5c6650 #17231b;
+}
+
+.editor-scroll canvas {
+  display: block;
+  cursor: crosshair;
+}
+
+.workshop-footer {
+  padding: 20px 25px;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #ffffff0d;
+}
+
+.workshop-footer p {
+  font-size: 10px;
+  line-height: 1.7;
+  color: #86967a;
+  max-width: 430px;
+  margin: 0;
+}
+
+.workshop-footer .button {
+  flex-shrink: 0;
+}

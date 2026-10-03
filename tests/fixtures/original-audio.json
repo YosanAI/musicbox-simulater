@@ -1,0 +1,32 @@
+[
+  {
+    "midi": 36,
+    "sampleRate": 32000,
+    "length": 288000,
+    "sha256": "78fdd730104b202fd35fafa46ad509fcde5c29ba30a344a4107aae511179c99a"
+  },
+  {
+    "midi": 60,
+    "sampleRate": 32000,
+    "length": 279731,
+    "sha256": "be18abc22d31484b684946a4782cbc76afe6d0663752a393c277326969949605"
+  },
+  {
+    "midi": 81,
+    "sampleRate": 32000,
+    "length": 189742,
+    "sha256": "6fb793621cff040940e983f427328e3be03e8511d825507a273e27fe18323954"
+  },
+  {
+    "midi": 107,
+    "sampleRate": 32000,
+    "length": 117341,
+    "sha256": "772cfe6967bcfcfb4b5c80c34fd0df12645b58a69b39dc25d2933f31a813b120"
+  },
+  {
+    "midi": 60,
+    "sampleRate": 48000,
+    "length": 419596,
+    "sha256": "c6ebdee07fad7932ed592fa26770d21e52e19e26b8b78aecc90cb9a4b6790f52"
+  }
+]

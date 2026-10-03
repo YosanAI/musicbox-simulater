@@ -1,0 +1,20 @@
+{
+  "scope": "Isolated browser UI/audio test. The ThreeRenderer module was replaced by an explicit test double. The actual Three.js renderer, Vite build and final rendered appearance were NOT tested.",
+  "passed": 12,
+  "checks": [
+    "App/DOM initialization using a rendering test double; actual model builder and scene motion loaded",
+    "Real Web Audio unlock, playback scheduling, visual strike callback and pause",
+    "Speed control and rewind",
+    "Library swap and lift/mount playback gate",
+    "Camera view, labels and case visibility controls",
+    "Original GLB file input, local geometry parsing and mounting",
+    "Original JSON file input and procedural pin creation",
+    "Revolution duration change",
+    "Workshop clear, create actual pin, audition and Apply",
+    "UI GLB export / reimport preserves the edited note",
+    "Actual OfflineAudioContext stereo WAV rendering and download",
+    "Application teardown removes its diagnostic reference"
+  ],
+  "pageErrors": [],
+  "gpuStatus": "Not tested: Chromium could not create a WebGL2 context in this environment."
+}

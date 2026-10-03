@@ -1,0 +1,456 @@
+/* Original responsive styles; declarations and cascade order preserved. */
+
+@media (min-width:1550px) {
+  main,.transport {
+    grid-template-columns: minmax(0,1fr) 350px;
+  }
+  .sidebar {
+    padding: 30px;
+  }
+  .stage-heading {
+    left: 45px;
+  }
+  .cylinder-title {
+    max-width: 176px;
+  }
+  .cylinder-card {
+    min-height: 86px;
+  }
+  .stage-heading h2 {
+    font-size: 33px;
+  }
+}
+
+@media (max-width:1150px) {
+  .header-middle {
+    display: none;
+  }
+  .stage-heading h2 {
+    font-size: 24px;
+  }
+  .stage-heading {
+    left: 25px;
+    top: 26px;
+  }
+  .view-switch {
+    top: auto;
+    bottom: 145px;
+    right: 23px;
+  }
+  .volume {
+    width: 90px;
+    margin-left: 5px;
+  }
+  .volume input {
+    width: 63px;
+  }
+  .stage-bottom {
+    padding-left: 25px;
+  }
+  .stage-bottom>span {
+    font-size: 8px;
+    gap: 7px;
+  }
+  .stage-spec {
+    left: 25px;
+  }
+}
+
+@media (max-width:850px) {
+  body {
+    height: auto;
+    min-height: 100svh;
+    overflow: auto;
+    padding-bottom: 154px;
+  }
+  .header {
+    height: 74px;
+    padding: 0 19px;
+  }
+  .brand {
+    gap: 7px;
+  }
+  .brand-mark {
+    width: 30px;
+  }
+  .brand-mark svg {
+    width: 29px;
+    height: 35px;
+  }
+  .brand h1 {
+    font-size: 24px;
+  }
+  .brand p {
+    font-size: 6px;
+    letter-spacing: 1.6px;
+  }
+  .brand h1 span {
+    font-size: 8px;
+    margin-left: 8px;
+  }
+  .header-actions {
+    gap: 5px;
+  }
+  .header-actions .button {
+    padding: 9px 10px;
+    font-size: 10px;
+  }
+  .header-actions .quiet span {
+    display: none;
+  }
+  main {
+    display: block;
+  }
+  .stage {
+    height: 56svh;
+    min-height: 365px;
+    max-height: 600px;
+  }
+  .stage-heading {
+    top: 22px;
+    left: 22px;
+  }
+  .stage-heading .eyebrow {
+    font-size: 7px;
+  }
+  .stage-heading h2 {
+    font-size: 24px;
+    margin: 8px 0;
+  }
+  .stage-caption {
+    font-size: 9px;
+  }
+  .view-switch {
+    bottom: auto;
+    top: 24px;
+    right: 20px;
+  }
+  .stage-spec {
+    bottom: 65px;
+    left: 22px;
+    gap: 21px;
+  }
+  .stage-spec>span {
+    font-size: 22px;
+  }
+  .stage-spec .spec-unit {
+    font-size: 7px;
+  }
+  .note-readout {
+    bottom: 63px;
+    right: 23px;
+  }
+  .note-readout strong {
+    font-size: 25px;
+  }
+  .stage-bottom {
+    height: 41px;
+    padding: 0 20px;
+  }
+  .stage-bottom>span {
+    font-size: 9px;
+  }
+  .sidebar {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+    padding: 20px 22px;
+    overflow: visible;
+  }
+  .section-title {
+    margin-bottom: 14px;
+  }
+  .library {
+    flex-direction: row;
+    overflow: auto;
+    gap: 10px;
+    padding-bottom: 7px;
+  }
+  .cylinder-card {
+    min-width: 230px;
+  }
+  .cylinder-title {
+    max-width: 150px;
+  }
+  .side-actions {
+    margin: 12px 0 18px;
+    justify-content: flex-start;
+  }
+  .side-actions .outline {
+    flex: 0;
+  }
+  .side-actions .quiet {
+    margin-left: 5px;
+  }
+  .settings {
+    padding-top: 16px;
+  }
+  .settings[open] {
+    max-width: 460px;
+  }
+  .geometry-note,.source-badge {
+    display: none;
+  }
+  .transport {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 154px;
+    display: block;
+    background: #181e19fa;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 -10px 40px #0002;
+  }
+  .player {
+    padding: 10px 20px 0;
+  }
+  .player-top {
+    gap: 11px;
+    height: 43px;
+  }
+  .play-button {
+    width: 40px;
+    height: 40px;
+  }
+  .play-group {
+    gap: 4px;
+  }
+  .play-group .round-button {
+    width: 26px;
+  }
+  .now-playing strong {
+    font-size: 17px;
+  }
+  .now-playing .eyebrow {
+    font-size: 6px;
+  }
+  .volume {
+    width: 78px;
+    margin-left: 6px;
+  }
+  .volume input {
+    width: 49px;
+  }
+  .time {
+    font-size: 10px;
+    gap: 5px;
+  }
+  .timeline-wrap {
+    height: 45px;
+    margin-top: 5px;
+  }
+  #timeline {
+    height: 43px;
+  }
+  .timeline-caption {
+    display: none;
+  }
+  .export-panel {
+    border-left: 0;
+    border-top: 1px solid #ffffff08;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 20px;
+  }
+  .export-panel>.button {
+    width: auto;
+    padding: 6px 9px;
+    font-size: 9px;
+  }
+  .export-panel>.button svg {
+    width: 12px;
+    height: 12px;
+  }
+  .export-secondary {
+    margin: 0;
+    gap: 7px;
+  }
+  .export-secondary button {
+    font-size: 9px;
+  }
+  .export-panel p {
+    display: none;
+  }
+  .toast {
+    bottom: 50px;
+    max-width: 85%;
+    font-size: 10px;
+  }
+  .dialog-header {
+    padding: 20px;
+  }
+  .dialog-content {
+    padding: 20px;
+  }
+  .workshop-controls {
+    padding: 16px;
+    gap: 9px;
+    flex-wrap: wrap;
+  }
+  .workshop-controls label:first-child {
+    min-width: 50%;
+  }
+  .workshop-controls label {
+    font-size: 9px;
+  }
+  .workshop-controls input[type=number] {
+    width: 83px;
+  }
+  .workshop-controls select {
+    width: 103px;
+  }
+  .workshop-controls .button {
+    font-size: 10px;
+  }
+  .editor-hint {
+    padding: 12px 16px;
+    font-size: 9px;
+  }
+  .editor-scroll {
+    margin: 0 16px;
+  }
+  .workshop-footer {
+    padding: 16px;
+    gap: 10px;
+  }
+  .workshop-footer .button {
+    font-size: 10px;
+  }
+  .workshop-footer p {
+    font-size: 9px;
+  }
+}
+
+@media (max-width:520px) {
+  .header {
+    padding: 0 13px;
+  }
+  .header-actions .button {
+    font-size: 9px;
+    padding: 8px;
+  }
+  .brand h1 {
+    font-size: 22px;
+  }
+  .brand h1 span {
+    font-size: 7px;
+  }
+  .brand p {
+    font-size: 5.5px;
+  }
+  .stage {
+    height: 53svh;
+    min-height: 370px;
+  }
+  .stage-heading h2 {
+    font-size: 22px;
+  }
+  .stage-heading {
+    top: 20px;
+    left: 19px;
+  }
+  .stage-caption {
+    font-size: 8px;
+  }
+  .view-switch {
+    top: auto;
+    bottom: 112px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 2px;
+  }
+  .view-switch button {
+    font-size: 9px;
+    padding: 7px 10px;
+  }
+  .stage-spec {
+    gap: 18px;
+    left: 20px;
+    bottom: 57px;
+  }
+  .stage-spec>span {
+    font-size: 20px;
+  }
+  .note-readout {
+    bottom: 54px;
+    right: 20px;
+  }
+  .note-readout .eyebrow {
+    font-size: 7px;
+  }
+  .note-readout strong {
+    font-size: 23px;
+  }
+  .note-readout>span:last-child {
+    font-size: 8px;
+  }
+  .stage-bottom>span {
+    font-size: 7px;
+    gap: 5px;
+  }
+  .stage-bottom .round-button {
+    width: 25px;
+    height: 25px;
+  }
+  .stage-bottom>div {
+    gap: 5px;
+  }
+  .volume {
+    display: none;
+  }
+  .time {
+    margin-left: auto;
+  }
+  .player {
+    padding: 10px 16px 0;
+  }
+  .sidebar {
+    padding: 18px;
+  }
+  .coordinate-diagram {
+    gap: 8px;
+  }
+  .coordinate-diagram>span {
+    font-size: 6px;
+  }
+  .coordinate-diagram>div {
+    padding: 12px 18px;
+    font-size: 10px;
+  }
+  .dialog-header h2 {
+    font-size: 24px;
+  }
+  .workshop-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .workshop-footer p {
+    max-width: 100%;
+  }
+  .guide-content {
+    font-size: 11px;
+  }
+  .guide-content .lead {
+    font-size: 16px;
+  }
+  .annotation {
+    font-size: 7px;
+    padding: 5px;
+  }
+  .toast {
+    bottom: 48px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+  .loader {
+    animation: none;
+  }
+}

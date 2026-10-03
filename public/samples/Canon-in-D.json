@@ -1,0 +1,1399 @@
+{
+  "format": "crescendo-cylinder",
+  "version": 1,
+  "title": "Canon in D",
+  "composer": "J. Pachelbel · miniature arrangement",
+  "duration": 53.84,
+  "tuning": [
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107
+  ],
+  "notes": [
+    {
+      "tooth": 14,
+      "midi": 50,
+      "time": 0,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 0,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 0.54,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 1.08,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 1.08,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 1.62,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 9,
+      "midi": 45,
+      "time": 2.16,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 2.16,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 2.7,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 3.24,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 3.24,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 3.7800000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 11,
+      "midi": 47,
+      "time": 4.32,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 4.32,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 4.86,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 5.4,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 5.4,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 5.94,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 6,
+      "midi": 42,
+      "time": 6.48,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 6.48,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 7.0200000000000005,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 18,
+      "midi": 54,
+      "time": 7.5600000000000005,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 7.5600000000000005,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 8.100000000000001,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 7,
+      "midi": 43,
+      "time": 8.64,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 8.64,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 9.18,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 19,
+      "midi": 55,
+      "time": 9.72,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 9.72,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 10.260000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 14,
+      "midi": 50,
+      "time": 10.8,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 10.8,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 11.34,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 11.88,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 11.88,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 12.420000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 7,
+      "midi": 43,
+      "time": 12.96,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 12.96,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 13.5,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 19,
+      "midi": 55,
+      "time": 14.040000000000001,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 14.040000000000001,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 14.580000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 9,
+      "midi": 45,
+      "time": 15.120000000000001,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 15.120000000000001,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 15.66,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 16.200000000000003,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 16.200000000000003,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 16.740000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 14,
+      "midi": 50,
+      "time": 17.28,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 17.28,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 42,
+      "midi": 78,
+      "time": 17.28,
+      "velocity": 0.85
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 17.82,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 18.36,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 18.36,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 38,
+      "midi": 74,
+      "time": 18.36,
+      "velocity": 0.76
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 18.900000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 9,
+      "midi": 45,
+      "time": 19.44,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 19.44,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 40,
+      "midi": 76,
+      "time": 19.44,
+      "velocity": 0.85
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 19.98,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 20.520000000000003,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 20.520000000000003,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 37,
+      "midi": 73,
+      "time": 20.520000000000003,
+      "velocity": 0.76
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 21.060000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 11,
+      "midi": 47,
+      "time": 21.6,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 21.6,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 38,
+      "midi": 74,
+      "time": 21.6,
+      "velocity": 0.85
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 22.14,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 22.68,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 22.68,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 35,
+      "midi": 71,
+      "time": 22.68,
+      "velocity": 0.76
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 23.220000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 6,
+      "midi": 42,
+      "time": 23.76,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 23.76,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 37,
+      "midi": 73,
+      "time": 23.76,
+      "velocity": 0.85
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 24.3,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 18,
+      "midi": 54,
+      "time": 24.840000000000003,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 24.840000000000003,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 24.840000000000003,
+      "velocity": 0.76
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 25.380000000000003,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 7,
+      "midi": 43,
+      "time": 25.92,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 25.92,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 35,
+      "midi": 71,
+      "time": 25.92,
+      "velocity": 0.85
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 26.46,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 19,
+      "midi": 55,
+      "time": 27,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 27,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 27.540000000000003,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 14,
+      "midi": 50,
+      "time": 28.080000000000002,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 28.080000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 28.080000000000002,
+      "velocity": 0.85
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 28.62,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 29.160000000000004,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 29.160000000000004,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 29.700000000000003,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 7,
+      "midi": 43,
+      "time": 30.240000000000002,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 30.240000000000002,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 35,
+      "midi": 71,
+      "time": 30.240000000000002,
+      "velocity": 0.85
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 30.78,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 19,
+      "midi": 55,
+      "time": 31.32,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 31.32,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 31.860000000000003,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 9,
+      "midi": 45,
+      "time": 32.400000000000006,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 32.400000000000006,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 37,
+      "midi": 73,
+      "time": 32.400000000000006,
+      "velocity": 0.85
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 32.940000000000005,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 33.480000000000004,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 33.480000000000004,
+      "velocity": 0.76
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 33.480000000000004,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 34.02,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 14,
+      "midi": 50,
+      "time": 34.56,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 34.56,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 34.56,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 34.830000000000005,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 35.1,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 38,
+      "midi": 74,
+      "time": 35.1,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 37,
+      "midi": 73,
+      "time": 35.370000000000005,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 35.64,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 35.64,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 35,
+      "midi": 71,
+      "time": 35.64,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 35.910000000000004,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 36.18,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 35,
+      "midi": 71,
+      "time": 36.18,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 37,
+      "midi": 73,
+      "time": 36.45,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 9,
+      "midi": 45,
+      "time": 36.72,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 36.72,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 38,
+      "midi": 74,
+      "time": 36.72,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 37,
+      "midi": 73,
+      "time": 36.99,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 37.26,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 35,
+      "midi": 71,
+      "time": 37.26,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 37.53,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 37.8,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 37.8,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 37.8,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 38.07,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 38.339999999999996,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 38.339999999999996,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 38.61,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 11,
+      "midi": 47,
+      "time": 38.88,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 38.88,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 38.88,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 39.150000000000006,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 39.42,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 39.42,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 39.690000000000005,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 39.96,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 39.96,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 39.96,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 40.230000000000004,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 40.5,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 40.5,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 40.77,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 6,
+      "midi": 42,
+      "time": 41.040000000000006,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 41.040000000000006,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 41.040000000000006,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 41.31000000000001,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 41.580000000000005,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 41.580000000000005,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 41.85000000000001,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 18,
+      "midi": 54,
+      "time": 42.120000000000005,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 42.120000000000005,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 42.120000000000005,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 42.39000000000001,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 42.660000000000004,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 42.660000000000004,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 42.93000000000001,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 7,
+      "midi": 43,
+      "time": 43.2,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 43.2,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 35,
+      "midi": 71,
+      "time": 43.2,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 38,
+      "midi": 74,
+      "time": 43.470000000000006,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 43.74,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 37,
+      "midi": 73,
+      "time": 43.74,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 35,
+      "midi": 71,
+      "time": 44.010000000000005,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 19,
+      "midi": 55,
+      "time": 44.28,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 44.28,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 44.28,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 44.550000000000004,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 44.82,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 44.82,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 45.09,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 14,
+      "midi": 50,
+      "time": 45.36,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 45.36,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 45.36,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 45.63,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 45.9,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 38,
+      "midi": 74,
+      "time": 45.9,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 46.17,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 46.44,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 46.44,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 46.71,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 46.98,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 47.25,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 7,
+      "midi": 43,
+      "time": 47.52,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 47.52,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 47.52,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 47.790000000000006,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 48.06,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 48.06,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 48.330000000000005,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 19,
+      "midi": 55,
+      "time": 48.6,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 23,
+      "midi": 59,
+      "time": 48.6,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 48.6,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 48.870000000000005,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 26,
+      "midi": 62,
+      "time": 49.14,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 49.14,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 35,
+      "midi": 71,
+      "time": 49.410000000000004,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 9,
+      "midi": 45,
+      "time": 49.68000000000001,
+      "velocity": 0.68
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 49.68000000000001,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 49.68000000000001,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 31,
+      "midi": 67,
+      "time": 49.95000000000001,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 50.220000000000006,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 30,
+      "midi": 66,
+      "time": 50.220000000000006,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 50.49000000000001,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 21,
+      "midi": 57,
+      "time": 50.760000000000005,
+      "velocity": 0.46
+    },
+    {
+      "tooth": 25,
+      "midi": 61,
+      "time": 50.760000000000005,
+      "velocity": 0.78
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 50.760000000000005,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 51.03000000000001,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 28,
+      "midi": 64,
+      "time": 51.300000000000004,
+      "velocity": 0.36
+    },
+    {
+      "tooth": 33,
+      "midi": 69,
+      "time": 51.300000000000004,
+      "velocity": 0.66
+    },
+    {
+      "tooth": 37,
+      "midi": 73,
+      "time": 51.57000000000001,
+      "velocity": 0.66
+    }
+  ],
+  "source": "Generated pins",
+  "dropped": 5
+}

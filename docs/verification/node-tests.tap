@@ -1,0 +1,332 @@
+
+> crescendo-threejs@2.0.0 test
+> node --test tests/unit/*.test.js
+
+TAP version 13
+# Subtest: MIDI 36 at 32000 Hz matches the original PCM samples
+ok 1 - MIDI 36 at 32000 Hz matches the original PCM samples
+  ---
+  duration_ms: 113.114361
+  type: 'test'
+  ...
+# Subtest: MIDI 60 at 32000 Hz matches the original PCM samples
+ok 2 - MIDI 60 at 32000 Hz matches the original PCM samples
+  ---
+  duration_ms: 101.940059
+  type: 'test'
+  ...
+# Subtest: MIDI 81 at 32000 Hz matches the original PCM samples
+ok 3 - MIDI 81 at 32000 Hz matches the original PCM samples
+  ---
+  duration_ms: 46.837802
+  type: 'test'
+  ...
+# Subtest: MIDI 107 at 32000 Hz matches the original PCM samples
+ok 4 - MIDI 107 at 32000 Hz matches the original PCM samples
+  ---
+  duration_ms: 21.698594
+  type: 'test'
+  ...
+# Subtest: MIDI 60 at 48000 Hz matches the original PCM samples
+ok 5 - MIDI 60 at 48000 Hz matches the original PCM samples
+  ---
+  duration_ms: 139.158888
+  type: 'test'
+  ...
+# Subtest: WAV has a valid stereo PCM header, interleaving and saturation
+ok 6 - WAV has a valid stereo PCM header, interleaving and saturation
+  ---
+  duration_ms: 0.385431
+  type: 'test'
+  ...
+# Subtest: oversized offline renders fail before creating an audio context
+ok 7 - oversized offline renders fail before creating an audio context
+  ---
+  duration_ms: 0.566314
+  type: 'test'
+  ...
+# Subtest: normalization retains 72-tooth tuning, sort order and coincident-pin deduplication
+ok 8 - normalization retains 72-tooth tuning, sort order and coincident-pin deduplication
+  ---
+  duration_ms: 2.719259
+  type: 'test'
+  ...
+# Subtest: MIDI labels and frequency are unchanged
+ok 9 - MIDI labels and frequency are unchanged
+  ---
+  duration_ms: 0.241765
+  type: 'test'
+  ...
+# Subtest: rejects missing definition
+ok 10 - rejects missing definition
+  ---
+  duration_ms: 0.264209
+  type: 'test'
+  ...
+# Subtest: rejects missing notes
+ok 11 - rejects missing notes
+  ---
+  duration_ms: 0.124487
+  type: 'test'
+  ...
+# Subtest: rejects zero duration
+ok 12 - rejects zero duration
+  ---
+  duration_ms: 0.109015
+  type: 'test'
+  ...
+# Subtest: rejects non-finite duration
+ok 13 - rejects non-finite duration
+  ---
+  duration_ms: 0.112089
+  type: 'test'
+  ...
+# Subtest: rejects short tuning
+ok 14 - rejects short tuning
+  ---
+  duration_ms: 0.106891
+  type: 'test'
+  ...
+# Subtest: rejects out-of-range tooth
+ok 15 - rejects out-of-range tooth
+  ---
+  duration_ms: 0.097847
+  type: 'test'
+  ...
+# Subtest: rejects out-of-range MIDI
+ok 16 - rejects out-of-range MIDI
+  ---
+  duration_ms: 0.336447
+  type: 'test'
+  ...
+# Subtest: rejects negative time
+ok 17 - rejects negative time
+  ---
+  duration_ms: 0.442427
+  type: 'test'
+  ...
+# Subtest: rejects end-of-turn time
+ok 18 - rejects end-of-turn time
+  ---
+  duration_ms: 0.256908
+  type: 'test'
+  ...
+# Subtest: rejects zero velocity
+ok 19 - rejects zero velocity
+  ---
+  duration_ms: 0.095865
+  type: 'test'
+  ...
+# Subtest: rejects too many pins
+ok 20 - rejects too many pins
+  ---
+  duration_ms: 0.07289
+  type: 'test'
+  ...
+# Subtest: changing duration with proportional note times leaves physical pin positions unchanged
+ok 21 - changing duration with proportional note times leaves physical pin positions unchanged
+  ---
+  duration_ms: 0.262235
+  type: 'test'
+  ...
+# Subtest: Canon-in-D: demo GLB bytes remain identical to the original supplied sample
+ok 22 - Canon-in-D: demo GLB bytes remain identical to the original supplied sample
+  ---
+  duration_ms: 18.208513
+  type: 'test'
+  ...
+# Subtest: Canon-in-D: geometry round trip recovers every note
+ok 23 - Canon-in-D: geometry round trip recovers every note
+  ---
+  duration_ms: 42.716323
+  type: 'test'
+  ...
+# Subtest: Fu-r-Elise: demo GLB bytes remain identical to the original supplied sample
+ok 24 - Fu-r-Elise: demo GLB bytes remain identical to the original supplied sample
+  ---
+  duration_ms: 8.497822
+  type: 'test'
+  ...
+# Subtest: Fu-r-Elise: geometry round trip recovers every note
+ok 25 - Fu-r-Elise: geometry round trip recovers every note
+  ---
+  duration_ms: 24.206085
+  type: 'test'
+  ...
+# Subtest: Clockwork-garden: demo GLB bytes remain identical to the original supplied sample
+ok 26 - Clockwork-garden: demo GLB bytes remain identical to the original supplied sample
+  ---
+  duration_ms: 11.545266
+  type: 'test'
+  ...
+# Subtest: Clockwork-garden: geometry round trip recovers every note
+ok 27 - Clockwork-garden: geometry round trip recovers every note
+  ---
+  duration_ms: 24.742394
+  type: 'test'
+  ...
+# Subtest: moving an actual pin by one lane changes the recovered pitch, not just metadata
+ok 28 - moving an actual pin by one lane changes the recovered pitch, not just metadata
+  ---
+  duration_ms: 3.351042
+  type: 'test'
+  ...
+# Subtest: rotating a physical pin by a quarter turn changes its time
+ok 29 - rotating a physical pin by a quarter turn changes its time
+  ---
+  duration_ms: 3.354297
+  type: 'test'
+  ...
+# Subtest: unnamed individual pins still play from their positions
+ok 30 - unnamed individual pins still play from their positions
+  ---
+  duration_ms: 3.003068
+  type: 'test'
+  ...
+# Subtest: merged mesh radial-tip clustering recovers all notes
+ok 31 - merged mesh radial-tip clustering recovers all notes
+  ---
+  duration_ms: 12.586156
+  type: 'test'
+  ...
+# Subtest: pins between lanes are rejected instead of silently changing pitch
+ok 32 - pins between lanes are rejected instead of silently changing pitch
+  ---
+  duration_ms: 2.728935
+  type: 'test'
+  ...
+# Subtest: a smooth cylinder is not mistaken for an encoded song
+ok 33 - a smooth cylinder is not mistaken for an encoded song
+  ---
+  duration_ms: 1.780194
+  type: 'test'
+  ...
+# Subtest: embedded glTF has the same musical interpretation as GLB
+ok 34 - embedded glTF has the same musical interpretation as GLB
+  ---
+  duration_ms: 2.713161
+  type: 'test'
+  ...
+# Subtest: external glTF buffers are refused and never fetched
+ok 35 - external glTF buffers are refused and never fetched
+  ---
+  duration_ms: 0.15232
+  type: 'test'
+  ...
+# Subtest: truncated containers and invalid chunk lengths are rejected
+ok 36 - truncated containers and invalid chunk lengths are rejected
+  ---
+  duration_ms: 0.59022
+  type: 'test'
+  ...
+# Subtest: compressed, sparse and cyclic inputs fail explicitly
+ok 37 - compressed, sparse and cyclic inputs fail explicitly
+  ---
+  duration_ms: 4.344405
+  type: 'test'
+  ...
+# Subtest: local JSON and GLB imports retain the encoded score
+ok 38 - local JSON and GLB imports retain the encoded score
+  ---
+  duration_ms: 14.365149
+  type: 'test'
+  ...
+# Subtest: oversized local files are rejected before their contents are read
+ok 39 - oversized local files are rejected before their contents are read
+  ---
+  duration_ms: 0.67678
+  type: 'test'
+  ...
+# Subtest: unsupported file types fail with the supported formats
+ok 40 - unsupported file types fail with the supported formats
+  ---
+  duration_ms: 0.30497
+  type: 'test'
+  ...
+# Subtest: the interchange JSON contains neither generated geometry nor recorded audio
+ok 41 - the interchange JSON contains neither generated geometry nor recorded audio
+  ---
+  duration_ms: 0.237618
+  type: 'test'
+  ...
+# Subtest: download filenames and elapsed-time labels retain the original format
+ok 42 - download filenames and elapsed-time labels retain the original format
+  ---
+  duration_ms: 0.381375
+  type: 'test'
+  ...
+# Subtest: all 93 original parts retain geometry, transforms, material groups and shadow participation
+ok 43 - all 93 original parts retain geometry, transforms, material groups and shadow participation
+  ---
+  duration_ms: 69.955491
+  type: 'test'
+  ...
+# Subtest: notes use the audio clock and visuals wait for their scheduled strike
+ok 44 - notes use the audio clock and visuals wait for their scheduled strike
+  ---
+  duration_ms: 2.144693
+  type: 'test'
+  ...
+# Subtest: look-ahead scheduling does not duplicate a note
+ok 45 - look-ahead scheduling does not duplicate a note
+  ---
+  duration_ms: 0.369076
+  type: 'test'
+  ...
+# Subtest: pause preserves position, clears queued strikes and cancels the scheduler
+ok 46 - pause preserves position, clears queued strikes and cancels the scheduler
+  ---
+  duration_ms: 0.379542
+  type: 'test'
+  ...
+# Subtest: seeking clamps to one revolution and restarts only when previously playing
+ok 47 - seeking clamps to one revolution and restarts only when previously playing
+  ---
+  duration_ms: 0.449248
+  type: 'test'
+  ...
+# Subtest: speed changes preserve the current musical position
+ok 48 - speed changes preserve the current musical position
+  ---
+  duration_ms: 0.647626
+  type: 'test'
+  ...
+# Subtest: repeat schedules the next revolution with a wrapped visual playhead
+ok 49 - repeat schedules the next revolution with a wrapped visual playhead
+  ---
+  duration_ms: 0.989893
+  type: 'test'
+  ...
+# Subtest: virtual reserve runs down in five revolutions at the current speed
+ok 50 - virtual reserve runs down in five revolutions at the current speed
+  ---
+  duration_ms: 0.842991
+  type: 'test'
+  ...
+# Subtest: end-of-turn stops the transport but does not cut off decaying notes
+ok 51 - end-of-turn stops the transport but does not cut off decaying notes
+  ---
+  duration_ms: 0.277729
+  type: 'test'
+  ...
+# Subtest: an in-flight audio unlock cannot restart playback after pause
+ok 52 - an in-flight audio unlock cannot restart playback after pause
+  ---
+  duration_ms: 0.408015
+  type: 'test'
+  ...
+# Subtest: a cylinder swap resets position and reserve
+ok 53 - a cylinder swap resets position and reserve
+  ---
+  duration_ms: 0.381375
+  type: 'test'
+  ...
+1..53
+# tests 53
+# suites 0
+# pass 53
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 484.966865
