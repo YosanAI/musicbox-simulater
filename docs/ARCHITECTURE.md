@@ -25,10 +25,19 @@ of services, and user-level actions. Views display state; they do not invent the
 own playback clock. The app receives a scene factory so controller/audio behavior
 can be exercised without pretending a rendering test double is a real Three.js render.
 
-The menu combines `createDemoCylinders()` with additional JSON cylinders loaded by
-`main.js`, including `public/samples/Three-classics-indexed.json`. Files added to
-`public/samples/` do not appear in the menu automatically; register them in `main.js`
-and pass their definitions through `additionalCylinders`.
+The menu comes from playable files in `public/samples/`, including subdirectories.
+The Vite plugin in `scripts/sample-library-plugin.js` discovers JSON, GLB and glTF
+files, serves `sample-library.json` in development and emits it into `dist/` during
+builds. `collection.json` supplies optional ordering; it does not control membership.
+New and removed sample files trigger a development reload. Production sites pick up
+file changes on the next build.
+
+`main.js` loads the index and `src/io/sampleLibrary.js` validates the discovered
+files through the existing file importer. Matching basenames appear once, preferring
+JSON and falling back to GLB or embedded glTF. Metadata JSON is skipped; a broken
+sample is reported without preventing other cylinders from loading. The resulting
+score/mesh entries are injected into `MusicBoxApp`. `createDemoCylinders()` remains
+the score generator for `npm run samples`, rather than a separate menu definition.
 
 ## Rendering and the model
 

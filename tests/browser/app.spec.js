@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
+import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { validateCylinder, exportCylinderGLB } from '../../src/cylinder/index.js';
 
 const sample = name => fileURLToPath(new URL(`../../public/samples/${name}`, import.meta.url));
 
@@ -77,6 +80,41 @@ test('imports the original GLB and JSON samples', async ({ page }) => {
   await page.locator('#fileInput').setInputFiles(sample('Canon-in-D.json'));
   await expect(page.locator('#nowTitle')).toHaveText('Canon in D');
   await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.getDiagnostics().pins)).toBe(219);
+});
+
+test('new sample files appear automatically, deduplicate pairs and play GLB-only cylinders', async ({ page }) => {
+  await ready(page);
+  const before = await page.locator('.cylinder-card').count();
+  const directory = await mkdtemp(join(sample(''), 'library-test-'));
+  const pair = validateCylinder({ title: 'Discovered JSON pair', duration: 8,
+    notes: [{ midi: 60, time: 0.3 }, { midi: 64, time: 1 }] });
+  const glb = validateCylinder({ title: 'Discovered GLB only', duration: 8,
+    notes: [{ midi: 67, time: 0.3 }] });
+  try {
+    await Promise.all([
+      writeFile(join(directory, 'pair.json'), JSON.stringify(pair)),
+      writeFile(join(directory, 'pair.glb'), exportCylinderGLB(pair)),
+      writeFile(join(directory, 'only.glb'), exportCylinderGLB(glb)),
+      writeFile(join(directory, 'metadata.json'), JSON.stringify({ description: 'Not a cylinder' })),
+    ]);
+    await expect(page.locator('.cylinder-card')).toHaveCount(before + 2);
+    const pairedCard = page.locator('.cylinder-card').filter({ hasText: pair.title });
+    await expect(pairedCard).toHaveCount(1);
+    await pairedCard.click();
+    await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.getDiagnostics().pins)).toBe(2);
+    const glbCard = page.locator('.cylinder-card').filter({ hasText: glb.title });
+    await glbCard.click();
+    await expect(page.locator('#nowTitle')).toHaveText(glb.title);
+    await expect(page.locator('#sourceBadge')).toHaveText('READ FROM 3D PIN GEOMETRY');
+    await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.getDiagnostics().pins)).toBe(1);
+    await page.locator('#playBtn').click();
+    await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.sound.startedNotes)).toBeGreaterThan(0);
+    await page.locator('#playBtn').click();
+    await rm(directory, { recursive: true, force: true });
+    await expect(page.locator('.cylinder-card')).toHaveCount(before);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
 
 test('creates a cylinder in the editor and exports a playable GLB', async ({ page }) => {

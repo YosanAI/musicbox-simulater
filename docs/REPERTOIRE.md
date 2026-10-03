@@ -1,7 +1,7 @@
 # Repertoire and provenance
 
-The library follows documented Reuge repertoire, with **Für Elise** selected first.
-Every supplied score is an independent, abridged simulator arrangement. Melody
+The generated repertoire follows documented Reuge selections, with **Für Elise** selected first.
+Each of these six scores is an independent, abridged simulator arrangement. Melody
 excerpts, accompaniment, repetitions, dynamics and the division into turns are
 implemented in `src/cylinder/demoLibrary.js`; no factory pin map, commercial audio
 recording or modern MIDI performance is bundled.

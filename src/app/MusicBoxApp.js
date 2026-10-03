@@ -1,7 +1,7 @@
 import { SoundEngine } from '../audio/SoundEngine.js';
 import { Transport } from '../audio/Transport.js';
 import {
-  createDemoCylinders, validateCylinder, exportCylinderGLB, decodeGLB, interpretCylinderGLTF, getNoteTime,
+  validateCylinder, exportCylinderGLB, decodeGLB, interpretCylinderGLTF, getNoteTime,
 } from '../cylinder/index.js';
 import { readCylinderFile } from '../io/cylinderFiles.js';
 import { Downloads } from '../io/download.js';
@@ -19,7 +19,7 @@ import { bindFileControls } from '../ui/bindFileControls.js';
  * A scene factory keeps this boundary injectable for integration tests.
  */
 export class MusicBoxApp {
-  constructor({ createScene, additionalCylinders = [] }) {
+  constructor({ createScene, library }) {
     this.elements = collectElements();
     this.events = new EventScope();
     this.notifications = new Notifications(this.elements.toast);
@@ -28,10 +28,7 @@ export class MusicBoxApp {
       ready: false, busy: false, lastNote: null, importMode: null, labelsOn: false,
       showResonance: false, resonances: [], indexStarted: -100,
     };
-    this.library = [
-      ...createDemoCylinders(),
-      ...additionalCylinders.map(validateCylinder),
-    ].map(spec => ({ spec, meshes: null }));
+    this.library = library.map(({ spec, meshes = null }) => ({ spec: validateCylinder(spec), meshes }));
     this.activeIndex = 0;
     this.frame = 0;
     this.animationFrame = null;

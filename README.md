@@ -34,6 +34,13 @@ Open <http://localhost:3000>. Production output is generated with `npm run build
 Space plays or pauses, R rewinds, and 1 / 2 / 3 select the cameras. Playback pauses
 when the browser tab is hidden. Rendering, parsing and sound synthesis run locally.
 
+Add cylinder JSON, GLB or embedded glTF files to `public/samples/` (subfolders work
+too) to include them in the menu automatically. A JSON/GLB pair with the same name
+appears once, using the JSON score; GLB-only cylinders play from their pin geometry.
+The development server reloads when files are added or removed. Rebuild production
+output after changing samples. `collection.json` optionally orders the menu; new
+files do not need to be listed there.
+
 ## Repertoire and references
 
 Für Elise is selected at startup. The library also includes the five three-air

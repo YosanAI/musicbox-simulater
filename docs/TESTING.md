@@ -25,11 +25,13 @@ at the browser's normal display resolution. Toggle regression checks compare sce
 and footer positions, sizes and page scroll offsets at desktop, tablet and mobile
 widths, using both mouse clicks and keyboard focus/Space activation.
 
-The original one-turn GLB files remain compatibility fixtures. The current library
-contains six generated three-turn cylinders and the supplied Three classics JSON,
-with Für Elise first. Multi-turn round trips
-must preserve the turn index, tune labels and every pin's position; geometry edits
-must change the recovered notes rather than merely reading a hidden score.
+The original one-turn GLB files remain compatibility fixtures and appear in the
+automatically discovered sample library alongside the generated repertoire and
+Three classics. The optional collection order keeps Für Elise first. Library tests
+cover new/nested files, JSON/GLB pairing, GLB-only playback, invalid files, metadata,
+and adding/removing samples while the development server runs. Multi-turn round
+trips must preserve the turn index, tune labels and every pin's position; geometry
+edits must change the recovered notes rather than merely reading a hidden score.
 
 For manual review, check all three cameras, close zoom, panning, fullscreen, case
 and lid toggles, and plucking the middle of a tooth. With playback running, seek
