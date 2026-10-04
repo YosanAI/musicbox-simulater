@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { synthesizeTine } from '../../src/audio/tineSynthesis.js';
-import { synthesizeIndexClick } from '../../src/audio/indexingSynthesis.js';
+import { synthesizeIndexKnock } from '../../src/audio/indexingSynthesis.js';
 import { SoundEngine } from '../../src/audio/SoundEngine.js';
 import { encodeStereoWav, renderCylinderWav } from '../../src/audio/wavExport.js';
 import { validateCylinder } from '../../src/cylinder/validation.js';
@@ -36,16 +36,22 @@ test('oversized offline renders fail before creating an audio context', async ()
   await assert.rejects(() => renderCylinderWav({ duration: 60, turns: 3, notes: [] }, 1), /three minutes/);
 });
 
-test('indexing click is deterministic, finite and decays after its detent', () => {
-  const samples = synthesizeIndexClick(32000);
-  assert.equal(samples.length, 3520);
+test('indexing knock has a smooth onset, a rounded waveform and a short decay', () => {
+  const samples = synthesizeIndexKnock(32000);
+  assert.equal(samples.length, 5120);
   assert(samples.every(Number.isFinite));
-  assert.deepEqual(synthesizeIndexClick(32000), samples);
+  assert(samples.every(value => Math.abs(value) <= 1));
+  assert.deepEqual(synthesizeIndexKnock(32000), samples);
+  assert.equal(samples[0], 0);
+  assert(Math.abs(samples.at(-1)) < 0.001);
   const energy = segment => segment.reduce((sum, value) => sum + value * value, 0) / segment.length;
-  assert(energy(samples.subarray(0, 640)) > energy(samples.subarray(2880)) * 100);
+  assert(energy(samples.subarray(0, 640)) > energy(samples.subarray(4480)) * 100);
+  const differences = samples.subarray(1).map((value, index) => value - samples[index]);
+  // A knock is dominated by its body resonance, rather than sharp broadband snaps.
+  assert(energy(differences) / energy(samples) < 0.04);
 });
 
-test('spring cancellation releases future notes and clicks while retaining active decays', () => {
+test('spring cancellation releases future notes and knocks while retaining active decays', () => {
   const sound = new SoundEngine();
   sound.context = { currentTime: 1 };
   const voice = when => {
@@ -58,19 +64,19 @@ test('spring cancellation releases future notes and clicks while retaining activ
   const ringing = voice(0.5);
   const due = voice(1);
   const futureNote = voice(1.055);
-  const futureClick = voice(1.075);
-  sound.active = new Set([ringing, due, futureNote, futureClick]);
+  const futureKnock = voice(1.075);
+  sound.active = new Set([ringing, due, futureNote, futureKnock]);
   sound.cancelScheduled();
   assert.deepEqual([...sound.active], [ringing, due]);
   assert.deepEqual(ringing.calls, []);
   assert.deepEqual(due.calls, []);
-  for (const future of [futureNote, futureClick]) {
+  for (const future of [futureNote, futureKnock]) {
     assert.deepEqual(future.calls, [['stop', 1], 'source', 'gain', 'pan']);
     assert.equal(future.source.onended, null);
   }
 });
 
-test('WAV schedules the full indexed programme and its clicks at the selected revolution speed', async t => {
+test('WAV schedules the full indexed programme and its knocks at the selected revolution speed', async t => {
   const previous = globalThis.OfflineAudioContext;
   let rendered;
   class OfflineContext {
@@ -103,6 +109,6 @@ test('WAV schedules the full indexed programme and its clicks at the selected re
   const bytes = await renderCylinderWav(spec, 2);
   assert.equal(rendered.length, 18 * 32000);
   assert.deepEqual(rendered.starts.map(start => start.when).sort((a, b) => a - b), [4, 8, 8.5]);
-  assert.equal(rendered.starts.filter(start => start.length === 3520).length, 2);
+  assert.equal(rendered.starts.filter(start => start.length === 5120).length, 2);
   assert.equal(new DataView(bytes).getUint32(40, true), rendered.length * 4);
 });

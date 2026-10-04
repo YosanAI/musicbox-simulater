@@ -1,6 +1,6 @@
 import { clamp } from '../math/scalars.js';
 import { synthesizeTine } from './tineSynthesis.js';
-import { INDEX_CLICK_GAIN, synthesizeIndexClick } from './indexingSynthesis.js';
+import { INDEX_KNOCK_GAIN, synthesizeIndexKnock } from './indexingSynthesis.js';
 import { getCylinderDuration, getNoteTime } from '../cylinder/timing.js';
 
 /** Encode an AudioBuffer as stereo, 16-bit little-endian PCM WAV. */
@@ -72,7 +72,7 @@ export async function renderCylinderWav(spec, speed = 1) {
     source.start(getNoteTime(note, spec) / speed);
   }
   if ((spec.turns ?? 1) > 1) {
-    const samples = synthesizeIndexClick(sampleRate);
+    const samples = synthesizeIndexKnock(sampleRate);
     const buffer = context.createBuffer(1, samples.length, sampleRate);
     buffer.copyToChannel(samples, 0);
     for (let turn = 1; turn < spec.turns; turn++) {
@@ -80,7 +80,7 @@ export async function renderCylinderWav(spec, speed = 1) {
       const gain = context.createGain();
       const pan = context.createStereoPanner();
       source.buffer = buffer;
-      gain.gain.value = INDEX_CLICK_GAIN;
+      gain.gain.value = INDEX_KNOCK_GAIN;
       pan.pan.value = 0.25;
       source.connect(gain).connect(pan).connect(output);
       source.start(turn * spec.duration / speed);

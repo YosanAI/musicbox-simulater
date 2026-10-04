@@ -88,7 +88,7 @@ export class Transport {
       this.cycle++;
       this.index = 0;
     }
-    // Seeking directly onto a boundary selects its track without playing a click.
+    // Seeking directly onto a boundary selects its track without playing a knock.
     this.nextShift = Math.floor((this.offset + 1e-6) / this.spec.duration) + 1;
   }
 
@@ -124,7 +124,7 @@ export class Transport {
         const when = this.startAudioTime + (time - this.offset) / this.speed;
         if (when >= now - TRANSPORT_TIMING.lateToleranceSeconds) {
           const start = Math.max(now, when);
-          this.sound.indexClick?.(start);
+          this.sound.indexKnock?.(start);
           this.shiftQueue.push({ turn: this.nextShift % this.spec.turns, when: start });
         }
         this.nextShift++;

@@ -32,7 +32,7 @@ Open <http://localhost:3000>. Production output is generated with `npm run build
   visibility. **Exploded view** reveals the drive and coiled mainspring.
 - Enable **Show resonance** in the playback bar to display fading note trails on
   the score; it starts disabled. Each automatic tune change produces a mechanical
-  click, a cylinder highlight and an animated indexing indicator.
+  knock and an animated indexing indicator.
 - **Load cylinder** imports JSON, GLB or embedded glTF. The workshop creates custom
   pins; export saves JSON, GLB or a synthesized WAV.
 - **Cylinder guide & AI prompt** includes a copyable prompt. Replace

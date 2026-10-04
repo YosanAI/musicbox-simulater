@@ -1,5 +1,5 @@
 import { synthesizeTine } from './tineSynthesis.js';
-import { INDEX_CLICK_GAIN, synthesizeIndexClick } from './indexingSynthesis.js';
+import { INDEX_KNOCK_GAIN, synthesizeIndexKnock } from './indexingSynthesis.js';
 import { renderCylinderWav } from './wavExport.js';
 
 /** Web Audio voice pool and the original dry/wet room-resonance graph. */
@@ -12,7 +12,7 @@ export class SoundEngine {
     this.resonance = 0.30;
     this.lidOpen = true;
     this.startedNotes = 0;
-    this.startedIndexClicks = 0;
+    this.startedIndexKnocks = 0;
     this.indexBuffer = null;
     this.disposed = false;
   }
@@ -114,11 +114,11 @@ export class SoundEngine {
   }
 
   /** Schedule mechanical indexing on the same audio clock as the music pins. */
-  indexClick(when = this.context?.currentTime) {
+  indexKnock(when = this.context?.currentTime) {
     if (!this.context || this.disposed) return;
     const context = this.context;
     if (!this.indexBuffer) {
-      const samples = synthesizeIndexClick(context.sampleRate);
+      const samples = synthesizeIndexKnock(context.sampleRate);
       this.indexBuffer = context.createBuffer(1, samples.length, context.sampleRate);
       this.indexBuffer.copyToChannel(samples, 0);
     }
@@ -126,7 +126,7 @@ export class SoundEngine {
     const gain = context.createGain();
     const pan = context.createStereoPanner();
     source.buffer = this.indexBuffer;
-    gain.gain.value = INDEX_CLICK_GAIN;
+    gain.gain.value = INDEX_KNOCK_GAIN;
     pan.pan.value = 0.25;
     source.connect(gain).connect(pan).connect(this.input);
     const voice = { source, gain, pan, when };
@@ -138,7 +138,7 @@ export class SoundEngine {
       this.active.delete(voice);
     };
     source.start(Math.max(when, context.currentTime));
-    this.startedIndexClicks++;
+    this.startedIndexKnocks++;
     return voice;
   }
 

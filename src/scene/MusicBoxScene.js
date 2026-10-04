@@ -48,8 +48,6 @@ export class MusicBoxScene {
     this.axialShift = 0;
     this.previousTurn = 0;
     this.indexWrap = false;
-    this.indexStarted = -100;
-    this.indexHighlight = 0;
     this.orbit = new OrbitCameraController(canvas, point => this.pick(point));
   }
 
@@ -57,7 +55,6 @@ export class MusicBoxScene {
     for (const part of this.rotorParts) this.renderer.remove(part);
     this.rotorParts = [];
     this.spec = spec;
-    this.indexStarted = -100;
 
     if (importedMeshes) {
       const groups = new Map();
@@ -149,7 +146,6 @@ export class MusicBoxScene {
 
   wind() { this.windTarget += TAU * 3; }
   strike(note, age = 0) { this.tineStrikes[note.tooth] = performance.now() / 1000 - age; }
-  index(age = 0) { this.indexStarted = performance.now() / 1000 - age; }
   view(name) { this.orbit.view(name); }
 
   /** Mechanism label anchors follow the same exploded and indexed motion as their parts. */
@@ -238,13 +234,8 @@ export class MusicBoxScene {
       this.rotorCenter[1] + this.lift + .10 * this.explosion,
       this.rotorCenter[2] - .012 * this.explosion,
     ), mat4.rotationX(phase));
-    const indexAge = Math.max(0, now - this.indexStarted);
-    const indexHighlight = indexAge < .9 ? Math.exp(-indexAge * 4) : 0;
-    if (indexHighlight !== this.indexHighlight) moved = true;
-    this.indexHighlight = indexHighlight;
     for (const part of this.rotorParts) {
       part.matrix = rotorMatrix;
-      part.emission = [indexHighlight * .45, indexHighlight * .22, indexHighlight * .04];
     }
     for (const [index, gear] of this.gears.entries()) {
       const angle = phase * gear.ratio;

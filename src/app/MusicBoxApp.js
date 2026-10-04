@@ -47,7 +47,6 @@ export class MusicBoxApp {
         this.notifications.show('The virtual spring has run down. Wind it to continue.');
       }
     }, (turn, age) => {
-      this.scene.index(age);
       this.playerView.showIndex(turn, age);
     });
     this.playerView = new PlayerView(this.elements, this.transport, this.scene, this.state);

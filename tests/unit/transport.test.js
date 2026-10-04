@@ -5,11 +5,11 @@ import { validateCylinder } from '../../src/cylinder/validation.js';
 
 function fixture(t) {
   const sound = {
-    context: { currentTime: 0 }, scheduled: [], clicks: [], cancelled: [], silenceCount: 0,
+    context: { currentTime: 0 }, scheduled: [], knocks: [], cancelled: [], silenceCount: 0,
     async init() { return this.context; },
     prepareNotes() {},
     strike(note, when) { this.scheduled.push({ note, when }); },
-    indexClick(when) { this.clicks.push(when); },
+    indexKnock(when) { this.knocks.push(when); },
     cancelScheduled(after) { this.cancelled.push(after); },
     silence() { this.silenceCount++; },
   };
@@ -150,23 +150,23 @@ function indexedFixture(t, notes = [{ tooth: 24, time: 0, turn: 0 }, { tooth: 28
   return result;
 }
 
-test('indexed playback strikes only the active track and clicks once on each audio-clock shift', async t => {
+test('indexed playback strikes only the active track and knocks once on each audio-clock shift', async t => {
   const { sound, transport, endings } = indexedFixture(t);
   await transport.play();
   assert.deepEqual(sound.scheduled.map(strike => strike.note.turn), [0]);
   sound.context.currentTime = 8;
   transport.schedule();
   transport.schedule();
-  assert.deepEqual(sound.clicks, [8.055]);
+  assert.deepEqual(sound.knocks, [8.055]);
   assert.deepEqual(sound.scheduled.map(strike => strike.note.turn), [0, 1]);
   sound.context.currentTime = 16;
   transport.schedule();
-  assert.deepEqual(sound.clicks, [8.055, 16.055]);
+  assert.deepEqual(sound.knocks, [8.055, 16.055]);
   sound.context.currentTime = 24.06;
   transport.update();
   assert.equal(transport.position(), 24);
   assert.deepEqual(endings, ['end']);
-  assert.equal(sound.clicks.length, 2);
+  assert.equal(sound.knocks.length, 2);
 });
 
 test('a manual seek selects its indexed track silently and schedules the next shift at the changed speed', async t => {
@@ -175,18 +175,18 @@ test('a manual seek selects its indexed track silently and schedules the next sh
   await transport.setSpeed(2);
   await transport.play();
   assert.equal(sound.scheduled[0].note.turn, 1);
-  assert.deepEqual(sound.clicks, []);
+  assert.deepEqual(sound.knocks, []);
   sound.context.currentTime = 4;
   transport.schedule();
-  assert.deepEqual(sound.clicks, [4.055]);
+  assert.deepEqual(sound.knocks, [4.055]);
   sound.context.currentTime = 4.055;
   await transport.setSpeed(0.5);
   transport.schedule();
   assert.equal(transport.position(), 16);
-  assert.equal(sound.clicks.length, 1);
+  assert.equal(sound.knocks.length, 1);
 });
 
-test('pause after an indexed shift and resume do not repeat its click', async t => {
+test('pause after an indexed shift and resume do not repeat its knock', async t => {
   const { sound, transport } = indexedFixture(t);
   await transport.play();
   sound.context.currentTime = 8;
@@ -194,22 +194,22 @@ test('pause after an indexed shift and resume do not repeat its click', async t 
   sound.context.currentTime = 8.055;
   transport.pause();
   await transport.play();
-  assert.equal(sound.clicks.length, 1);
+  assert.equal(sound.knocks.length, 1);
   sound.context.currentTime = 16.055;
   transport.schedule();
-  assert.equal(sound.clicks.length, 2);
-  assert.equal(sound.clicks[1], 16.11);
+  assert.equal(sound.knocks.length, 2);
+  assert.equal(sound.knocks[1], 16.11);
 });
 
-test('repeat returns to the first indexed track with one click while single-turn repeats remain silent', async t => {
+test('repeat returns to the first indexed track with one knock while single-turn repeats remain silent', async t => {
   const { sound, transport } = indexedFixture(t);
   transport.loop = true;
   await transport.seek(23.9);
   await transport.play();
   sound.context.currentTime = 0.05;
   transport.schedule();
-  assert.equal(sound.clicks.length, 1);
-  assert(Math.abs(sound.clicks[0] - 0.155) < 1e-9);
+  assert.equal(sound.knocks.length, 1);
+  assert(Math.abs(sound.knocks[0] - 0.155) < 1e-9);
   assert.equal(sound.scheduled[0].note.turn, 0);
   const single = fixture(t);
   single.transport.loop = true;
@@ -217,17 +217,17 @@ test('repeat returns to the first indexed track with one click while single-turn
   await single.transport.play();
   single.sound.context.currentTime = 0.05;
   single.transport.schedule();
-  assert.deepEqual(single.sound.clicks, []);
+  assert.deepEqual(single.sound.knocks, []);
 });
 
-test('silent indexed cylinders still advance with a click and seeking clamps to the whole programme', async t => {
+test('silent indexed cylinders still advance with a knock and seeking clamps to the whole programme', async t => {
   const { sound, transport } = indexedFixture(t, []);
   await transport.seek(999);
   assert.equal(transport.position(), 24);
   await transport.play();
   sound.context.currentTime = 8;
   transport.schedule();
-  assert.deepEqual(sound.clicks, [8.055]);
+  assert.deepEqual(sound.knocks, [8.055]);
 });
 
 test('index animation waits for its audio clock and reports the age of a delayed frame', async t => {

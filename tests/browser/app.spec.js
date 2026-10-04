@@ -268,7 +268,7 @@ test('panning moves the camera target and plucking works along the tooth', async
   await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.state.lastNote?.tooth)).toBe(36);
 });
 
-test('successive tunes shift the packed cylinder and trigger one indexing click', async ({ page }) => {
+test('successive tunes shift the packed cylinder with one knock and a UI cue, without a glow', async ({ page }) => {
   await ready(page);
   await page.evaluate(() => {
     window.__CRESCENDO__.loadSpec({
@@ -281,16 +281,17 @@ test('successive tunes shift the packed cylinder and trigger one indexing click'
   await expect(page.locator('#indexCue')).toHaveClass(/active/);
   await expect(page.locator('#indexMessage')).toHaveText('Indexing · tune 2 of 3');
   await expect(page.locator('#turnOut')).toHaveClass(/indexing/);
+  expect(await page.evaluate(() => window.__CRESCENDO__.scene.rotorParts
+    .every(part => part.emission.every(value => value === 0)))).toBe(true);
   await expect.poll(() => page.evaluate(() => window.__CRESCENDO__.transport.position())).toBeGreaterThan(20.3);
   await expect(page.locator('#turnOut')).toHaveText('2 / 3');
   const indexed = await page.evaluate(() => ({
-    clicks: window.__CRESCENDO__.sound.startedIndexClicks,
+    knocks: window.__CRESCENDO__.sound.startedIndexKnocks,
     x: window.__CRESCENDO__.scene.rotorParts[0].matrix[12],
   }));
-  expect(indexed.clicks).toBe(1);
+  expect(indexed.knocks).toBe(1);
   expect(indexed.x).toBeCloseTo(0.030 - 0.00055, 5);
   await expect(page.locator('#indexCue')).not.toHaveClass(/active/);
-  expect(await page.evaluate(() => window.__CRESCENDO__.scene.indexHighlight)).toBe(0);
   await page.locator('#playBtn').click();
 });
 

@@ -35,7 +35,7 @@ edits must change the recovered notes rather than merely reading a hidden score.
 
 For manual review, check all three cameras, close zoom, panning, fullscreen, case
 and lid toggles, and plucking the middle of a tooth. With playback running, seek
-near 72 seconds and 144 seconds to observe the cylinder highlight and animated
-indexing indicator, and hear the two-part click. Show resonance in the playback
+near 72 seconds and 144 seconds to observe the animated indexing indicator and
+hear a short, low-pitched knock; the cylinder should not glow. Show resonance in the playback
 bar should start disabled and draw decaying trails when enabled. The coiled
 spring should be created only in exploded view and removed when that view closes.

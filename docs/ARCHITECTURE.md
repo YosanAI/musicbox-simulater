@@ -81,10 +81,10 @@ the frame loop releases a tooth highlight/vibration when its audio event is due.
 A generation token invalidates an asynchronous audio unlock when pause, seek or a
 cylinder swap intervenes. Pause fades voices and clears scheduled visual events.
 The end of the complete cylinder sequence stops the scheduler without chopping
-off naturally decaying notes. Tune boundaries schedule a mechanical indexing click
+off naturally decaying notes. Tune boundaries schedule a mechanical indexing knock
 and queue a matching visual event. When the audio clock reaches that event, the
-cylinder briefly glows and the indexing indicator appears. Pause, seek and cylinder
-changes clear pending indexing events. Live playback and WAV export share the click
+indexing indicator appears. Pause, seek and cylinder changes clear pending
+indexing events. Live playback and WAV export share the knock
 synthesis and gain.
 
 `MusicBoxScene.update()` observes the transport position to rotate the cylinder and
