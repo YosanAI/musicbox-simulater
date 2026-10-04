@@ -207,38 +207,54 @@
             <h3 id="aiPromptHeading">Make a cylinder with AI</h3>
             <button class="button gold" id="copyPromptBtn" type="button">Copy prompt</button>
           </div>
-          <p>Paste this prompt into your AI chat and replace <code>[MELODY NAME]</code> with your favorite melody, or up to five titles separated by semicolons.</p>
-          <p><strong>Model testing:</strong> Cylinder generation with this prompt has only been tested with higher-tier reasoning models. It has not been tested with free, non-reasoning models.</p>
-          <textarea aria-label="AI cylinder generation prompt" class="cylinder-prompt" id="cylinderPrompt" readonly="" spellcheck="false">Create a playable music-box cylinder JSON file for the Crescendo simulator.
+          <p>Paste this prompt into an AI chat with <strong>code execution and file downloads</strong>. Replace <code>[MELODY NAME]</code> with your favorite melody, or up to five titles separated by semicolons.</p>
+          <p><strong>Model testing:</strong> Testing to date covered the earlier JSON prompt on higher-tier reasoning models. Free, non-reasoning models have not been tested.</p>
+          <textarea aria-label="AI GLB cylinder generation prompt" class="cylinder-prompt" id="cylinderPrompt" readonly="" spellcheck="false">Create and attach a playable binary glTF 2.0 music-box cylinder named my-cylinder.glb for the Crescendo simulator. Write and RUN Python or JavaScript to build the file, then provide its download link. The final deliverable must be the actual GLB file. If you cannot run code or attach files, tell me that this task needs those capabilities; do not invent a download link.
 
 Melodies: [MELODY NAME]
 
 Treat semicolon-separated titles as separate melodies, with one indexed turn per melody (maximum 5). Arrange each into a recognizable 30–90 second music-box passage, preserving its main melody and rhythm with gentle, sparse accompaniment. If you do not know a melody accurately, ask me for a MIDI file or note sequence.
 
-Create a downloadable file named my-cylinder.json if possible. Otherwise return only the complete JSON object, without Markdown fences, comments, ellipses, or explanatory text.
+MUSIC AND TIMING
+- Use 72 teeth tuned to integer MIDI notes 36 through 107 inclusive (C2–B7; middle C is 60). Tooth index i = midi - 36.
+- Choose one common duration T in seconds PER TURN, long enough for every arrangement, between 2 and 600 seconds. The full programme lasts T * N, where N is the number of melodies (1–5).
+- Each pluck has a MIDI pitch, a time t satisfying 0 &lt;= t &lt; T, a zero-based turn k from 0 to N-1, and a velocity greater than 0 and at most 1. Restart times at 0 for every turn. Chords are simultaneous pins; no note-length field is needed.
+- Include every note of the arrangement, with at most 6,000 pins total and no duplicate pitch/time/turn events.
 
-Use this structure, replacing the example labels and notes with the requested arrangement:
-{
-  "format": "crescendo-cylinder",
-  "version": 1,
-  "title": "Name of the requested melody or collection",
-  "composer": "Original composer or songwriter",
-  "duration": 60,
-  "turns": 1,
-  "tunes": [{"title": "Melody title", "composer": "Original composer or songwriter"}],
-  "notes": [{"time": 0, "midi": 60, "velocity": 0.75, "turn": 0}]
-}
+REAL 3D PIN GEOMETRY
+The app reads music from physical pin positions. Build a brass barrel and real, separate radial pin mesh nodes; melody metadata alone does not produce music.
+- Use metres and glTF coordinates. Center the barrel on the origin with its long axis along X, length 0.214 m and radius 0.024 m. Name its mesh node cylinder_body.
+- Use one shared, low-poly pin mesh: a symmetric cylinder centered on its local origin, long axis along local Y, length 0.0015 m, radius 0.00023 m, with 6–8 sides. Keep its mean vertex position at the local origin.
+- For each pluck, compute these values using radians:
+  theta = 2.0 - 2 * pi * t / T
+  x = -0.099 + i * 0.198 / 71 + k * 0.00055
+  y = 0.02475 * cos(theta)
+  z = 0.02475 * sin(theta)
+- Create one node per pin, named pin_00000, pin_00001, and so on, each referencing the shared pin mesh with a single triangle primitive. Set translation to [x, y, z] and rotation to the glTF quaternion [sin(theta/2), 0, 0, cos(theta/2)]. Put its velocity in node.extras.velocity.
+- Put the barrel and all pins under one root node named MusicCylinder. Keep the root transform at identity. The 0.00055 m turn offset is essential for indexed melodies.
+- Use uncompressed triangle meshes with FLOAT POSITION/NORMAL accessors and unsigned integer triangle indices, plus a brass PBR material. Keep the expanded vertex count across all instances below 700,000 and the file below 35 MB.
 
-Requirements:
-- duration is seconds PER TURN, not the whole programme. Choose one common duration long enough for every arrangement, between 2 and 600 seconds.
-- turns is an integer from 1 to 5, equal to the number of melodies. tunes contains exactly one title/composer object per turn, in the requested order.
-- Each note is one pluck: time in seconds, integer midi from 36 to 107 (C2–B7; middle C is 60), velocity greater than 0 and at most 1, and zero-based integer turn less than turns.
-- Every turn starts its own times at 0. Every time must satisfy 0 &lt;= time &lt; duration. Do not add the previous turn's duration to note times.
-- Chords use multiple notes with the same time and turn. There is no note-length field; the tooth decays after each pluck.
-- Include all notes of the arrangement, sorted by turn, time, then midi. Use at most 6,000 notes total, with no duplicate midi/time/turn events. Omit tuning to use the standard 72-tooth comb.
-- Check all numbers and JSON syntax before returning the file.</textarea>
+REQUIRED METADATA
+Set MusicCylinder.extras.musicBox to an object with these fields:
+- schema: "crescendo-cylinder/v1"
+- title: the requested melody or collection title
+- composer: the original composer or songwriter
+- secondsPerTurn: T
+- turns: N
+- tunes: exactly N objects with title and composer, in the requested order
+- tuning: the complete array of all 72 integers from 36 to 107 inclusive
+- axis: "X"; units: "metres"
+- length: 0.214; radius: 0.024; minX: -0.099; maxX: 0.099
+- pinLength: 0.0015; pinRadius: 0.00023; contactAngle: 2.0; indexStep: 0.00055
+Do not put a hidden note/time array or audio recording in the GLB. The separate pin meshes are the score.
+
+PACKAGING AND VALIDATION
+- Write a self-contained, uncompressed GLB 2.0 with one embedded binary buffer, a default scene referencing MusicCylinder, valid accessors and POSITION min/max bounds. Use no external files, sparse accessors, Draco, Meshopt, or quantization extensions.
+- Use the little-endian GLB header (magic 0x46546C67, version 2, correct total byte length), followed by JSON and BIN chunks. Align buffer views and chunks to 4 bytes; pad the JSON chunk with spaces and the BIN chunk with zero bytes. buffers[0].byteLength must match the buffer payload.
+- Reopen the written file and check every chunk, accessor, node reference, pin count, and metadata value. Compute each pin's center from its transformed mesh vertices. Recover pitch/turn by matching X against all tooth/turn lane combinations, and recover time from atan2(z, y). Check these against the arrangement, accounting for the time wrap at 0/T.
+- Attach the verified my-cylinder.glb file with a short summary of the melodies and seconds per turn.</textarea>
           <p aria-live="polite" class="prompt-copy-status" id="promptCopyStatus" role="status"></p>
-          <p>Save the AI’s result as <strong>my-cylinder.json</strong>, then choose <strong>Load cylinder</strong> to play it here. Use <strong>Export playable .GLB</strong> to save its 3D cylinder.</p>
+          <p>Download <strong>my-cylinder.glb</strong> from the AI chat, then choose <strong>Load cylinder</strong> to play it here.</p>
         </section>
         <div class="guide-callout"><strong>Start with “Export playable .GLB”.</strong> It gives you a ready-to-play cylinder that opens in Blender and Three.js. Keep the body and edit, move, add or delete the separate pin objects. Load it back here to play the result.</div>
         <h3>How the 3D pins become music</h3>
