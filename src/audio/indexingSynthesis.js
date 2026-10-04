@@ -1,7 +1,7 @@
 import { TAU } from '../math/scalars.js';
 
 // Shared by live playback and WAV export so the mechanical cue has the same level.
-export const INDEX_KNOCK_GAIN = 0.85;
+export const INDEX_KNOCK_GAIN = 1.2;
 
 /** A rounded, low-pitched impact as the cylinder settles into its next track. */
 export function synthesizeIndexKnock(sampleRate) {
