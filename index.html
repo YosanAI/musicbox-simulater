@@ -207,13 +207,20 @@
             <h3 id="aiPromptHeading">Make a cylinder with AI</h3>
             <button class="button gold" id="copyPromptBtn" type="button">Copy prompt</button>
           </div>
-          <p>Paste this prompt into an AI chat with <strong>code execution and file downloads</strong>. Replace <code>[MELODY NAME]</code> with your favorite melody, or up to five titles separated by semicolons.</p>
+          <p>Paste this prompt into an AI chat with <strong>web browsing, code execution and file downloads</strong>. Replace <code>[MELODY NAME]</code> with your favorite melody, or up to five titles separated by semicolons. The AI will research the notes and generate its best arrangement; a MIDI file is optional for later refinement.</p>
           <p><strong>Model testing:</strong> Testing to date covered the earlier JSON prompt on higher-tier reasoning models. Free, non-reasoning models have not been tested.</p>
           <textarea aria-label="AI GLB cylinder generation prompt" class="cylinder-prompt" id="cylinderPrompt" readonly="" spellcheck="false">Create and attach a playable binary glTF 2.0 music-box cylinder named my-cylinder.glb for the Crescendo simulator. Write and RUN Python or JavaScript to build the file, then provide its download link. The final deliverable must be the actual GLB file. If you cannot run code or attach files, tell me that this task needs those capabilities; do not invent a download link.
 
 Melodies: [MELODY NAME]
 
-Treat semicolon-separated titles as separate melodies, with one indexed turn per melody (maximum 5). Arrange each into a recognizable 30–90 second music-box passage, preserving its main melody and rhythm with gentle, sparse accompaniment. If you do not know a melody accurately, ask me for a MIDI file or note sequence.
+Treat semicolon-separated titles as separate melodies, with one indexed turn per melody (maximum 5). Arrange each into a recognizable 30–90 second music-box passage, preserving its main melody and rhythm with gentle, sparse accompaniment.
+
+RESEARCH AND BEST-EFFORT GENERATION
+- Search the internet for each requested melody's notes and rhythm before arranging it. Look for matching sheet music, MusicXML, ABC notation, MIDI files, or documented note transcriptions. Prefer clearly identified sources and compare versions when possible. If a title is ambiguous, choose the most likely well-known version and state which one you used.
+- Use the musical information you actually find. If it is incomplete or uncertain, combine it with your musical knowledge and infer missing details as reasonably as you can. Still generate and attach your best playable GLB in this response, clearly identifying any approximations.
+- Do not pause generation to request a MIDI file, note sequence, or clarification, and do not make user-supplied files a prerequisite. Complete the first arrangement with the information available.
+- In the delivery summary, link the sources you consulted and briefly identify uncertain passages or inferred details. Do not invent sources or claim an approximation is an exact transcription.
+- After attaching the GLB, if any melody remains uncertain, offer an optional follow-up: "If you have a MIDI file for this melody, send it and I can refine the cylinder for more accurate notes and timing." Do not wait for that file before delivering the first GLB.
 
 MUSIC AND TIMING
 - Use 72 teeth tuned to integer MIDI notes 36 through 107 inclusive (C2–B7; middle C is 60). Tooth index i = midi - 36.
@@ -252,7 +259,7 @@ PACKAGING AND VALIDATION
 - Write a self-contained, uncompressed GLB 2.0 with one embedded binary buffer, a default scene referencing MusicCylinder, valid accessors and POSITION min/max bounds. Use no external files, sparse accessors, Draco, Meshopt, or quantization extensions.
 - Use the little-endian GLB header (magic 0x46546C67, version 2, correct total byte length), followed by JSON and BIN chunks. Align buffer views and chunks to 4 bytes; pad the JSON chunk with spaces and the BIN chunk with zero bytes. buffers[0].byteLength must match the buffer payload.
 - Reopen the written file and check every chunk, accessor, node reference, pin count, and metadata value. Compute each pin's center from its transformed mesh vertices. Recover pitch/turn by matching X against all tooth/turn lane combinations, and recover time from atan2(z, y). Check these against the arrangement, accounting for the time wrap at 0/T.
-- Attach the verified my-cylinder.glb file with a short summary of the melodies and seconds per turn.</textarea>
+- Attach the verified my-cylinder.glb file with a short summary of the melodies, seconds per turn, research sources, and any approximations. Include the optional MIDI refinement offer after the download link when needed.</textarea>
           <p aria-live="polite" class="prompt-copy-status" id="promptCopyStatus" role="status"></p>
           <p>Download <strong>my-cylinder.glb</strong> from the AI chat, then choose <strong>Load cylinder</strong> to play it here.</p>
         </section>
